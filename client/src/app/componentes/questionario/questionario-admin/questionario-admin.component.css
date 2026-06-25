@@ -1,0 +1,20 @@
+.container-fluid {
+  padding: 15px;
+}
+
+.pergunta-card {
+  border-left: 5px solid #198754;
+}
+
+@media (max-width: 768px) {
+
+  .row > div {
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+}
