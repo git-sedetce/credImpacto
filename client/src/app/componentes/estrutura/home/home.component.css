@@ -1,0 +1,303 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+section{
+    font-family: "Work Sans", Arial, sans-serif;
+    background:#f7f7f7;
+}
+
+/*==================================*/
+/* HERO */
+/*==================================*/
+
+.hero{
+
+    background:url("../../../../assets/imgs/imagens/bg_02.png") center center;
+    background-size:cover;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+
+    padding:30px;
+
+}
+
+.glass-card{
+
+    width:100%;
+    max-width:520px;
+
+    padding:60px 40px;
+
+    border-radius:30px;
+
+    background:rgba(0,0,0,.35);
+
+    backdrop-filter:blur(12px);
+
+    color:#FFF;
+
+    text-align:center;
+
+}
+
+.glass-card h1{
+
+    font-size:4rem;
+
+    font-weight:800;
+
+    line-height:1;
+
+}
+
+.glass-card span{
+
+    display:block;
+
+    color:#00B5E2;
+
+}
+
+.glass-card p{
+
+    margin-top:30px;
+
+    font-size:1.3rem;
+
+    font-style:italic;
+
+    opacity:.95;
+
+}
+
+.logos{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:25px;
+
+    margin-top:50px;
+
+}
+
+.logos img{
+
+    height:55px;
+
+}
+
+/*==================================*/
+/* PROGRAMAS */
+/*==================================*/
+
+.programas{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#FFF;
+
+    padding:50px;
+
+}
+
+.conteudo{
+
+    width:100%;
+    max-width:650px;
+
+}
+
+.programas h2{
+
+    text-align:center;
+
+    font-size:3rem;
+
+    margin-bottom:50px;
+
+    font-weight:700;
+
+}
+
+/*==================================*/
+
+.programa{
+
+    height:210px;
+
+    border-radius:20px;
+
+    background:#FFF;
+
+    border:1px solid #ddd;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-direction:column;
+
+    text-decoration:none;
+
+    color:#777;
+
+    transition:.3s;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+}
+
+.programa:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+}
+
+.programa img{
+
+    width:70%;
+
+}
+
+.programa h4{
+
+    text-align:center;
+
+    font-weight:700;
+
+}
+
+.programa small{
+
+    text-transform:uppercase;
+
+    color:#999;
+
+}
+
+.ativo{
+
+    box-shadow:0 15px 30px rgba(0,0,0,.18);
+
+}
+
+.descricao{
+
+    text-align:center;
+
+    margin-top:45px;
+
+    font-size:1.2rem;
+
+    color:#444;
+
+    line-height:1.6;
+
+}
+
+/*==================================*/
+/* TABLET */
+/*==================================*/
+
+@media(max-width:991px){
+
+.hero{
+
+    min-height:500px;
+
+}
+
+.programas{
+
+    padding:40px 25px;
+
+}
+
+.glass-card h1{
+
+    font-size:3rem;
+
+}
+
+.programas h2{
+
+    font-size:2.4rem;
+
+}
+
+}
+
+/*==================================*/
+/* CELULAR */
+/*==================================*/
+
+@media(max-width:768px){
+
+.hero{
+
+    min-height:420px;
+
+}
+
+.glass-card{
+
+    padding:40px 25px;
+
+}
+
+.glass-card h1{
+
+    font-size:2.5rem;
+
+}
+
+.glass-card p{
+
+    font-size:1rem;
+
+}
+
+.programas{
+
+    padding:30px 15px;
+
+}
+
+.programas h2{
+
+    font-size:2rem;
+
+}
+
+.programa{
+
+    height:170px;
+
+}
+
+.descricao{
+
+    font-size:1rem;
+
+}
+
+}
