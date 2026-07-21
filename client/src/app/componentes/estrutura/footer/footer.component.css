@@ -1,0 +1,116 @@
+.footer {
+  background: #ffffff;
+  padding: 40px 15px 20px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.footer-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+/* .footer-logos img {
+  max-height: 55px;
+  width: auto;
+  transition: 0.3s;
+} */
+
+.footer-logos img:hover {
+  transform: scale(1.05);
+}
+
+.logo-item {
+  width: 220px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-item img {
+  height: auto;
+}
+
+.logo-cred {
+  width: 150px;
+}
+
+.logo-adece {
+  width: 230px;
+}
+
+.logo-sde {
+  width: 210px;
+}
+
+.footer-divider {
+  margin: 30px auto 20px;
+  width: 80%;
+  opacity: 0.15;
+}
+
+.copyright {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ============================
+   Tablet
+============================ */
+
+@media (max-width: 992px) {
+  .footer {
+    padding: 35px 15px;
+  }
+
+  .footer-logos {
+    gap: 35px;
+  }
+
+  .footer-logos img {
+    max-height: 45px;
+  }
+
+  .logo-item {
+    width: 180px;
+    height: 70px;
+  }
+}
+
+/* ============================
+   Celular
+============================ */
+
+@media (max-width: 576px) {
+  .footer {
+    padding: 30px 10px;
+  }
+
+  .footer-logos {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer-logos img {
+    max-height: 40px;
+  }
+
+  .footer-logos {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .logo-item {
+    width: 180px;
+    height: 60px;
+  }
+
+  .copyright {
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
