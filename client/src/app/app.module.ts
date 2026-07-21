@@ -6,12 +6,20 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './componentes/estrutura/header/header.component';
 import { FooterComponent } from './componentes/estrutura/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './componentes/estrutura/home/home.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.component';
+import { WhatIsComponent } from './componentes/credImpacto/what-is/what-is.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    HomeComponent,
+    MainLayoutComponent,
+    EmptyLayoutComponent,
+    WhatIsComponent
   ],
   imports: [
     BrowserModule,
