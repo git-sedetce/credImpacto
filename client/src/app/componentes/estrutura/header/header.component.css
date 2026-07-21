@@ -1,82 +1,81 @@
 /* Navbar */
-.navbar{
-    background: #fff;
-    padding: 12px 0;
+.navbar {
+  background: #fff;
+  padding: 12px 0;
 }
 
 /* Logo */
-.navbar-brand img{
-    width: 120px;
-    height: auto;
+.navbar-brand img {
+  width: 120px;
+  height: auto;
 }
 
 /* Centralizar menu */
-.navbar-nav{
-    gap: 15px;
+.navbar-nav {
+  gap: 15px;
 }
 
 /* Links */
-.navbar-nav .nav-link{
-    font-size:20px;
-    font-weight:500;
-    color:#4b5563;
-    transition:.3s;
+.navbar-nav .nav-link {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #4b5563;
+  transition: 0.3s;
 }
 
-.navbar-nav .nav-link:hover{
-    color:#198754;
+.navbar-nav .nav-link:hover {
+  color: #198754;
 }
 
 /* Botão */
-.btn-outline-success{
-    border-radius:8px;
-    padding:8px 18px;
-    font-size:14px;
-    font-weight:500;
+.btn-outline-success {
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* Dropdown */
-.dropdown-menu{
-    border-radius:10px;
-    border:none;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+.dropdown-menu {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Tablet */
-@media (max-width:991px){
+@media (max-width: 991px) {
+  .navbar-brand img {
+    width: 100px;
+  }
 
-    .navbar-brand img{
-        width:100px;
-    }
+  .navbar-nav {
+    margin-top: 20px;
+    gap: 0;
+  }
 
-    .navbar-nav{
-        margin-top:20px;
-        gap:0;
-    }
+  .navbar-nav .nav-item {
+    text-align: center;
+  }
 
-    .navbar-nav .nav-item{
-        text-align:center;
-    }
-
-    .btn-outline-success{
-        width:100%;
-        margin-top:20px;
-    }
+  .btn-outline-success {
+    width: 100%;
+    margin-top: 20px;
+  }
 }
 
 /* Celular */
-@media (max-width:576px){
+@media (max-width: 576px) {
+  .navbar-brand img {
+    width: 90px;
+  }
 
-    .navbar-brand img{
-        width:90px;
-    }
+  .navbar-nav .nav-link {
+    font-size: 16px;
+    padding: 12px 0;
+  }
 
-    .navbar-nav .nav-link{
-        font-size:16px;
-        padding:12px 0;
-    }
-
-    .btn-outline-success{
-        font-size:15px;
-    }
+  .btn-outline-success {
+    font-size: 15px;
+  }
 }
