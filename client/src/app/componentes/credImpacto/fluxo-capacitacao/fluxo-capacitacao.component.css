@@ -439,6 +439,8 @@ CTA FINAL
 }
 
 .btn-teste {
+  font-family: "Inter", sans-serif;
+  font-size: 1.1rem !important;
   background: var(--azul);
   border: none;
   border-radius: 30px;
