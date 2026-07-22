@@ -1,0 +1,567 @@
+/*=====================================================
+VARIÁVEIS
+======================================================*/
+
+:host {
+  --verde: #c8d91c;
+  --azul: #19a9c7;
+  --texto: #202020;
+  --texto-secundario: #666;
+  --cinza: #f8f8f8;
+  --branco: #ffffff;
+  --sombra: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/*=====================================================
+GERAL
+======================================================*/
+
+section {
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--texto);
+  font-weight: 700;
+}
+
+p {
+  color: var(--texto-secundario);
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/*=====================================================
+ANIMAÇÕES
+======================================================*/
+
+.trilha-card,
+.cta-imagem img,
+.btn-teste,
+.card-step {
+  transition: 0.35s ease;
+}
+
+.card-step:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra);
+}
+
+.numero {
+  transition: 0.3s;
+}
+
+.step:hover .numero {
+  transform: scale(1.15);
+}
+
+/* =====================================================
+FLUXO
+===================================================== */
+
+.fluxo {
+  background: var(--verde);
+  padding: 60px 0 70px;
+}
+
+.capacitacao {
+  padding: 90px 0;
+}
+
+.trilha-card {
+  margin-bottom: 60px;
+}
+
+.cta-impacto {
+  padding-top: 30px;
+}
+
+.subtitulo {
+  font-family: "Inter", Arial, sans-serif;
+  display: block;
+  font-size: 1.25rem;
+  color: #3A3A3a;
+  margin-bottom: 15px;
+}
+
+.titulo {
+  font-family: "Work Sans", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 50px;
+}
+
+/* =====================================================
+TIMELINE
+===================================================== */
+
+.timeline {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.linha {
+  position: absolute;
+  top: 18px;
+  left: 12%;
+  right: 12%;
+  border-top: 3px dashed #333;
+  z-index: 0;
+}
+
+.step {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.numero {
+  font-family: "Work Sans", Arial, sans-serif;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #c8d91c;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.numero.azul {
+  background: #14a7c8;
+}
+
+.card-step {
+  font-family: "Work Sans", Arial, sans-serif;
+  width: 200px;
+  min-height: 82px;
+  background: var(--branco);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 15px;
+  box-shadow: var(--sombra);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* =====================================================
+CAPACITAÇÃO
+===================================================== */
+
+.capacitacao {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.section-title {
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.section-subtitle {
+  font-family: "Inter", Arial, sans-serif;
+  color: #3a3a3a;
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: auto;
+  line-height: 1.8;
+  margin-bottom: 60px;
+}
+
+/* =====================================================
+RESPONSIVO
+===================================================== */
+
+@media (max-width: 991px) {
+  .timeline {
+    gap: 20px;
+  }
+
+  .linha {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .titulo {
+    font-size: 1.6rem;
+  }
+
+  .timeline {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-step {
+    width: 220px;
+  }
+}
+
+/*=====================================================
+CARDS DAS TRILHAS
+======================================================*/
+
+.trilha-card {
+  display: flex;
+  width: 100%;
+  min-height: 340px;
+  margin-bottom: 55px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  transition: 0.35s;
+}
+
+.trilha-card:hover {
+  transform: translateY(-6px);
+}
+
+.trilha-imagem {
+  flex: 1;
+}
+
+.trilha-imagem img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.trilha-conteudo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 55px;
+}
+
+/*==============================
+CORES
+==============================*/
+
+.trilha-conteudo.azul {
+  background: #18a9c8;
+  color: #fff;
+}
+
+.trilha-conteudo.verde {
+  background: #c9d920;
+  color: #1f1f1f;
+}
+
+/*==============================
+TEXTOS
+==============================*/
+
+.trilha-conteudo h2 {
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+
+.trilha-conteudo h3 {
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 22px;
+  line-height: 1.3;
+  color: inherit;
+}
+
+.trilha-conteudo p {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.125rem;
+  color: inherit;
+  line-height: 1.9;
+  margin: 0;
+}
+
+/*==============================
+INVERTIDO
+==============================*/
+
+.trilha-card.invertido {
+  flex-direction: row-reverse;
+}
+
+/*==============================
+HOVER
+==============================*/
+
+.trilha-card:hover img {
+  transform: scale(1.05);
+}
+
+.trilha-imagem img {
+  transition: 0.5s;
+}
+
+/*==============================
+TABLET
+==============================*/
+
+@media (max-width: 991px) {
+  .trilha-card {
+    min-height: 280px;
+  }
+
+  .trilha-conteudo {
+    padding: 35px;
+  }
+
+  .trilha-conteudo h3 {
+    font-size: 1.6rem;
+  }
+}
+
+/*==============================
+CELULAR
+==============================*/
+
+@media (max-width: 767px) {
+  .trilha-card,
+  .trilha-card.invertido {
+    flex-direction: column;
+  }
+
+  .trilha-imagem {
+    height: 260px;
+  }
+
+  .trilha-conteudo {
+    padding: 30px;
+    text-align: center;
+  }
+
+  .trilha-conteudo h3 {
+    font-size: 1.4rem;
+  }
+}
+
+/*=====================================================
+TABLET
+======================================================*/
+
+@media (max-width: 991px) {
+  .trilha-card {
+    min-height: auto;
+  }
+
+  .trilha-card .conteudo {
+    padding: 30px;
+  }
+}
+
+/*=====================================================
+CELULAR
+======================================================*/
+
+@media (max-width: 767px) {
+  .trilha-card,
+  .invertido {
+    flex-direction: column;
+  }
+
+  .trilha-card .imagem {
+    width: 100%;
+  }
+
+  .trilha-card img {
+    min-height: 230px;
+  }
+
+  .trilha-card .conteudo {
+    width: 100%;
+    padding: 25px;
+    text-align: center;
+  }
+
+  .trilha-card h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/*=====================================================
+CTA FINAL
+======================================================*/
+
+.cta-impacto {
+  margin-top: 80px;
+  margin-bottom: 30px;
+}
+
+.cta-texto {
+  max-width: 420px;
+}
+
+.cta-texto h3 {
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 25px;
+  line-height: 1.3;
+}
+
+.cta-texto p {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.125rem;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.btn-teste {
+  background: var(--azul);
+  border: none;
+  border-radius: 30px;
+  padding: 12px 35px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: 0.3s;
+}
+
+.btn-teste:hover {
+  background: #138aa4;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.cta-imagem {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.cta-imagem img {
+  width: 100%;
+  display: block;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.cta-imagem:hover img {
+  transform: scale(1.03);
+}
+
+/*=====================================================
+TABLET
+======================================================*/
+
+@media (max-width: 991px) {
+  .cta-impacto {
+    margin-top: 60px;
+  }
+
+  .cta-texto {
+    max-width: 100%;
+  }
+  .titulo {
+    font-size: 1.8rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .trilha-card {
+    margin-bottom: 40px;
+  }
+}
+
+/*=====================================================
+CELULAR
+======================================================*/
+
+@media (max-width: 767px) {
+  .cta-impacto {
+    text-align: center;
+  }
+
+  .cta-texto h3 {
+    font-size: 1.7rem;
+  }
+
+  .btn-teste {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .cta-imagem {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .fluxo {
+    padding: 45px 0;
+  }
+
+  .capacitacao {
+    padding: 55px 0;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+
+    padding: 0 15px;
+  }
+
+  .card-step {
+    width: 100%;
+
+    max-width: 260px;
+  }
+
+  .cta-texto {
+    padding: 0 15px;
+  }
+
+  .cta-texto h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1280px;
+  }
+
+  .titulo {
+    font-size: 3.3rem;
+  }
+
+  .section-title {
+    font-size: 3.4rem;
+  }
+}
