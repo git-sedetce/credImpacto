@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './componentes/estrutura/home/home.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.component';
-import { WhatIsComponent } from './componentes/credImpacto/what-is/what-is.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +18,6 @@ import { WhatIsComponent } from './componentes/credImpacto/what-is/what-is.compo
     HomeComponent,
     MainLayoutComponent,
     EmptyLayoutComponent,
-    WhatIsComponent
   ],
   imports: [
     BrowserModule,
