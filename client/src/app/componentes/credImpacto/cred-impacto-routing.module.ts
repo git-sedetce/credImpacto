@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WhatIsComponent } from './what-is/what-is.component';
 import { FluxoCapacitacaoComponent } from './fluxo-capacitacao/fluxo-capacitacao.component';
 import { MonitoramentoComponent } from './monitoramento/monitoramento.component';
+import { NegociosImpactoComponent } from './negocios-impacto/negocios-impacto.component';
 
 const routes: Routes = [
   {
@@ -14,10 +15,13 @@ const routes: Routes = [
     path: 'fluxo',
     component: FluxoCapacitacaoComponent
   },
-
   {
     path: 'monitoramento',
     component: MonitoramentoComponent
+  },
+  {
+    path: 'negocios',
+    component: NegociosImpactoComponent
   }
 ];
 

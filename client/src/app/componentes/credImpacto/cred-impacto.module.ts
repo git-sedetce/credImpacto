@@ -5,13 +5,15 @@ import { CredImpactoRoutingModule } from './cred-impacto-routing.module';
 import { FluxoCapacitacaoComponent } from './fluxo-capacitacao/fluxo-capacitacao.component';
 import { WhatIsComponent } from './what-is/what-is.component';
 import { MonitoramentoComponent } from './monitoramento/monitoramento.component';
+import { NegociosImpactoComponent } from './negocios-impacto/negocios-impacto.component';
 
 
 @NgModule({
   declarations: [
     WhatIsComponent,
     FluxoCapacitacaoComponent,
-    MonitoramentoComponent
+    MonitoramentoComponent,
+    NegociosImpactoComponent
   ],
   imports: [
     CommonModule,

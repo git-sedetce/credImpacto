@@ -1,0 +1,180 @@
+<!-- ==========================================================
+NEGÓCIOS DE IMPACTO
+========================================================== -->
+
+<section class="negocios">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <small class="subtitulo">
+          credimpacto > Fúnil de diagnóstico > Negócios de Impacto
+        </small>
+        <h2 class="titulo">
+          Negócios de Impacto
+        </h2>
+        <p class="section-subtitle">
+          Empreendimentos que buscam gerar resultados financeiros ao mesmo tempo em que promovem soluções para problemas
+          sociais ou ambientais.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+ITENS FINANCIÁVEIS
+========================================================== -->
+
+<section class="financiaveis">
+
+  <div class="container">
+
+    <!-- Título -->
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="section-title">
+          Itens Financiáveis
+        </h2>
+      </div>
+    </div>
+
+    <!-- Conteúdo -->
+
+    <div class="row align-items-center justify-content-center mt-3 g-3">
+
+      <!-- Lista -->
+
+      <div class="col-lg-7">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="item">
+              <i class="fa-solid fa-check"></i>
+              <span>
+                Capital de giro;
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="item">
+              <i class="fa-solid fa-check"></i>
+              <span>
+                Aquisição de equipamentos
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="item">
+              <i class="fa-solid fa-check"></i>
+              <span>
+                Melhoria da estrutura operacional
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="item">
+              <i class="fa-solid fa-check"></i>
+              <span>
+                Inovação tecnológica
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="item">
+              <i class="fa-solid fa-check"></i>
+              <span>
+                Sustentabilidade ambiental
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ==========================================================
+EXEMPLOS DE ATUAÇÃO
+========================================================== -->
+
+<section class="exemplos-atuacao">
+
+  <div class="container">
+
+    <!-- Título -->
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+
+        <h2 class="section-title">
+          Exemplos de atuação
+        </h2>
+
+      </div>
+    </div>
+
+    <!-- Cards -->
+
+    <div class="row g-4 mt-2">
+      <div class="col-lg-4 col-md-6" *ngFor="let item of exemplos">
+        <div class="card-exemplo">
+          <div class="titulo-card">
+            {{ item.titulo }}
+          </div>
+
+          <img [src]="item.imagem" [alt]="item.titulo">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ==========================================================
+TESTE DE IMPACTO
+========================================================== -->
+
+<section class="impacto">
+  <div class="container">
+    <div class="row justify-content-center align-items-center cta-impacto">
+
+      <!-- Texto -->
+
+      <div class="col-lg-5 col-md-6 order-2 order-md-1">
+        <div class="cta-texto">
+          <h3>
+            Quer saber se seu<br>
+            negócio é de impacto?
+          </h3>
+
+          <p>
+            Apoio financeiro, capacitação e orientação técnica para
+            empreendimentos que promovem inclusão produtiva,
+            desenvolvimento sustentável e geração de impacto social.
+          </p>
+
+          <button class="btn btn-primary btn-teste" routerLink="/teste-impacto">
+
+            REALIZAR TESTE
+
+          </button>
+        </div>
+      </div>
+
+      <!-- Imagem -->
+
+      <div class="col-lg-5 col-md-6 order-1 order-md-2 mb-4 mb-md-0">
+        <div class="cta-imagem">
+          <img src="assets/imgs/imagens/person_01.png" alt="Teste de Impacto" class="img-fluid">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
