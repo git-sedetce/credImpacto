@@ -1,0 +1,222 @@
+<!-- ==========================================================
+BREADCRUMB
+========================================================== -->
+
+<section class="topo">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 text-center">
+        <div class="breadcrumb-content">
+          <div class="breadcrumb-custom">
+            credimpacto >
+            <strong>Funil de Diagnóstico ></strong>
+            <strong>Realizar teste</strong>
+          </div>
+          <h1>
+            Diagnóstico Inicial de Impacto
+          </h1>
+          <p>
+            O objetivo deste questionário é identificar se o seu negócio,
+            projeto ou organização possui características relacionadas às
+            iniciativas de impacto social, ambiental, produtivo ou territorial.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================
+TÍTULO
+========================================================== -->
+
+<!-- <section class="cabecalho">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h1>
+          Diagnóstico Inicial de Impacto
+        </h1>
+        <p>
+          O objetivo deste questionário é identificar se o seu negócio,
+          projeto ou organização possui características relacionadas às
+          iniciativas de impacto social, ambiental, produtivo ou territorial.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</section> -->
+
+<!-- ==========================================================
+QUESTIONÁRIO
+========================================================== -->
+
+<section class="questionario" *ngIf="!mostrarResultado">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8 col-lg-9 col-md-10 col-12">
+        <div class="card-questionario">
+          <!-- Cabeçalho -->
+
+          <div class="questionario-header">
+            <div>
+              <i class="fa-solid fa-circle-question"></i>
+              Responda às perguntas abaixo
+            </div>
+            <div>
+              Página
+              <strong>
+                {{paginaAtual}}
+              </strong>
+              de
+              <strong>
+                {{totalPaginas}}
+              </strong>
+            </div>
+          </div>
+
+          <!-- Barra de progresso -->
+
+          <div class="progress mb-4">
+            <div class="progress-bar bg-info" role="progressbar" [style.width.%]="progresso">
+            </div>
+          </div>
+
+          <form [formGroup]="formulario">
+            <div class="pergunta" *ngFor="let pergunta of perguntasPagina">
+              <div class="titulo-pergunta">
+                {{pergunta.id}}.
+                {{pergunta.texto}}
+              </div>
+              <div class="alternativas">
+
+                <!-- SIM -->
+
+                <div class="form-check">
+                  <input class="form-check-input me-2" type="radio" [value]="1" [formControlName]="'pergunta'+pergunta.id"
+                    [id]="'sim'+pergunta.id">
+                  <label class="form-check-label" [for]="'sim'+pergunta.id">
+                    Sim
+                  </label>
+                </div>
+
+                <!-- PARCIALMENTE -->
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" [value]="0.5" [formControlName]="'pergunta'+pergunta.id"
+                    [id]="'parcial'+pergunta.id">
+                  <label class="form-check-label" [for]="'parcial'+pergunta.id">
+                    Parcialmente
+                  </label>
+                </div>
+                <!-- NÃO -->
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" [value]="0" [formControlName]="'pergunta'+pergunta.id"
+                    [id]="'nao'+pergunta.id">
+                  <label class="form-check-label" [for]="'nao'+pergunta.id">
+                    Não
+                  </label>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </form>
+
+          <!-- Botões -->
+
+          <div class="footer-questionario">
+            <button class="btn btn-outline-primary" *ngIf="paginaAtual>1" (click)="voltarPagina()">
+              <i class="fa-solid fa-arrow-left me-2"></i>
+              Voltar
+            </button>
+            <div class="ms-auto">
+              <button class="btn btn-info text-white" *ngIf="paginaAtual<totalPaginas" (click)="proximaPagina()">
+                Próxima
+                <i class="fa-solid fa-arrow-right ms-2"></i>
+              </button>
+              <button class="btn btn-success" *ngIf="paginaAtual==totalPaginas" (click)="calcularResultado()">
+                <i class="fa-solid fa-chart-pie me-2"></i>
+                Ver Resultado
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ==========================================================
+RESULTADO
+========================================================== -->
+
+<section class="resultado" *ngIf="mostrarResultado">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-8 col-lg-9">
+        <div class="card-resultado">
+          <div class="row align-items-center">
+
+            <!-- Círculo -->
+
+            <div class="col-lg-5 text-center">
+              <div class="grafico-circle animacao" [style.--valor]="percentual" [style.--cor]="getCorResultado()">
+                <div class="valor">
+                  {{percentual | number:'1.0-0'}}%
+                </div>
+              </div>
+
+              <h3 class="mt-4" [style.color]="getCorResultado()">
+
+                <i [class]="getIconeResultado()">
+                </i>
+                {{status}}
+              </h3>
+            </div>
+
+            <!-- Texto -->
+
+            <div class="col-lg-7">
+              <div class="resultado-info">
+                <h2>
+                  Resultado do Diagnóstico
+                </h2>
+                <p>
+                  Sua pontuação foi de
+                  <strong>
+                    {{pontuacao | number:'1.0-1'}}
+                  </strong>
+                  de um máximo de
+                  <strong>
+                    30 pontos.
+                  </strong>
+                </p>
+                <hr>
+                <h4>
+                  {{status}}
+                </h4>
+                <p>
+                  {{descricao}}
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                  <button class="btn btn-outline-primary" (click)="reiniciar()">
+                    <i class="fa-solid fa-rotate-left me-2"></i>
+                    Refazer Teste
+                  </button>
+
+                  <button class="btn btn-success">
+                    <i class="fa-solid fa-user-plus me-2"></i>
+                    Realizar Cadastro
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

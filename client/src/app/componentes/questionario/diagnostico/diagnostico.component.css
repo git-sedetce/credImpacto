@@ -1,0 +1,480 @@
+/* ==========================================================
+VARIÁVEIS
+========================================================== */
+
+:host {
+  --primary: #003c71;
+  --secondary: #b8c92c;
+  --info: #2a9fd6;
+  --success: #28a745;
+  --background: #f5f7fa;
+  --text: #3d3d3d;
+  --border: #e4e7ec;
+  --verde: #f4faf0;
+}
+
+/* ==========================================================
+GERAL
+========================================================== */
+
+section {
+  padding: 70px 0;
+}
+
+body {
+  background: var(--background);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+p {
+  color: #666;
+  line-height: 1.7;
+}
+
+/* ==========================================================
+BREADCRUMB
+========================================================== */
+
+.topo {
+  padding: 30px 0 15px;
+  background-color: var(--verde);
+}
+
+.breadcrumb-custom {
+  color: #777;
+  display: inline-block;
+  margin-bottom: 25px;
+  letter-spacing: 3px;
+  font-family: "Inter", sans-serif;
+  text-transform: uppercase;
+  font-size: .95rem;
+}
+
+.breadcrumb-content h1 {
+  font-family: "Work Sans", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 50px;
+}
+
+.breadcrumb-content p {
+  font-family: "Inter", Arial, sans-serif;
+  color: #3a3a3a;
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: auto;
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+/* ==========================================================
+TÍTULO
+========================================================== */
+
+.cabecalho {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.cabecalho h1 {
+  font-size: 2.4rem;
+  margin-bottom: 15px;
+}
+
+.cabecalho p {
+  max-width: 760px;
+  margin: auto;
+}
+
+/* ==========================================================
+CARD
+========================================================== */
+
+.card-questionario {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================
+HEADER
+========================================================== */
+
+.questionario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1.25rem;
+  font-family: "Inter", sans-serif;
+}
+
+.questionario-header i {
+  color: var(--secondary);
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+/* ==========================================================
+PROGRESS
+========================================================== */
+
+.progress {
+  height: 12px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #eaeaea;
+}
+
+.progress-bar {
+  transition: 0.4s;
+}
+
+/* ==========================================================
+PERGUNTA
+========================================================== */
+
+.pergunta {
+  margin-bottom: 30px;
+}
+
+.titulo-pergunta {
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 18px;
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+}
+
+/* ==========================================================
+ALTERNATIVAS
+========================================================== */
+
+.alternativas {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================
+RADIO
+========================================================== */
+
+.form-check {
+  background: #f7f9fc;
+  border: 1px solid #dde2e7;
+  border-radius: 12px;
+  padding: 14px 20px;
+  transition: 0.25s;
+  cursor: pointer;
+  min-width: 180px;
+}
+
+.form-check:hover {
+  background: #eef8fd;
+  border-color: var(--info);
+}
+
+.form-check-input {
+  cursor: pointer;
+}
+
+.form-check-label {
+  cursor: pointer;
+  margin-left: 8px;
+  font-weight: 500;
+  font-size: 1.25rem;
+  font-family: "Inter", sans-serif;
+}
+
+.form-check-input:checked {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+/* ==========================================================
+DIVISÃO
+========================================================== */
+
+hr {
+  margin-top: 28px;
+  border-color: #eee;
+}
+
+/* ==========================================================
+FOOTER
+========================================================== */
+
+.footer-questionario {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 35px;
+}
+
+.btn {
+  border-radius: 30px;
+  padding: 12px 28px;
+  font-weight: 600;
+  transition: 0.3s;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+RESULTADO
+========================================================== */
+
+.card-resultado {
+  background: white;
+  border-radius: 24px;
+  padding: 60px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+}
+
+.resultado-info {
+  padding-left: 20px;
+}
+
+.resultado-info h2 {
+  margin-bottom: 10px;
+}
+
+.resultado-info h4 {
+  color: var(--secondary);
+
+  margin-bottom: 20px;
+}
+
+.resultado-info p {
+  margin-bottom: 30px;
+}
+
+.resultado-info .btn {
+  min-width: 190px;
+}
+
+/* ==========================================================
+GRÁFICO
+========================================================== */
+
+.grafico {
+  text-align: center;
+}
+
+.grafico-circle {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: relative;
+  background: conic-gradient(var(--cor) calc(var(--valor) * 1%), #e9ecef 0);
+}
+
+.grafico-circle::before {
+  content: "";
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  background: white;
+  border-radius: 50%;
+}
+
+.valor {
+  position: relative;
+  z-index: 10;
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: #003c71;
+}
+
+.grafico h3 {
+  margin-top: 25px;
+}
+
+/* ==========================================================
+ANIMAÇÕES
+========================================================== */
+
+.card-questionario,
+.card-resultado {
+  animation: fade 0.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+.animacao {
+  animation: gira 1.2s ease;
+}
+
+@keyframes gira {
+  0% {
+    transform: scale(0.3) rotate(-180deg);
+
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+
+    opacity: 1;
+  }
+}
+
+/* ==========================================================
+TABLET
+========================================================== */
+
+@media (max-width: 992px) {
+  .card-questionario {
+    padding: 30px;
+  }
+
+  .grafico-circle {
+    width: 190px;
+    height: 190px;
+  }
+
+  .grafico-circle::before {
+    width: 145px;
+    height: 145px;
+  }
+
+  .resultado-info {
+    padding-left: 0;
+    margin-top: 40px;
+    text-align: center;
+  }
+}
+
+/* ==========================================================
+CELULAR
+========================================================== */
+
+@media (max-width: 768px) {
+  section {
+    padding: 40px 0;
+  }
+
+  .cabecalho h1 {
+    font-size: 1.8rem;
+  }
+
+  .questionario-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .card-questionario {
+    padding: 22px;
+  }
+
+  .alternativas {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-check {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .footer-questionario {
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .footer-questionario .btn {
+    width: 100%;
+  }
+
+  .ms-auto {
+    width: 100%;
+  }
+
+  .grafico-circle {
+    width: 170px;
+    height: 170px;
+  }
+
+  .grafico-circle::before {
+    width: 130px;
+    height: 130px;
+  }
+
+  .valor {
+    font-size: 1.6rem;
+  }
+
+  .resultado-info {
+    text-align: center;
+  }
+}
+
+/* ==========================================================
+TELAS MUITO PEQUENAS
+========================================================== */
+
+@media (max-width: 480px) {
+  .cabecalho h1 {
+    font-size: 1.5rem;
+  }
+
+  .titulo-pergunta {
+    font-size: 0.95rem;
+  }
+
+  .card-questionario {
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  .card-resultado {
+    padding: 25px;
+  }
+
+  .btn {
+    padding: 12px;
+  }
+
+  .grafico-circle {
+    width: 150px;
+    height: 150px;
+  }
+
+  .grafico-circle::before {
+    width: 115px;
+    height: 115px;
+  }
+}
