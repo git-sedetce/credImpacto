@@ -9,7 +9,9 @@ import { NegociosImpactoComponent } from './negocios-impacto/negocios-impacto.co
 import { FaqComponent } from './faq/faq.component';
 import { FaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { CadastroComponent } from './cadastro/cadastro.component';
+import { LoginComponent } from './login/login.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -18,13 +20,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MonitoramentoComponent,
     NegociosImpactoComponent,
     FaqComponent,
-    FaleConoscoComponent
+    FaleConoscoComponent,
+    CadastroComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
     CredImpactoRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ]
 })
 export class CredImpactoModule { }

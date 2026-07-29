@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './componentes/estrutura/home/home.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.component';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.compon
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [],
   bootstrap: [AppComponent]
