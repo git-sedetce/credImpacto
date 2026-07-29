@@ -1,0 +1,588 @@
+<section class="cadastro-section">
+
+  <div class="container">
+
+    <!-- Cabeçalho -->
+
+    <div class="row">
+
+      <div class="col-12 text-center">
+
+        <small class="breadcrumb-custom">
+          credimpacto >
+          <strong>Cadastro</strong>
+          <!-- <strong>Negócios de impacto</strong> -->
+        </small>
+
+        <h1 class="titulo">
+          Realizar Cadastro
+        </h1>
+
+      </div>
+
+    </div>
+
+    <!-- Card -->
+
+    <div class="row justify-content-center">
+
+      <div class="col-12 col-xl-9">
+
+        <div class="cadastro-card">
+
+          <!-- MENU -->
+
+          <aside class="menu-lateral">
+
+            <div class="menu-item" [class.active]="step == 1">
+
+              <i class="fa-solid fa-user"></i>
+
+              <span>Perfil</span>
+
+            </div>
+
+            <div class="menu-item" [class.active]="step == 2">
+
+              <i class="fa-solid fa-bullseye"></i>
+
+              <span>Impacto</span>
+
+            </div>
+
+            <div class="menu-item" [class.active]="step == 3">
+
+              <i class="fa-solid fa-file-lines"></i>
+
+              <span>Documento</span>
+
+            </div>
+
+          </aside>
+
+          <!-- CONTEÚDO -->
+
+          <div class="conteudo">
+
+            <form [formGroup]="cadastroForm">
+
+              <!--====================================================
+ETAPA 1
+=====================================================-->
+
+              @if(step == 1){
+
+              <h3 class="mb-4">
+
+                <strong>Cadastro Inicial</strong>
+
+                - Identificação
+
+              </h3>
+
+              <div class="row">
+
+                <div class="col-md-12 mb-3">
+
+                  <label>
+
+                    Tipo de proponente
+
+                  </label>
+
+                  <select class="form-select" formControlName="tipoProponente">
+
+                    <option value="">
+                      Selecione
+                    </option>
+
+                    <option value="MEI">
+                      Microempresa (ME)
+                    </option>
+
+                    <option value="LTDA">
+                      Empresa LTDA
+                    </option>
+
+                    <option value="ASSOCIACAO">
+                      Associação
+                    </option>
+
+                    <option value="COOPERATIVA">
+                      Cooperativa
+                    </option>
+
+                  </select>
+
+                </div>
+
+                <div class="col-md-12 mb-3">
+
+                  <label>
+
+                    Nome completo (Responsável)
+
+                  </label>
+
+                  <input class="form-control" type="text" formControlName="nome">
+
+                  <div class="text-danger mt-1" *ngIf="f['nome'].touched && f['nome'].invalid">
+
+                    Informe seu nome completo.
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                  <label>
+
+                    CPF
+
+                  </label>
+
+                  <input type="text" mask="000.000.000-00" class="form-control" formControlName="cpf">
+
+                  <div class="text-danger mt-1" *ngIf="f['cpf'].touched && f['cpf'].invalid">
+
+                    CPF obrigatório.
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                  <label>
+
+                    Whatsapp
+
+                  </label>
+
+                  <input mask="(00) 00000-0000" type="text" class="form-control" formControlName="telefone">
+
+                  <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].invalid">
+
+                    Telefone obrigatório.
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                  <label>
+
+                    Email
+
+                  </label>
+
+                  <input class="form-control" type="email" formControlName="email">
+
+                  <div class="text-danger mt-1" *ngIf="f['email'].touched && f['email'].invalid">
+
+                    Email inválido.
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                  <label>
+
+                    CNPJ
+
+                  </label>
+
+                  <input mask="00.000.000/0000-00" type="text" class="form-control" formControlName="cnpj">
+
+                </div>
+
+                <div class="col-md-12 mb-3">
+
+                  <label>
+
+                    Nome do empreendimento
+
+                  </label>
+
+                  <input class="form-control" type="text" formControlName="empreendimento">
+
+                  <div class="text-danger mt-1" *ngIf="f['empreendimento'].touched && f['empreendimento'].invalid">
+
+                    Campo obrigatório.
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                  <label>
+
+                    CEP
+
+                  </label>
+
+                  <input type="text" mask="00000-000" class="form-control" formControlName="cep" (blur)="buscarCEP()">
+
+                  <div class="text-danger mt-1" *ngIf="f['cep'].touched && f['cep'].invalid">
+
+                    Informe um CEP válido.
+
+                  </div>
+
+                </div>
+
+                <div class="col-md-8 mb-3">
+
+                  <label>
+
+                    Cidade
+
+                  </label>
+
+                  <input type="text" class="form-control" formControlName="cidade">
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                  <label>
+
+                    Bairro
+
+                  </label>
+
+                  <input type="text" class="form-control" formControlName="bairro">
+
+                </div>
+
+                <div class="col-md-8 mb-3">
+
+                  <label>
+
+                    Rua
+
+                  </label>
+
+                  <input type="text" class="form-control" formControlName="rua">
+
+                </div>
+
+              </div>
+
+              <div class="text-end">
+
+                <button type="button" class="btn btn-primary-custom" (click)="nextStep()">
+
+                  Próxima
+
+                  <i class="fa-solid fa-arrow-right ms-2"></i>
+
+                </button>
+
+              </div>
+
+              }
+
+              <!--====================================================
+ETAPA 2
+=====================================================-->
+
+              @if(step == 2){
+
+              <h3 class="mb-4">
+
+                <strong>Cadastro Inicial</strong>
+
+                - Eixo de impacto
+
+              </h3>
+
+              <div class="mb-4">
+
+                <label class="mb-2">
+
+                  Em qual eixo sua iniciativa gera impacto?
+
+                </label>
+
+                <div class="impacto-tags">
+                  <button type="button" class="btn btn-outline-secondary"
+                    (click)="selecionarImpacto('Inclusão Produtiva')">
+                    Inclusão Produtiva
+                  </button>
+
+                  <button type="button" class="btn btn-outline-secondary"
+                    (click)="selecionarImpacto('Geração de renda')">
+                    Geração de renda
+                  </button>
+
+                  <button type="button" class="btn btn-outline-secondary" (click)="selecionarImpacto('Meio ambiente')">
+                    Meio ambiente
+                  </button>
+
+                  <button type="button" class="btn btn-outline-secondary" (click)="selecionarImpacto('Reciclagem')">
+                    Reciclagem
+                  </button>
+
+                  <button type="button" class="btn btn-outline-secondary" (click)="selecionarImpacto('Educação')">
+                    Educação
+                  </button>
+
+                  <button type="button" class="btn btn-outline-secondary"
+                    (click)="selecionarImpacto('Tecnologia Social')">
+                    Tecnologia Social
+                  </button>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="mb-3">
+                  Possui cadastro ativo no CADIMPACTO Nacional?
+                </label>
+
+                <div>
+
+                  <div class="form-check form-check-inline">
+
+                    <input class="form-check-input" type="radio" value="SIM" formControlName="cadimpacto">
+
+                    <label class="form-check-label">
+
+                      Sim
+
+                    </label>
+
+                  </div>
+
+                  <div class="form-check form-check-inline">
+
+                    <input class="form-check-input" type="radio" value="NAO" formControlName="cadimpacto">
+
+                    <label class="form-check-label">
+
+                      Não
+
+                    </label>
+
+                  </div>
+
+                  <div class="form-check form-check-inline">
+
+                    <input class="form-check-input" type="radio" value="PROCESSO" formControlName="cadimpacto">
+
+                    <label class="form-check-label">
+
+                      Em processo
+
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="col-md-5 mb-3">
+
+                  <label>
+
+                    Situação Atual
+
+                  </label>
+
+                  <select class="form-select" formControlName="situacao">
+
+                    <option>
+                      Em implantação
+                    </option>
+
+                    <option>
+                      Operando
+                    </option>
+
+                    <option>
+                      Escalando
+                    </option>
+
+                  </select>
+
+                </div>
+
+                <div class="col-md-7 mb-3">
+
+                  <label>
+
+                    Área principal
+
+                  </label>
+
+                  <input type="text" class="form-control" formControlName="area">
+
+                </div>
+
+              </div>
+
+              <div class="mb-4">
+
+                <label>
+
+                  Resumo do negócio
+
+                </label>
+
+                <textarea rows="6" class="form-control" formControlName="resumo">
+
+</textarea>
+
+                <div class="text-end mt-2">
+
+                  {{ f['resumo'].value?.length || 0 }}
+
+                  /
+
+                  1500 caracteres
+
+                </div>
+
+              </div>
+
+              <div class="d-flex justify-content-between">
+
+                <button type="button" class="btn btn-outline-primary" (click)="previousStep()">
+
+                  <i class="fa-solid fa-arrow-left"></i>
+
+                  Voltar
+
+                </button>
+
+                <button type="button" class="btn btn-primary-custom" (click)="nextStep()">
+
+                  Salvar e continuar
+
+                </button>
+
+              </div>
+
+              }
+
+              <!--====================================================
+ETAPA 3
+=====================================================-->
+
+              @if(step == 3){
+
+              <h3 class="mb-4">
+
+                <strong>Cadastro Inicial</strong>
+
+                - Finalização
+
+              </h3>
+
+              <div class="upload-box">
+
+                <h5>
+                  <i class="fa-solid fa-upload"></i>
+                  Documentos
+                </h5>
+                <!-- RG -->
+                <div class="mb-4">
+                  <label>
+                    RG do responsável
+                  </label>
+                  <input type="file" class="form-control" (change)="uploadRg($event)">
+                  @if(rgFile){
+                  <small class="text-success d-block mt-2">
+                    <i class="fa-solid fa-circle-check"></i>
+                    {{ rgFile.name }}
+                  </small>
+                  }
+                </div>
+                <!-- CNPJ -->
+                <div class="mb-4">
+                  <label>
+                    Cartão CNPJ
+                  </label>
+                  <input type="file" class="form-control" (change)="uploadCnpj($event)">
+                  @if(cnpjFile){
+                  <small class="text-success d-block mt-2">
+                    <i class="fa-solid fa-circle-check"></i>
+                    {{ cnpjFile.name }}
+                  </small>
+                  }
+                </div>
+                <!-- Fotos -->
+                <div class="mb-4">
+                  <label>
+                    Fotos da atividade
+                  </label>
+
+                  <input type="file" multiple class="form-control" (change)="uploadFotos($event)">>
+                  @for(file of fotos; track file.name){
+                  <div class="arquivo-item">
+                    <i class="fa-solid fa-image"></i>
+                    {{ file.name }}
+                  </div>
+                  }
+                </div>
+              </div>
+              <div class="declaracao">
+                <h5>
+                  Declaração Final
+                </h5>
+                <p>
+                  Declaro que todas as informações apresentadas são verdadeiras.
+                </p>
+
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" formControlName="aceite">
+                  <label class="form-check-label">
+                    Estou ciente e concordo com os termos.
+                  </label>
+                  <div class="text-danger mt-2" *ngIf="f['aceite'].touched && f['aceite'].invalid">
+                    Você precisa aceitar a declaração.
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn btn-outline-primary" (click)="previousStep()">
+                  <i class="fa-solid fa-arrow-left"></i>
+                  Voltar
+                </button>
+                @if(loading){
+                <div class="progress mb-4">
+                  <div class="progress-bar" [style.width.%]="progress">
+                    {{progress}}%
+                  </div>
+                </div>
+                }
+                <button type="submit" class="btn btn-success" [disabled]="loading">
+                  @if(!loading){
+                  <span>
+                    Enviar inscrição
+                  </span>
+                  }
+                  @if(loading){
+                  <span>
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    Enviando...
+                  </span>
+                  }
+                </button>
+              </div>
+              }
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

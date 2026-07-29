@@ -6,6 +6,8 @@ import { MonitoramentoComponent } from './monitoramento/monitoramento.component'
 import { NegociosImpactoComponent } from './negocios-impacto/negocios-impacto.component';
 import { FaqComponent } from './faq/faq.component';
 import { FaleConoscoComponent } from './fale-conosco/fale-conosco.component';
+import { CadastroComponent } from './cadastro/cadastro.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -32,6 +34,14 @@ const routes: Routes = [
   {
     path: 'faleconosco',
     component: FaleConoscoComponent
+  },
+  {
+    path: 'cadastro',
+    component: CadastroComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 
