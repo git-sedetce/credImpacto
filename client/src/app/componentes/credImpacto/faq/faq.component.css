@@ -79,7 +79,7 @@ FAQ CARD
 ========================================================== */
 
 .faq-section {
-  padding: 0 0 70px;
+  padding: 0 0 50px;
   background: var(--background);
 }
 
@@ -181,6 +181,86 @@ FAQ CARD
 }
 
 /* ==========================================================
+CONTATO
+========================================================== */
+
+.contato-suporte {
+  padding: 30px 0 70px;
+  background: var(--background);
+}
+
+.contato-card {
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.contato-card .card-body {
+  padding: 3rem;
+}
+
+.contato-left {
+  text-align: center;
+}
+
+.contato-left h2 {
+  font-family: "Work Sans", sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.contato-left p {
+  font-family: "Inter", sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #444;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.divider {
+  width: 2px;
+  height: 230px;
+  background: #666;
+}
+
+.contato-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.contact-item i {
+  width: 40px;
+  text-align: center;
+  font-size: 2rem;
+  color: #444;
+}
+
+.contact-item a {
+  text-decoration: none;
+  color: #444;
+  font-family: "Inter", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  transition: 0.3s;
+  word-break: break-word;
+}
+
+.contact-item a:hover {
+  color: var(--primary);
+}
+
+/* ==========================================================
 DESKTOP GRANDE (>= 1400px)
 ========================================================== */
 
@@ -275,6 +355,38 @@ TABLET (768px até 991px)
 
   .faq-answer {
     font-size: 0.95rem;
+  }
+
+  .contato-card .card-body {
+    padding: 2.2rem;
+  }
+
+  .contato-left {
+    margin-bottom: 40px;
+  }
+
+  .contato-left h2 {
+    font-size: 2.5rem;
+  }
+
+  .contato-left p {
+    font-size: 1.5rem;
+  }
+
+  .contato-right {
+    gap: 22px;
+  }
+
+  .contact-item {
+    justify-content: center;
+  }
+
+  .contact-item i {
+    font-size: 1.8rem;
+  }
+
+  .contact-item a {
+    font-size: 1.35rem;
   }
 }
 
@@ -375,6 +487,46 @@ CELULAR (até 767px)
     font-size: 0.85rem;
     line-height: 1.6;
     margin-top: 30px;
+  }
+
+  .contato-suporte {
+    padding: 20px 0 40px;
+  }
+
+  .contato-card .card-body {
+    padding: 1.5rem;
+  }
+
+  .contato-left {
+    margin-bottom: 35px;
+  }
+
+  .contato-left h2 {
+    font-size: 2rem;
+  }
+
+  .contato-left p {
+    font-size: 1.2rem;
+  }
+
+  .contato-right {
+    gap: 18px;
+  }
+
+  .contact-item {
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .contact-item i {
+    width: 28px;
+    font-size: 1.4rem;
+    margin-top: 3px;
+  }
+
+  .contact-item a {
+    font-size: 1rem;
+    line-height: 1.5;
   }
 }
 
