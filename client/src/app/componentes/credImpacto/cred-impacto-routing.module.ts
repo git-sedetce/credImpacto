@@ -4,6 +4,8 @@ import { WhatIsComponent } from './what-is/what-is.component';
 import { FluxoCapacitacaoComponent } from './fluxo-capacitacao/fluxo-capacitacao.component';
 import { MonitoramentoComponent } from './monitoramento/monitoramento.component';
 import { NegociosImpactoComponent } from './negocios-impacto/negocios-impacto.component';
+import { FaqComponent } from './faq/faq.component';
+import { FaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,14 @@ const routes: Routes = [
   {
     path: 'negocios',
     component: NegociosImpactoComponent
+  },
+  {
+    path: 'faq',
+    component: FaqComponent
+  },
+  {
+    path: 'faleconosco',
+    component: FaleConoscoComponent
   }
 ];
 
