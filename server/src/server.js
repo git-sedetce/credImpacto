@@ -11,7 +11,7 @@ app.use(express.json())
 
 var corsOptions = {
   origin: [
-    'http://localhost:3800', 
+    'http://localhost:3000', 
     'http://credimpacto.adece.ce.gov.br', 
     'https://credimpacto.adece.ce.gov.br'
   ],
