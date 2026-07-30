@@ -11,7 +11,9 @@ import { FaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroComponent } from './cadastro/cadastro.component';
 import { LoginComponent } from './login/login.component';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { CpfcnpjMaskDirective } from './directives/cpfcnpj-mask.directive';
+import { TelefoneMascaraDirective } from './directives/telefone-mascara.directive';
+import { TelefoneValidacaoDirective } from './directives/telefone-validacao.directive';
 
 @NgModule({
   declarations: [
@@ -22,15 +24,16 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     FaqComponent,
     FaleConoscoComponent,
     CadastroComponent,
-    LoginComponent
+    LoginComponent,
+    CpfcnpjMaskDirective,
+    TelefoneMascaraDirective,
+    TelefoneValidacaoDirective
   ],
   imports: [
     CommonModule,
     CredImpactoRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
-    NgxMaskDirective,
-    NgxMaskPipe
+    ReactiveFormsModule
   ]
 })
 export class CredImpactoModule { }

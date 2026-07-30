@@ -142,7 +142,7 @@ ETAPA 1
 
                   </label>
 
-                  <input type="text" mask="000.000.000-00" class="form-control" formControlName="cpf">
+                  <input type="text" appCpfcnpjMask="cpf_cnpj" class="form-control" formControlName="cpf">
 
                   <div class="text-danger mt-1" *ngIf="f['cpf'].touched && f['cpf'].invalid">
 
@@ -160,7 +160,7 @@ ETAPA 1
 
                   </label>
 
-                  <input mask="(00) 00000-0000" type="text" class="form-control" formControlName="telefone">
+                  <input type="text" class="form-control" formControlName="telefone" appTelefoneMascara appTelefoneValidacao>
 
                   <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].invalid">
 
@@ -196,7 +196,7 @@ ETAPA 1
 
                   </label>
 
-                  <input mask="00.000.000/0000-00" type="text" class="form-control" formControlName="cnpj">
+                  <input appCpfcnpjMask="cpf_cnpj" type="text" class="form-control" formControlName="cnpj">
 
                 </div>
 
@@ -221,57 +221,53 @@ ETAPA 1
                 <div class="col-md-4 mb-3">
 
                   <label>
-
                     CEP
-
                   </label>
 
                   <input type="text" mask="00000-000" class="form-control" formControlName="cep" (blur)="buscarCEP()">
-
                   <div class="text-danger mt-1" *ngIf="f['cep'].touched && f['cep'].invalid">
-
                     Informe um CEP válido.
-
                   </div>
-
                 </div>
 
                 <div class="col-md-8 mb-3">
-
                   <label>
-
                     Cidade
-
                   </label>
+                  <select name="city_id" id="city_id" class="form-control" formControlName="cidade">
+                    <option value="">Selecione</option>
+                    <option *ngFor="let city of city_list" [value]=city.id>{{city.nome_municipio}}</option>
+                  </select>
 
-                  <input type="text" class="form-control" formControlName="cidade">
+                  <!-- <input type="text" class="form-control" formControlName="cidade"> -->
 
                 </div>
 
                 <div class="col-md-4 mb-3">
-
                   <label>
-
                     Bairro
-
                   </label>
-
                   <input type="text" class="form-control" formControlName="bairro">
-
                 </div>
-
                 <div class="col-md-8 mb-3">
-
                   <label>
-
                     Rua
-
                   </label>
-
                   <input type="text" class="form-control" formControlName="rua">
-
                 </div>
 
+                <div class="col-md-4 mb-3">
+                  <label>
+                    Numero
+                  </label>
+                  <input type="text" class="form-control" formControlName="numero">
+                </div>
+                <div class="col-md-8 mb-3">
+                  <label>
+                    Complemento
+                  </label>
+                  <input type="text" class="form-control" formControlName="complemento">
+                </div>
               </div>
 
               <div class="text-end">

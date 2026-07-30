@@ -17,6 +17,7 @@ export class CadastroComponent implements OnInit {
   cnpjFile!: File;
   fotos: File[] = [];
   http: any;
+  city_list!: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -25,11 +26,22 @@ export class CadastroComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.getCity();
+  }
+
+  getCity() {
+    this.cadastroService.getCitys('takecitys').subscribe(
+      (cityCE: any[]) => {
+        // console.log('cityCE', cityCE)
+        this.city_list = cityCE;
+      },
+      (erro: any) => console.error('erro', erro),
+    );
   }
 
   createForm(): void {
     this.cadastroForm = this.fb.group({
-      /*==========================
+/*==========================
     ETAPA 1
 ==========================*/
 
@@ -38,12 +50,14 @@ export class CadastroComponent implements OnInit {
       cpf: ['', Validators.required],
       telefone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      cnpj: [''],
+      cnpj: ['',  Validators.required],
       empreendimento: ['', Validators.required],
       cep: ['', Validators.required],
       cidade: ['', Validators.required],
       bairro: ['', Validators.required],
       rua: ['', Validators.required],
+      numero: ['', Validators.required],
+      complemento: [''],
 
       /*==========================
         ETAPA 2
@@ -216,55 +230,40 @@ export class CadastroComponent implements OnInit {
 
     const formData = new FormData();
 
-    Object.keys(this.cadastroForm.value)
-      .forEach((key) => {
-        formData.append(
-          key,
-          this.cadastroForm.value[key],
-        );
-      });
+    Object.keys(this.cadastroForm.value).forEach((key) => {
+      formData.append(key, this.cadastroForm.value[key]);
+    });
 
     if (this.rgFile) {
-      formData.append(
-        'rg',
-        this.rgFile,
-      );
+      formData.append('rg', this.rgFile);
     }
 
     if (this.cnpjFile) {
-      formData.append(
-        'cartaoCnpj',
-        this.cnpjFile,
-      );
+      formData.append('cartaoCnpj', this.cnpjFile);
     }
 
     this.fotos.forEach((file) => {
-      formData.append(
-        'fotos',
-        file,
-      );
+      formData.append('fotos', file);
     });
 
     this.loading = true;
 
-    this.cadastroService
-      .salvar(formData)
-      .subscribe({
-        next: (event: any) => {
-          if (event.type === 1) {
-            this.progress = Math.round((event.loaded * 100) / event.total);
-          }
-          if (event.body) {
-            this.loading = false;
-            alert('Cadastro realizado com sucesso!');
-          }
-        },
-
-        error: () => {
+    this.cadastroService.salvar(formData).subscribe({
+      next: (event: any) => {
+        if (event.type === 1) {
+          this.progress = Math.round((event.loaded * 100) / event.total);
+        }
+        if (event.body) {
           this.loading = false;
-          alert('Erro ao enviar cadastro.');
-        },
-      });
+          alert('Cadastro realizado com sucesso!');
+        }
+      },
+
+      error: () => {
+        this.loading = false;
+        alert('Erro ao enviar cadastro.');
+      },
+    });
   }
 
   /*===================================

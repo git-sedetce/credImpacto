@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './componentes/estrutura/home/home.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.component';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,17 +18,15 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     FooterComponent,
     HomeComponent,
     MainLayoutComponent,
-    EmptyLayoutComponent,
+    EmptyLayoutComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
-    NgxMaskDirective,
-    NgxMaskPipe
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
