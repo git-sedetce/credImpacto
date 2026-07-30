@@ -96,20 +96,16 @@ ETAPA 1
                       Selecione
                     </option>
 
-                    <option value="MEI">
+                    <option value="Micro Empreendedor Indivídual (MEI)">
+                      Micro Empreendedor Indivídual (MEI)
+                    </option>
+
+                    <option value="Microempresa (ME)">
                       Microempresa (ME)
                     </option>
 
-                    <option value="LTDA">
-                      Empresa LTDA
-                    </option>
-
-                    <option value="ASSOCIACAO">
-                      Associação
-                    </option>
-
-                    <option value="COOPERATIVA">
-                      Cooperativa
+                    <option value="Organização Sociedade Cívil(OSC)">
+                      Organização Sociedade Cívil(OSC)
                     </option>
 
                   </select>
@@ -234,10 +230,10 @@ ETAPA 1
                   <label>
                     Cidade
                   </label>
-                  <select name="city_id" id="city_id" class="form-control" formControlName="cidade">
-                    <option value="">Selecione</option>
+                  <select name="city_id" id="city_id" class="form-select" formControlName="cidade">
                     <option *ngFor="let city of city_list" [value]=city.id>{{city.nome_municipio}}</option>
                   </select>
+
 
                   <!-- <input type="text" class="form-control" formControlName="cidade"> -->
 
