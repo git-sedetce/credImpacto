@@ -26,19 +26,16 @@
 
 .breadcrumb-custom {
   color: #555;
-
-  font-size: 0.95rem;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
 }
 
 .titulo {
   margin-top: 25px;
-
+  font-family: "Work Sans", Arial, sans-serif;
   margin-bottom: 45px;
-
   font-weight: 800;
-
   color: #000;
-
   font-size: 3rem;
 }
 
@@ -48,15 +45,10 @@ CARD
 
 .cadastro-card {
   background: white;
-
   border-radius: 22px;
-
   overflow: hidden;
-
   display: flex;
-
   min-height: 640px;
-
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
 }
 
@@ -66,33 +58,21 @@ MENU
 
 .menu-lateral {
   width: 240px;
-
   background: #fafafa;
-
   border-right: 1px solid #ececec;
-
   padding: 45px 25px;
 }
 
 .menu-item {
   display: flex;
-
   align-items: center;
-
   gap: 14px;
-
   padding: 15px;
-
   margin-bottom: 10px;
-
   border-radius: 12px;
-
   color: #a8a8a8;
-
   cursor: pointer;
-
   transition: 0.3s;
-
   font-size: 17px;
 }
 
@@ -104,9 +84,7 @@ MENU
 
 .menu-item.active {
   color: var(--primary);
-
   background: #edf5ff;
-
   font-weight: 700;
 }
 
@@ -124,18 +102,19 @@ CONTEÚDO
 
 .conteudo {
   flex: 1;
-
   padding: 45px 50px;
 }
 
 h3 {
+  font-family: "Work Sans", Arial, sans-serif;
   margin-bottom: 35px;
-
-  font-size: 28px;
+  font-size: 1.5rem;
 }
 
 h3 strong {
+  font-family: "Work Sans", Arial, sans-serif;
   color: #000;
+  font-size: 1.5rem;
 }
 
 /* ==========================================================
@@ -143,10 +122,10 @@ LABELS
 ========================================================== */
 
 label {
-  font-weight: 600;
-
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
   color: #444;
-
   margin-bottom: 6px;
 }
 
@@ -157,30 +136,22 @@ INPUTS
 .form-control,
 .form-select {
   height: 48px;
-
   border-radius: 10px;
-
   border: 1px solid #dadada;
-
   box-shadow: none;
-
   transition: 0.25s;
 }
 
 .form-control:focus,
 .form-select:focus {
   border-color: var(--accent);
-
   box-shadow: 0 0 0 0.15rem rgba(0, 169, 214, 0.15);
 }
 
 textarea.form-control {
   height: auto;
-
   min-height: 170px;
-
   resize: vertical;
-
   padding-top: 12px;
 }
 
@@ -190,35 +161,32 @@ BOTÕES
 
 .btn {
   border-radius: 12px;
-
   padding: 11px 28px;
-
   font-weight: 600;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1rem;
 }
 
 .btn-primary-custom {
   background: var(--accent);
-
   color: white;
-
   border: none;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.05rem;
 }
 
 .btn-primary-custom:hover {
   background: #0096bf;
-
   color: white;
 }
 
 .btn-outline-primary {
   border: 2px solid var(--accent);
-
   color: var(--accent);
 }
 
 .btn-outline-primary:hover {
   background: var(--accent);
-
   color: white;
 }
 
@@ -228,17 +196,13 @@ IMPACTO
 
 .impacto-tags {
   display: flex;
-
   flex-wrap: wrap;
-
   gap: 12px;
 }
 
 .impacto-tags .btn {
   border-radius: 30px;
-
   padding: 8px 18px;
-
   font-size: 0.92rem;
 }
 
@@ -248,17 +212,13 @@ UPLOAD
 
 .upload-box {
   border: 1px solid #d7e9f0;
-
   border-radius: 14px;
-
   padding: 25px;
-
   background: #fbfeff;
 }
 
 .upload-box h5 {
   margin-bottom: 25px;
-
   color: var(--primary);
 }
 
@@ -272,23 +232,18 @@ DECLARAÇÃO
 
 .declaracao {
   margin-top: 35px;
-
   border: 2px solid #cceaf4;
-
   border-radius: 14px;
-
   padding: 25px;
 }
 
 .declaracao h5 {
   color: var(--primary);
-
   margin-bottom: 15px;
 }
 
 .declaracao p {
   color: #555;
-
   line-height: 1.7;
 }
 
@@ -308,7 +263,6 @@ VALIDAÇÃO
 
 .text-danger {
   font-size: 0.85rem;
-
   font-weight: 500;
 }
 
@@ -322,7 +276,6 @@ SCROLL
 
 ::-webkit-scrollbar-thumb {
   background: #c8c8c8;
-
   border-radius: 20px;
 }
 
