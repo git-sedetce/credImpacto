@@ -1,13 +1,10 @@
 <section class="cadastro-section">
-
   <div class="container">
 
     <!-- Cabeçalho -->
 
     <div class="row">
-
       <div class="col-12 text-center">
-
         <small class="breadcrumb-custom">
           credimpacto >
           <strong>Cadastro</strong>
@@ -100,116 +97,66 @@
                     <option value="Organização Sociedade Cívil (OSC)">
                       Organização Sociedade Cívil (OSC)
                     </option>
-
                   </select>
-
                 </div>
 
                 <div class="col-md-12 mb-3">
-
                   <label>
-
                     Nome completo (Responsável)
-
                   </label>
-
                   <input class="form-control" type="text" formControlName="nome">
-
                   @if(f['nome'].touched && f['nome'].invalid){
-
                   <div class="invalid-feedback-custom">
-
                     Informe seu nome completo.
-
                   </div>
-
                   }
-
                 </div>
-
                 <div class="col-md-6 mb-3">
-
                   <label>
-
                     CPF
-
                   </label>
-
                   <input type="text" appCpfcnpjMask="cpf_cnpj" class="form-control" formControlName="cpf">
-
                   <div class="text-danger mt-1" *ngIf="f['cpf'].touched && f['cpf'].invalid">
-
                     CPF obrigatório.
-
                   </div>
-
                 </div>
 
                 <div class="col-md-6 mb-3">
-
                   <label>
-
                     Whatsapp
-
                   </label>
 
-                  <input type="text" class="form-control" formControlName="telefone" appTelefoneMascara
-                    appTelefoneValidacao>
-
+                  <input type="text" class="form-control" formControlName="telefone" appTelefoneMascara appTelefoneValidacao>
                   <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].invalid">
-
                     Telefone obrigatório.
-
                   </div>
-
                 </div>
 
                 <div class="col-md-6 mb-3">
-
                   <label>
-
                     Email
-
                   </label>
 
                   <input class="form-control" type="email" formControlName="email">
-
                   <div class="text-danger mt-1" *ngIf="f['email'].touched && f['email'].invalid">
-
                     Email inválido.
-
                   </div>
-
                 </div>
-
                 <div class="col-md-6 mb-3">
-
                   <label>
-
                     CNPJ
-
                   </label>
-
                   <input appCpfcnpjMask="cpf_cnpj" type="text" class="form-control" formControlName="cnpj">
-
                 </div>
 
                 <div class="col-md-12 mb-3">
-
                   <label>
-
                     Nome do empreendimento
-
                   </label>
-
                   <input class="form-control" type="text" formControlName="empreendimento">
-
                   <div class="text-danger mt-1" *ngIf="f['empreendimento'].touched && f['empreendimento'].invalid">
-
                     Campo obrigatório.
-
                   </div>
-
                 </div>
 
                 <div class="col-md-4 mb-3">
@@ -230,19 +177,12 @@
                   </label>
                   <select name="city_id" id="city_id" class="form-select" formControlName="cidade">
                     <option value="">
-
                       Selecione uma cidade
-
                     </option>
-
                     @for(city of city_list; track city.id){
-
                     <option [value]="city.id">
-
                       {{city.nome_municipio}}
-
                     </option>
-
                     }
                   </select>
 
@@ -287,25 +227,17 @@
               }
 
               <!--====================================================
-ETAPA 2
-=====================================================-->
+              ETAPA 2
+              =====================================================-->
 
               @if(step == 2){
-
               <h3 class="mb-4">
-
                 <strong>Cadastro Inicial</strong>
-
                 - Eixo de impacto
-
               </h3>
-
               <div class="mb-4">
-
                 <label class="mb-2">
-
                   Em qual eixo sua iniciativa gera impacto?
-
                 </label>
 
                 <div class="impacto-tags">
@@ -352,55 +284,33 @@ ETAPA 2
                 </label>
 
                 <div>
-
                   <div class="form-check form-check-inline">
-
                     <input class="form-check-input" type="radio" value="SIM" formControlName="cadimpacto">
-
                     <label class="form-check-label">
-
                       Sim
-
                     </label>
-
                   </div>
 
                   <div class="form-check form-check-inline">
-
                     <input class="form-check-input" type="radio" value="NAO" formControlName="cadimpacto">
-
                     <label class="form-check-label">
-
                       Não
-
                     </label>
-
                   </div>
 
                   <div class="form-check form-check-inline">
-
                     <input class="form-check-input" type="radio" value="PROCESSO" formControlName="cadimpacto">
-
                     <label class="form-check-label">
-
                       Em processo
-
                     </label>
-
                   </div>
-
                 </div>
-
               </div>
 
               <div class="row">
-
                 <div class="col-md-5 mb-3">
-
                   <label>
-
                     Situação Atual
-
                   </label>
 
                   <select class="form-select" formControlName="situacao">
@@ -416,39 +326,22 @@ ETAPA 2
                     <option>
                       Escalando
                     </option>
-
                   </select>
-
                 </div>
-
                 <div class="col-md-7 mb-3">
-
                   <label>
-
                     Área principal
-
                   </label>
-
                   <input type="text" class="form-control" formControlName="area">
-
                 </div>
-
               </div>
 
               <div class="mb-4">
-
                 <label>
-
                   Resumo do negócio
-
                 </label>
-
-                <textarea rows="6" class="form-control" formControlName="resumo">
-
-</textarea>
-
+                <textarea rows="6" class="form-control" formControlName="resumo"></textarea>
                 <div class="text-end mt-2">
-
                   {{ resumoLength}} / 1500
                 </div>
               </div>
