@@ -10,7 +10,7 @@ export class CadastroService {
 
   constructor(private http: HttpClient) {}
 
-  buscarCEP(cep: string): Observable<any> {
+  getAddressByCEP(cep: string): Observable<any> {
     return this.http.get(`https://viacep.com.br/ws/${cep}/json/`);
   }
 

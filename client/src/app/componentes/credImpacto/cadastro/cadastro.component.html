@@ -29,18 +29,32 @@
           <!-- MENU -->
 
           <aside class="menu-lateral">
-            <div class="menu-item" [class.active]="step == 1">
-              <i class="fa-solid fa-user"></i>
+            <div class="menu-item" [class.active]="step === 1" [class.completed]="step > 1">
+              <div class="step-circle">
+                @if(step > 1){
+                <i class="fa-solid fa-check"></i>
+                } @else {
+                1
+                }
+              </div>
               <span>Perfil</span>
             </div>
 
-            <div class="menu-item" [class.active]="step == 2">
-              <i class="fa-solid fa-bullseye"></i>
+            <div class="menu-item" [class.active]="step === 2" [class.completed]="step > 2">
+              <div class="step-circle">
+                @if(step > 2){
+                <i class="fa-solid fa-check"></i>
+                } @else {
+                2
+                }
+              </div>
               <span>Impacto</span>
             </div>
 
-            <div class="menu-item" [class.active]="step == 3">
-              <i class="fa-solid fa-file-lines"></i>
+            <div class="menu-item" [class.active]="step === 3">
+              <div class="step-circle">
+                3
+              </div>
               <span>Documento</span>
             </div>
           </aside>
@@ -48,16 +62,22 @@
           <!-- CONTEÚDO -->
 
           <div class="conteudo">
-            <form [formGroup]="cadastroForm">
+            <form [formGroup]="cadastroForm" (ngSubmit)="submit()">
 
-<!--====================================================
-ETAPA 1
-=====================================================-->
+              <!--====================================================
+              ETAPA 1
+              =====================================================-->
 
               @if(step == 1){
               <h3 class="mb-4">
                 <strong>Cadastro Inicial</strong> - Identificação
               </h3>
+
+              <div class="wizard-progress">
+                <div class="wizard-progress-bar" [style.width.%]="(step / 3) * 100">
+
+                </div>
+              </div>
 
               <div class="row">
                 <div class="col-md-12 mb-3">
@@ -95,11 +115,15 @@ ETAPA 1
 
                   <input class="form-control" type="text" formControlName="nome">
 
-                  <div class="text-danger mt-1" *ngIf="f['nome'].touched && f['nome'].invalid">
+                  @if(f['nome'].touched && f['nome'].invalid){
+
+                  <div class="invalid-feedback-custom">
 
                     Informe seu nome completo.
 
                   </div>
+
+                  }
 
                 </div>
 
@@ -205,7 +229,21 @@ ETAPA 1
                     Cidade
                   </label>
                   <select name="city_id" id="city_id" class="form-select" formControlName="cidade">
-                    <option *ngFor="let city of city_list" [value]=city.id>{{city.nome_municipio}}</option>
+                    <option value="">
+
+                      Selecione uma cidade
+
+                    </option>
+
+                    @for(city of city_list; track city.id){
+
+                    <option [value]="city.id">
+
+                      {{city.nome_municipio}}
+
+                    </option>
+
+                    }
                   </select>
 
 
@@ -248,7 +286,7 @@ ETAPA 1
               </div>
               }
 
-<!--====================================================
+              <!--====================================================
 ETAPA 2
 =====================================================-->
 
@@ -271,29 +309,37 @@ ETAPA 2
                 </label>
 
                 <div class="impacto-tags">
-                  <button type="button" class="btn btn-outline-secondary"
-                    (click)="selecionarImpacto('Inclusão Produtiva')">
-                    Inclusão Produtiva
+                  <button type="button" class="btn"
+                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Inclusão Produtiva', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Inclusão Produtiva' }"
+                    (click)="selecionarImpacto('Inclusão Produtiva')">Inclusão Produtiva
                   </button>
 
-                  <button type="button" class="btn btn-outline-secondary"
+                  <button type="button" class="btn"
+                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Geração de renda', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Geração de renda' }"
                     (click)="selecionarImpacto('Geração de renda')">
                     Geração de renda
                   </button>
 
-                  <button type="button" class="btn btn-outline-secondary" (click)="selecionarImpacto('Meio ambiente')">
+                  <button type="button" class="btn"
+                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Meio ambiente', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Meio ambiente' }"
+                    (click)="selecionarImpacto('Meio ambiente')">
                     Meio ambiente
                   </button>
 
-                  <button type="button" class="btn btn-outline-secondary" (click)="selecionarImpacto('Reciclagem')">
+                  <button type="button" class="btn"
+                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Reciclagem', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Reciclagem' }"
+                    (click)="selecionarImpacto('Reciclagem')">
                     Reciclagem
                   </button>
 
-                  <button type="button" class="btn btn-outline-secondary" (click)="selecionarImpacto('Educação')">
+                  <button type="button" class="btn"
+                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Educação', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Educação' }"
+                    (click)="selecionarImpacto('Educação')">
                     Educação
                   </button>
 
-                  <button type="button" class="btn btn-outline-secondary"
+                  <button type="button" class="btn"
+                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Tecnologia Social', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Tecnologia Social' }"
                     (click)="selecionarImpacto('Tecnologia Social')">
                     Tecnologia Social
                   </button>
@@ -403,80 +449,59 @@ ETAPA 2
 
                 <div class="text-end mt-2">
 
-                  {{ f['resumo'].value?.length || 0 }}
-
-                  /
-
-                  1500 caracteres
-
+                  {{ resumoLength}} / 1500
                 </div>
-
               </div>
-
               <div class="d-flex justify-content-between">
-
                 <button type="button" class="btn btn-outline-primary" (click)="previousStep()">
-
                   <i class="fa-solid fa-arrow-left"></i>
-
                   Voltar
-
                 </button>
-
                 <button type="button" class="btn btn-primary-custom" (click)="nextStep()">
-
                   Salvar e continuar
-
                 </button>
-
               </div>
-
               }
-
               <!--====================================================
-ETAPA 3
-=====================================================-->
+              ETAPA 3
+              =====================================================-->
 
               @if(step == 3){
-
               <h3 class="mb-4">
-
                 <strong>Cadastro Inicial</strong>
-
                 - Finalização
-
               </h3>
-
               <div class="upload-box">
-
                 <h5>
                   <i class="fa-solid fa-upload"></i>
                   Documentos
                 </h5>
                 <!-- RG -->
-                <div class="mb-4">
-                  <label>
-                    RG do responsável
-                  </label>
-                  <input type="file" class="form-control" (change)="uploadRg($event)">
+                <div class="upload-area">
+                  <input type="file" (change)="uploadRg($event)" class="form-control">
+                  <p>
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Clique para selecionar o RG
+                  </p>
                   @if(rgFile){
-                  <small class="text-success d-block mt-2">
-                    <i class="fa-solid fa-circle-check"></i>
-                    {{ rgFile.name }}
-                  </small>
+                  <div class="arquivo-item">
+                    <i class="fa-solid fa-file"></i>
+                    {{rgFile.name}}
+                  </div>
                   }
                 </div>
                 <!-- CNPJ -->
-                <div class="mb-4">
-                  <label>
-                    Cartão CNPJ
-                  </label>
-                  <input type="file" class="form-control" (change)="uploadCnpj($event)">
+                <div class="upload-area">
+                  <input type="file" (change)="uploadCnpj($event)" class="form-control">
+                  <p>
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Clique para selecionar o CNPJ
+                  </p>
                   @if(cnpjFile){
-                  <small class="text-success d-block mt-2">
-                    <i class="fa-solid fa-circle-check"></i>
-                    {{ cnpjFile.name }}
-                  </small>
+                  <div class="arquivo-item">
+                    <i class="fa-solid fa-file"></i>
+                    {{cnpjFile.name}}
+                  </div>
                   }
                 </div>
                 <!-- Fotos -->
@@ -501,7 +526,6 @@ ETAPA 3
                 <p>
                   Declaro que todas as informações apresentadas são verdadeiras.
                 </p>
-
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" formControlName="aceite">
                   <label class="form-check-label">
@@ -532,7 +556,8 @@ ETAPA 3
                   }
                   @if(loading){
                   <span>
-                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <div class="spinner-border spinner-border-sm me-2">
+                    </div>
                     Enviando...
                   </span>
                   }

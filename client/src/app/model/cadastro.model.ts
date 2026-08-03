@@ -1,0 +1,27 @@
+export class Cadastro {
+  constructor(
+    public id?: number,
+    public tipoProponente?: string,
+    public nome?: string,
+    public cpf?: string,
+    public telefone?: string,
+    public email?: string,
+    public cnpj?: string,
+    public empreendimento?: string,
+    public cep?: string,
+    public cidade?: number,
+    public bairro?: string,
+    public rua?: string,
+    public numero?: string,
+    public complemento?: string,
+    public eixoImpacto?: string,
+    public cadimpacto?: string,
+    public situacao?: string,
+    public area?: string,
+    public resumo?: string,
+    public rg?: string,
+    public cartaoCnpj?: string,
+    public fotos?: string,
+    public aceite?: string,
+  ){}
+}
