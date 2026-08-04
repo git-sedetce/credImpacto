@@ -81,7 +81,7 @@
                   <label>
                     Tipo de proponente
                   </label>
-                  <select class="form-select" formControlName="tipoProponente">
+                  <select class="form-select" formControlName="tipo_proponente">
                     <option value="">
                       Selecione
                     </option>
@@ -104,8 +104,8 @@
                   <label>
                     Nome completo (Responsável)
                   </label>
-                  <input class="form-control" type="text" formControlName="nome">
-                  @if(f['nome'].touched && f['nome'].invalid){
+                  <input class="form-control" type="text" formControlName="nome_responsavel">
+                  @if(f['nome_responsavel'].touched && f['nome_responsavel'].invalid){
                   <div class="invalid-feedback-custom">
                     Informe seu nome completo.
                   </div>
@@ -153,8 +153,8 @@
                   <label>
                     Nome do empreendimento
                   </label>
-                  <input class="form-control" type="text" formControlName="empreendimento">
-                  <div class="text-danger mt-1" *ngIf="f['empreendimento'].touched && f['empreendimento'].invalid">
+                  <input class="form-control" type="text" formControlName="nome_empreendimento">
+                  <div class="text-danger mt-1" *ngIf="f['nome_empreendimento'].touched && f['nome_empreendimento'].invalid">
                     Campo obrigatório.
                   </div>
                 </div>
@@ -242,36 +242,36 @@
 
                 <div class="impacto-tags">
                   <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Inclusão Produtiva', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Inclusão Produtiva' }"
+                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Inclusão Produtiva', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Inclusão Produtiva' }"
                     (click)="selecionarImpacto('Inclusão Produtiva')">Inclusão Produtiva
                   </button>
 
                   <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Geração de renda', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Geração de renda' }"
+                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Geração de renda', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Geração de renda' }"
                     (click)="selecionarImpacto('Geração de renda')">
                     Geração de renda
                   </button>
 
                   <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Meio ambiente', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Meio ambiente' }"
+                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Meio ambiente', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Meio ambiente' }"
                     (click)="selecionarImpacto('Meio ambiente')">
                     Meio ambiente
                   </button>
 
                   <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Reciclagem', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Reciclagem' }"
+                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Reciclagem', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Reciclagem' }"
                     (click)="selecionarImpacto('Reciclagem')">
                     Reciclagem
                   </button>
 
                   <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Educação', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Educação' }"
+                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Educação', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Educação' }"
                     (click)="selecionarImpacto('Educação')">
                     Educação
                   </button>
 
                   <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['eixoImpacto'].value === 'Tecnologia Social', 'btn-outline-secondary': f['eixoImpacto'].value !== 'Tecnologia Social' }"
+                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Tecnologia Social', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Tecnologia Social' }"
                     (click)="selecionarImpacto('Tecnologia Social')">
                     Tecnologia Social
                   </button>
@@ -285,21 +285,21 @@
 
                 <div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" value="SIM" formControlName="cadimpacto">
+                    <input class="form-check-input" type="radio" value="SIM" formControlName="cadastro_cadimpacto">
                     <label class="form-check-label">
                       Sim
                     </label>
                   </div>
 
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" value="NAO" formControlName="cadimpacto">
+                    <input class="form-check-input" type="radio" value="NAO" formControlName="cadastro_cadimpacto">
                     <label class="form-check-label">
                       Não
                     </label>
                   </div>
 
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" value="PROCESSO" formControlName="cadimpacto">
+                    <input class="form-check-input" type="radio" value="PROCESSO" formControlName="cadastro_cadimpacto">
                     <label class="form-check-label">
                       Em processo
                     </label>
@@ -313,7 +313,7 @@
                     Situação Atual
                   </label>
 
-                  <select class="form-select" formControlName="situacao">
+                  <select class="form-select" formControlName="status_atual">
 
                     <option>
                       Em implantação
@@ -332,7 +332,7 @@
                   <label>
                     Área principal
                   </label>
-                  <input type="text" class="form-control" formControlName="area">
+                  <input type="text" class="form-control" formControlName="area_atuacao">
                 </div>
               </div>
 
@@ -340,7 +340,7 @@
                 <label>
                   Resumo do negócio
                 </label>
-                <textarea rows="6" class="form-control" formControlName="resumo"></textarea>
+                <textarea rows="6" class="form-control" formControlName="resumo_negocio"></textarea>
                 <div class="text-end mt-2">
                   {{ resumoLength}} / 1500
                 </div>
@@ -420,11 +420,11 @@
                   Declaro que todas as informações apresentadas são verdadeiras.
                 </p>
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" formControlName="aceite">
+                  <input type="checkbox" class="form-check-input" formControlName="aceite_termos">
                   <label class="form-check-label">
                     Estou ciente e concordo com os termos.
                   </label>
-                  <div class="text-danger mt-2" *ngIf="f['aceite'].touched && f['aceite'].invalid">
+                  <div class="text-danger mt-2" *ngIf="f['aceite_termos'].touched && f['aceite_termos'].invalid">
                     Você precisa aceitar a declaração.
                   </div>
                 </div>

@@ -4,39 +4,49 @@ const fs = require("fs");
 const path = require("path");
 
 class CadastroControllers {
-  static async registerAgroCompleto(req, res) {
+  static async registerCompleto(req, res) {
+    
     const t = await database.sequelize.transaction();
 
     try {
-      // ===== 1. VALIDAR ARQUIVOS =====
-      if (!req.files?.cpf || !req.files?.residencia) {
+      //----------------------------------------------------
+      // 1 - VALIDAR ARQUIVOS
+      //----------------------------------------------------
+
+      if (!req.files?.rgFile || !req.files?.cnpjFile) {
         return res.status(400).json({
-          message: "CPF/CNPJ e comprovante de residência são obrigatórios",
+          message: "RG e Cartão CNPJ são obrigatórios.",
         });
       }
 
-      // ===== 2. DADOS =====
-      const dados = JSON.parse(req.body.dados);
+      //----------------------------------------------------
+      // 2 - DADOS
+      //----------------------------------------------------
 
-      // ===== 3. CRIAR AGRICULTOR =====
-      const novoProdutor = await database.produtor_rural.create(dados, {
+      const dados = JSON.parse(req.body.dados);
+      // console.log("Dados recebidos (JSON):", dados);
+
+      //----------------------------------------------------
+      // 3 - REMOVER CAMPOS QUE NÃO EXISTEM NA TABELA
+      //----------------------------------------------------
+
+      delete dados.rg;
+      delete dados.cartaoCnpj;
+      delete dados.fotos;
+
+      //----------------------------------------------------
+      // 4 - CRIAR CADASTRO
+      //----------------------------------------------------
+
+      const novoCadastro = await database.Cadastro.create(dados, {
         transaction: t,
       });
 
-      const numeroPedido = `PED-${String(novoProdutor.id).padStart(6, "0")}`;
-      await novoProdutor.update({ pedido: numeroPedido }, { transaction: t });
+      // console.log(novoCadastro.toJSON());
 
-      // ===== 4. PROCESSAR ARQUIVOS =====
-      const arquivos = [
-        {
-          file: req.files.cpf[0],
-          tipo_anexo: "comprovante_cpf_cnpj",
-        },
-        {
-          file: req.files.residencia[0],
-          tipo_anexo: "comprovante_residencia",
-        },
-      ];
+      //----------------------------------------------------
+      // 5 - TIPOS PERMITIDOS
+      //----------------------------------------------------
 
       const tiposPermitidos = [
         "application/pdf",
@@ -45,32 +55,79 @@ class CadastroControllers {
         "image/jpg",
       ];
 
+      //----------------------------------------------------
+      // 6 - MONTAR LISTA DE ARQUIVOS
+      //----------------------------------------------------
+
+      const arquivos = [];
+
+      // RG
+      arquivos.push({
+        file: req.files.rgFile[0],
+        tipo_anexo: "RG",
+      });
+
+      // Cartão CNPJ
+      arquivos.push({
+        file: req.files.cnpjFile[0],
+        tipo_anexo: "CARTAO_CNPJ",
+      });
+
+      // Fotos
+      if (req.files.fotos) {
+        req.files.fotos.forEach((foto) => {
+          arquivos.push({
+            file: foto,
+            tipo_anexo: "FOTO",
+          });
+        });
+      }
+
+      //----------------------------------------------------
+      // 7 - SALVAR ANEXOS
+      //----------------------------------------------------
+
       for (const item of arquivos) {
         if (!tiposPermitidos.includes(item.file.mimetype)) {
-          throw new Error("Tipo de arquivo não permitido");
+          throw new Error(
+            `Arquivo ${item.file.originalname} possui formato inválido.`,
+          );
         }
 
         const caminho = item.file.path.split(process.env.SPLIT)[1];
 
-        await database.anexo.create(
+        await database.Anexo.create(
           {
+            cadastro_id: novoCadastro.id,
+            tipo_anexo: item.tipo_anexo,
             mimetype: item.file.mimetype,
             filename: item.file.filename,
             path: caminho,
-            agricultor_id: novoProdutor.id,
-            tipo_anexo: item.tipo_anexo,
           },
-          { transaction: t },
+          {
+            transaction: t,
+          },
         );
       }
 
-      // ===== 5. COMMIT =====
+      //----------------------------------------------------
+      // 8 - COMMIT
+      //----------------------------------------------------
+
       await t.commit();
 
-      return res.status(200).json(novoProdutor);
+      return res.status(201).json({
+        message: "Cadastro realizado com sucesso.",
+        cadastro: novoCadastro,
+      });
     } catch (error) {
       await t.rollback();
-      return res.status(500).json({ message: error.message });
+
+      console.error(error);
+
+      return res.status(500).json({
+        message: error.message,
+      });
     }
   }
 

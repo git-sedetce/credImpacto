@@ -70,29 +70,30 @@ export class CadastroComponent implements OnInit {
       PERFIL
       ===================================*/
 
-      tipoProponente: ['', Validators.required],
-      nome: ['', [Validators.required, Validators.minLength(3)]],
+      tipo_proponente: ['', Validators.required],
+      nome_responsavel: ['', [Validators.required, Validators.minLength(3)]],
       cpf: ['', Validators.required],
       telefone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       cnpj: ['', Validators.required],
-      empreendimento: ['', Validators.required],
+      nome_empreendimento: ['', Validators.required],
       cep: ['', Validators.required],
       cidade: [null, Validators.required],
       bairro: ['', Validators.required],
       rua: ['', Validators.required],
       numero: ['', Validators.required],
       complemento: [''],
+      aceite_termos: [false, Validators.requiredTrue],
 
       /*===================================
       IMPACTO
       ===================================*/
 
-      eixoImpacto: ['', Validators.required],
-      cadimpacto: ['', Validators.required],
-      situacao: ['', Validators.required],
-      area: ['', Validators.required],
-      resumo: ['', [Validators.required, Validators.maxLength(1500)]],
+      iniciativa_impacto: ['', Validators.required],
+      cadastro_cadimpacto: ['', Validators.required],
+      status_atual: ['', Validators.required],
+      area_atuacao: ['', Validators.required],
+      resumo_negocio: ['', [Validators.required, Validators.maxLength(1500)]],
 
       /*===================================
       PERFIL
@@ -101,7 +102,6 @@ export class CadastroComponent implements OnInit {
       rg: [null],
       cartaoCnpj: [null],
       fotos: [null],
-      aceite: [false, Validators.requiredTrue],
     });
   }
 
@@ -224,13 +224,13 @@ export class CadastroComponent implements OnInit {
 
   private validarPerfil(): boolean {
     const campos = [
-      'tipoProponente',
-      'nome',
+      'tipo_proponente',
+      'nome_responsavel',
       'cpf',
       'telefone',
       'email',
       'cnpj',
-      'empreendimento',
+      'nome_empreendimento',
       'cep',
       'cidade',
       'bairro',
@@ -242,13 +242,13 @@ export class CadastroComponent implements OnInit {
   }
 
   private validarImpacto(): boolean {
-    const campos = ['eixoImpacto', 'cadimpacto', 'situacao', 'area', 'resumo'];
+    const campos = ['iniciativa_impacto', 'cadastro_cadimpacto', 'status_atual', 'area_atuacao', 'resumo_negocio'];
 
     return this.validarCampos(campos);
   }
 
   private validarDocumento(): boolean {
-    return this.f['aceite'].valid;
+    return this.f['aceite_termos'].valid;
   }
 
   private validarCampos(campos: string[]): boolean {
@@ -266,7 +266,7 @@ export class CadastroComponent implements OnInit {
 
   selecionarImpacto(eixo: string): void {
     this.cadastroForm.patchValue({
-      eixoImpacto: eixo,
+      iniciativa_impacto: eixo,
     });
   }
 
@@ -324,77 +324,65 @@ export class CadastroComponent implements OnInit {
   ===================================*/
 
   private montarCadastro(): Cadastro {
-  return Object.assign(
-    new Cadastro(),
-    this.cadastro,
-    this.cadastroForm.getRawValue()
-  );
-}
+    return Object.assign(
+      new Cadastro(),
+      this.cadastro,
+      this.cadastroForm.getRawValue(),
+    );
+  }
 
   /*===================================
       FORMDATA
   ===================================*/
 
   private criarFormData(cadastro: Cadastro): FormData {
-  const formData = new FormData();
-  Object.entries(cadastro).forEach(([campo, valor]) => {
+    const formData = new FormData();
 
-    if (
-      valor !== undefined &&
-      valor !== null
-    ) {
-      formData.append(
-        campo,
-        String(valor)
-      );
+    // Cria uma cópia para remover os campos de arquivos
+    const dados = { ...cadastro };
+
+    delete dados.rg;
+    delete dados.cartaoCnpj;
+    delete dados.fotos;
+
+    // Envia o objeto inteiro como JSON
+    formData.append('dados', JSON.stringify(dados));
+
+    // RG
+    if (this.rgFile) {
+      formData.append('rgFile', this.rgFile);
     }
-  });
 
-  if (this.rgFile) {
-    formData.append(
-      'arquivoRg',
-      this.rgFile
-    );
+    // Cartão CNPJ
+    if (this.cnpjFile) {
+      formData.append('cnpjFile', this.cnpjFile);
+    }
+
+    // Fotos
+    this.fotos.forEach((foto) => {
+      formData.append('fotos', foto);
+    });
+
+    return formData;
   }
-
-  if (this.cnpjFile) {
-    formData.append(
-      'arquivoCnpj',
-      this.cnpjFile
-    );
-  }
-
-  this.fotos.forEach(foto => {
-    formData.append(
-      'fotos',
-      foto
-    );
-  });
-  return formData;
-
-}
 
   /*===================================
       ENVIAR
   ===================================*/
 
   submit(): void {
+    if (this.cadastroForm.invalid) {
+      this.markFields();
+      return;
+    }
 
-  if (this.cadastroForm.invalid) {
-    this.markFields();
-    return;
-  }
+    this.loading = true;
+    this.progress = 0;
+    this.cadastro = this.montarCadastro();
+    console.log('Cadastro montado:', this.cadastro);
+    const formData = this.criarFormData(this.cadastro);
 
-  this.loading = true;
-  this.progress = 0;
-  this.cadastro = this.montarCadastro();
-  const formData = this.criarFormData(
-    this.cadastro
-  );
-
-  this.cadastroService
-    .salvar(formData)
-    .subscribe({
+    this.cadastroService.salvar(formData).subscribe({
       next: (event) => {
         this.processarUpload(event);
       },
@@ -403,70 +391,55 @@ export class CadastroComponent implements OnInit {
         console.error(erro);
         this.loading = false;
         alert('Erro ao enviar cadastro.');
-      }
+      },
     });
-}
+  }
 
   /*===================================
       UPLOAD
   ===================================*/
 
-  private processarUpload(
-  event: HttpEvent<any>
-): void {
-  switch (event.type) {
-    case HttpEventType.UploadProgress:
-      if (event.total) {
-        this.progress = Math.round(
-          (event.loaded * 100) /
-          event.total
-        );
-      }
+  private processarUpload(event: HttpEvent<any>): void {
+    switch (event.type) {
+      case HttpEventType.UploadProgress:
+        if (event.total) {
+          this.progress = Math.round((event.loaded * 100) / event.total);
+        }
 
-      break;
+        break;
 
-    case HttpEventType.Response:
-      this.loading = false;
-      this.progress = 100;
-      alert(
-        'Cadastro realizado com sucesso!'
-      );
+      case HttpEventType.Response:
+        this.loading = false;
+        this.progress = 100;
+        alert('Cadastro realizado com sucesso!');
 
-      this.resetFormulario();
-      break;
+        this.resetFormulario();
+        break;
+    }
   }
-}
 
   /*===================================
       LIMPAR
   ===================================*/
 
   private resetFormulario(): void {
-  this.step = 1;
-  this.cadastro = new Cadastro();
-  this.cadastroForm.reset();
-  this.cadastroForm.patchValue({
-    aceite: false
-  });
+    this.step = 1;
+    this.cadastro = new Cadastro();
+    this.cadastroForm.reset();
+    this.cadastroForm.patchValue({
+      aceite_termos: false,
+    });
 
-  this.rgFile = undefined;
-  this.cnpjFile = undefined;
-  this.fotos = [];
-}
+    this.rgFile = undefined;
+    this.cnpjFile = undefined;
+    this.fotos = [];
+  }
 
   /*===================================
       CONTADOR CARACTERE
   ===================================*/
 
-  get resumoLength(): number{
-    return this.f['resumo'].value?.length ?? 0;
-}
-
-  /*===================================
-      UPLOAD FOTOS
-  ===================================*/
-
-  /*===================================
-      UPLOAD FOTOS
-  ===================================*/
+  get resumoLength(): number {
+    return this.f['resumo_negocio'].value?.length ?? 0;
+  }
 }

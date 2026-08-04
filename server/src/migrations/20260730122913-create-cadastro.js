@@ -33,7 +33,7 @@ module.exports = {
       cep: {
         type: Sequelize.STRING
       },
-      cidade_id: {
+      cidade: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: 'Cidades', key: 'id' }
@@ -64,6 +64,9 @@ module.exports = {
       },
       resumo_negocio: {
         type: Sequelize.STRING
+      },
+      aceite_termos: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

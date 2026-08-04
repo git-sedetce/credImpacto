@@ -30,13 +30,12 @@ function verificarECriarPasta(pastaPath) {
 const upload = multer({ storage });
 
 const router = Router();
-router.post(
-  "/registerCompleto",
-  upload.fields([
-    { name: "cpf", maxCount: 1 },
-    { name: "residencia", maxCount: 1 },
+router.post("/registerCompleto", upload.fields([
+    { name: "rgFile", maxCount: 1 },
+    { name: "cnpjFile", maxCount: 1 },
+    { name: "fotos", maxCount: 20 },
   ]),
-  CadastroController.registerAgroCompleto,
+  CadastroController.registerCompleto,
 );
 router.get("/takecitys", CadastroController.pegaCidades);
 router.get("/takeregion", CadastroController.pegaRegiao);

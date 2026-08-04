@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Cadastro.belongsTo(models.Cidades, { foreignKey: 'cidade_id', as: 'ass_cadastro_cidade' })
+      Cadastro.belongsTo(models.Cidades, { foreignKey: 'cidade', as: 'ass_cadastro_cidade' })
       Cadastro.hasMany(models.Anexo, { foreignKey: 'cadastro_id', as: 'ass_cadastro_anexo' });
     }
   }
@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     cadastro_cadimpacto: DataTypes.STRING,
     status_atual: DataTypes.STRING,
     area_atuacao: DataTypes.STRING,
-    resumo_negocio: DataTypes.STRING
+    resumo_negocio: DataTypes.STRING,
+    aceite_termos: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Cadastro',
