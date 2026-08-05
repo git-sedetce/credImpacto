@@ -42,6 +42,10 @@ export class CadastroComponent implements OnInit {
   cnpjFile?: File;
   fotos: File[] = [];
 
+  private readonly MAX_RG = 2 * 1024 * 1024; // 2 MB
+  private readonly MAX_CNPJ = 2 * 1024 * 1024; // 2 MB
+  private readonly MAX_FOTOS = 5 * 1024 * 1024; // 5 MB
+
   /*===================================
       CONTROLE
   ===================================*/
@@ -280,7 +284,13 @@ export class CadastroComponent implements OnInit {
   }
 
   private validarImpacto(): boolean {
-    const campos = ['iniciativa_impacto', 'cadastro_cadimpacto', 'status_atual', 'area_atuacao', 'resumo_negocio'];
+    const campos = [
+      'iniciativa_impacto',
+      'cadastro_cadimpacto',
+      'status_atual',
+      'area_atuacao',
+      'resumo_negocio',
+    ];
 
     return this.validarCampos(campos);
   }
@@ -314,13 +324,22 @@ export class CadastroComponent implements OnInit {
 
   uploadRg(event: Event): void {
     const input = event.target as HTMLInputElement;
+
     if (!input.files?.length) {
       return;
     }
 
-    this.rgFile = input.files[0];
+    const arquivo = input.files[0];
+
+    if (arquivo.size > this.MAX_RG) {
+      alert('O RG deve possuir no máximo 2 MB.');
+      input.value = '';
+      return;
+    }
+
+    this.rgFile = arquivo;
     this.cadastroForm.patchValue({
-      rg: this.rgFile.name,
+      rg: arquivo.name,
     });
   }
 
@@ -335,9 +354,17 @@ export class CadastroComponent implements OnInit {
       return;
     }
 
-    this.cnpjFile = input.files[0];
+    const arquivo = input.files[0];
+
+    if (arquivo.size > this.MAX_CNPJ) {
+      alert('O Cartão CNPJ deve possuir no máximo 2 MB.');
+      input.value = '';
+      return;
+    }
+
+    this.cnpjFile = arquivo;
     this.cadastroForm.patchValue({
-      cartaoCnpj: this.cnpjFile.name,
+      cartaoCnpj: arquivo.name,
     });
   }
 
@@ -346,16 +373,31 @@ export class CadastroComponent implements OnInit {
   ===================================*/
 
   uploadFotos(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) {
-      return;
-    }
-
-    this.fotos = Array.from(input.files);
-    this.cadastroForm.patchValue({
-      fotos: this.fotos.map((f) => f.name).join(','),
-    });
+  const input = event.target as HTMLInputElement;
+  if (!input.files?.length) {
+    return;
   }
+
+  const arquivos = Array.from(input.files);
+
+  const tamanhoTotal = arquivos.reduce(
+    (total, foto) => total + foto.size,
+    0
+  );
+
+  if (tamanhoTotal > this.MAX_FOTOS) {
+    alert("O conjunto das fotos deve possuir no máximo 5 MB.");
+    input.value = "";
+    return;
+
+  }
+
+  this.fotos = arquivos;
+  this.cadastroForm.patchValue({
+    fotos: arquivos.map(f => f.name).join(", ")
+  });
+
+}
 
   /*===================================
       MODEL

@@ -379,6 +379,10 @@
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     Clique para selecionar o RG
                   </p>
+                  <p>
+                    <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
+                    Tamanho máximo: 2MB
+                  </p>
                   @if(rgFile){
                   <div class="arquivo-item">
                     <i class="fa-solid fa-file"></i>
@@ -392,6 +396,10 @@
                   <p>
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     Clique para selecionar o CNPJ
+                  </p>
+                  <p>
+                    <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
+                    Tamanho máximo: 2MB
                   </p>
                   @if(cnpjFile){
                   <div class="arquivo-item">
@@ -407,6 +415,10 @@
                   </label>
 
                   <input type="file" multiple class="form-control" (change)="uploadFotos($event)">
+                  <p>
+                    <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
+                    Tamanho total de fotos: 5MB
+                  </p>
                   @for(file of fotos; track file.name){
                   <div class="arquivo-item">
                     <i class="fa-solid fa-image"></i>

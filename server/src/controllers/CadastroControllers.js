@@ -5,13 +5,27 @@ const path = require("path");
 
 class CadastroControllers {
   static async registerCompleto(req, res) {
-    
     const t = await database.sequelize.transaction();
 
     try {
-      //----------------------------------------------------
-      // 1 - VALIDAR ARQUIVOS
-      //----------------------------------------------------
+      /*====================================================
+      LIMITES E TIPOS PERMITIDOS
+    ====================================================*/
+
+      const LIMITE_RG = 2 * 1024 * 1024; // 2 MB
+      const LIMITE_CNPJ = 2 * 1024 * 1024; // 2 MB
+      const LIMITE_FOTOS = 5 * 1024 * 1024; // 5 MB
+
+      const TIPOS_PERMITIDOS = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+      ];
+
+      /*====================================================
+      1 - VALIDAR ARQUIVOS OBRIGATÓRIOS
+    ====================================================*/
 
       if (!req.files?.rgFile || !req.files?.cnpjFile) {
         return res.status(400).json({
@@ -19,61 +33,34 @@ class CadastroControllers {
         });
       }
 
-      //----------------------------------------------------
-      // 2 - DADOS
-      //----------------------------------------------------
+      /*====================================================
+      2 - DADOS DO CADASTRO
+    ====================================================*/
 
       const dados = JSON.parse(req.body.dados);
-      // console.log("Dados recebidos (JSON):", dados);
-
-      //----------------------------------------------------
-      // 3 - REMOVER CAMPOS QUE NÃO EXISTEM NA TABELA
-      //----------------------------------------------------
 
       delete dados.rg;
       delete dados.cartaoCnpj;
       delete dados.fotos;
 
-      //----------------------------------------------------
-      // 4 - CRIAR CADASTRO
-      //----------------------------------------------------
-
-      const novoCadastro = await database.Cadastro.create(dados, {
-        transaction: t,
-      });
-
-      // console.log(novoCadastro.toJSON());
-
-      //----------------------------------------------------
-      // 5 - TIPOS PERMITIDOS
-      //----------------------------------------------------
-
-      const tiposPermitidos = [
-        "application/pdf",
-        "image/jpeg",
-        "image/png",
-        "image/jpg",
-      ];
-
-      //----------------------------------------------------
-      // 6 - MONTAR LISTA DE ARQUIVOS
-      //----------------------------------------------------
+      /*====================================================
+      3 - MONTAR LISTA DE ARQUIVOS
+    ====================================================*/
 
       const arquivos = [];
 
-      // RG
       arquivos.push({
         file: req.files.rgFile[0],
         tipo_anexo: "RG",
+        limite: LIMITE_RG,
       });
 
-      // Cartão CNPJ
       arquivos.push({
         file: req.files.cnpjFile[0],
         tipo_anexo: "CARTAO_CNPJ",
+        limite: LIMITE_CNPJ,
       });
 
-      // Fotos
       if (req.files.fotos) {
         req.files.fotos.forEach((foto) => {
           arquivos.push({
@@ -83,17 +70,62 @@ class CadastroControllers {
         });
       }
 
-      //----------------------------------------------------
-      // 7 - SALVAR ANEXOS
-      //----------------------------------------------------
+      /*====================================================
+      4 - VALIDAR TAMANHO DO RG
+    ====================================================*/
+
+      if (req.files.rgFile[0].size > LIMITE_RG) {
+        throw new Error("O arquivo do RG deve possuir no máximo 2 MB.");
+      }
+
+      /*====================================================
+      5 - VALIDAR TAMANHO DO CARTÃO CNPJ
+    ====================================================*/
+
+      if (req.files.cnpjFile[0].size > LIMITE_CNPJ) {
+        throw new Error("O Cartão CNPJ deve possuir no máximo 2 MB.");
+      }
+
+      /*====================================================
+      6 - VALIDAR TAMANHO TOTAL DAS FOTOS
+    ====================================================*/
+
+      if (req.files.fotos) {
+        const tamanhoTotalFotos = req.files.fotos.reduce(
+          (total, foto) => total + foto.size,
+          0,
+        );
+
+        if (tamanhoTotalFotos > LIMITE_FOTOS) {
+          throw new Error("O conjunto das fotos deve possuir no máximo 5 MB.");
+        }
+      }
+
+      /*====================================================
+      7 - VALIDAR TIPOS DOS ARQUIVOS
+    ====================================================*/
 
       for (const item of arquivos) {
-        if (!tiposPermitidos.includes(item.file.mimetype)) {
+        if (!TIPOS_PERMITIDOS.includes(item.file.mimetype)) {
           throw new Error(
-            `Arquivo ${item.file.originalname} possui formato inválido.`,
+            `O arquivo "${item.file.originalname}" possui um formato inválido.`,
           );
         }
+      }
 
+      /*====================================================
+      8 - CRIAR CADASTRO
+    ====================================================*/
+
+      const novoCadastro = await database.Cadastro.create(dados, {
+        transaction: t,
+      });
+
+      /*====================================================
+      9 - GRAVAR ANEXOS
+    ====================================================*/
+
+      for (const item of arquivos) {
         const caminho = item.file.path.split(process.env.SPLIT)[1];
 
         await database.Anexo.create(
@@ -110,9 +142,9 @@ class CadastroControllers {
         );
       }
 
-      //----------------------------------------------------
-      // 8 - COMMIT
-      //----------------------------------------------------
+      /*====================================================
+      10 - COMMIT
+    ====================================================*/
 
       await t.commit();
 
@@ -122,9 +154,7 @@ class CadastroControllers {
       });
     } catch (error) {
       await t.rollback();
-
       console.error(error);
-
       return res.status(500).json({
         message: error.message,
       });
