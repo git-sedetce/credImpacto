@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 
 @Directive({
-  selector: '[appTelefoneValidacao][ngModel]',
+  selector: '[appTelefoneValidacao]',
   providers: [
     {
       provide: NG_VALIDATORS,

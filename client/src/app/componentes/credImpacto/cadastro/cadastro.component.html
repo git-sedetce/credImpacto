@@ -127,8 +127,11 @@
                   </label>
 
                   <input type="text" class="form-control" formControlName="telefone" appTelefoneMascara appTelefoneValidacao>
-                  <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].invalid">
+                  <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].errors?.['required']">
                     Telefone obrigatório.
+                  </div>
+                  <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].errors?.['telefoneInvalido']">
+                    Telefone inválido.
                   </div>
                 </div>
 
