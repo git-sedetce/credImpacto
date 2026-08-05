@@ -25,4 +25,16 @@ export class CadastroService {
       observe: 'events',
     });
   }
+
+  consultarCPF(cpf: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'consultacpf/' + cpf);
+  }
+
+  consultarCNPJ(cnpj: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'consultacnpj/' + cnpj);
+  }
+
+  consultarEmail(email: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'consultaemail/' + email);
+  }
 }

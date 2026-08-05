@@ -39,5 +39,8 @@ router.post("/registerCompleto", upload.fields([
 );
 router.get("/takecitys", CadastroController.pegaCidades);
 router.get("/takeregion", CadastroController.pegaRegiao);
+router.get("/consultacpf/:cpf", CadastroController.consultaCPF);
+router.get("/consultacnpj/:cnpj", CadastroController.consultaCNPJ);
+router.get("/consultaemail/:email", CadastroController.consultaEmail);
 
 module.exports = router;

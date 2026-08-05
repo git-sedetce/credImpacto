@@ -15,6 +15,7 @@ import { CpfcnpjMaskDirective } from './directives/cpfcnpj-mask.directive';
 import { TelefoneMascaraDirective } from './directives/telefone-mascara.directive';
 import { TelefoneValidacaoDirective } from './directives/telefone-validacao.directive';
 import { CepMascaraDirective } from './directives/cep-mascara.directive';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CepMascaraDirective } from './directives/cep-mascara.directive';
     CommonModule,
     CredImpactoRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
   ]
 })
 export class CredImpactoModule { }

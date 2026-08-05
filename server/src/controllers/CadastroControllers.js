@@ -156,6 +156,63 @@ class CadastroControllers {
       return res.status(500).json(error.message);
     }
   }
+
+  static async consultaCPF(req, res) {
+    const { cpf } = req.params;
+    try {
+      const verificaCPF = await database.Cadastro.findOne({
+        where: { cpf: cpf },
+        attributes: ["cpf"],
+      });
+      if (verificaCPF === null) {
+        return res
+          .status(200)
+          .json({ mensagem: `CPF autorizado para cadastro` });
+      } else {
+        return res.status(200).json({ mensagem: `CPF já cadastrado!` });
+      }
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async consultaCNPJ(req, res) {
+    const { cnpj } = req.params;
+    try {
+      const verificaCNPJ = await database.Cadastro.findOne({
+        where: { cnpj: cnpj },
+        attributes: ["cnpj"],
+      });
+      if (verificaCNPJ === null) {
+        return res
+          .status(200)
+          .json({ mensagem: `CNPJ autorizado para cadastro` });
+      } else {
+        return res.status(200).json({ mensagem: `CNPJ já cadastrado!` });
+      }
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async consultaEmail(req, res) {
+    const { email } = req.params;
+    try {
+      const verificaEmail = await database.Cadastro.findOne({
+        where: { email: email },
+        attributes: ["email"],
+      });
+      if (verificaEmail === null) {
+        return res
+          .status(200)
+          .json({ mensagem: `Email autorizado para cadastro` });
+      } else {
+        return res.status(200).json({ mensagem: `Email já cadastrado!` });
+      }
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
 }
 
 module.exports = CadastroControllers;

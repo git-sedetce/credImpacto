@@ -115,7 +115,7 @@
                   <label>
                     CPF
                   </label>
-                  <input type="text" appCpfcnpjMask="cpf_cnpj" class="form-control" formControlName="cpf">
+                  <input type="text" appCpfcnpjMask="cpf_cnpj" class="form-control" formControlName="cpf" (blur)="consultaCPF(cadastroForm.get('cpf')?.value, cadastroForm)">
                   <div class="text-danger mt-1" *ngIf="f['cpf'].touched && f['cpf'].invalid">
                     CPF obrigatório.
                   </div>
@@ -140,7 +140,7 @@
                     Email
                   </label>
 
-                  <input class="form-control" type="email" formControlName="email">
+                  <input class="form-control" type="email" formControlName="email" (blur)="consultaEmail(cadastroForm.get('email')?.value, cadastroForm)">
                   <div class="text-danger mt-1" *ngIf="f['email'].touched && f['email'].invalid">
                     Email inválido.
                   </div>
@@ -149,7 +149,7 @@
                   <label>
                     CNPJ
                   </label>
-                  <input appCpfcnpjMask="cpf_cnpj" type="text" class="form-control" formControlName="cnpj">
+                  <input appCpfcnpjMask="cpf_cnpj" type="text" class="form-control" formControlName="cnpj" (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)">
                 </div>
 
                 <div class="col-md-12 mb-3">

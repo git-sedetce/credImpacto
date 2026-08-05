@@ -6,6 +6,7 @@ import { ViewportScroller } from '@angular/common';
 import { min } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Cidade } from '../../../model/cidade.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cadastro',
@@ -51,7 +52,7 @@ export class CadastroComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private cadastroService: CadastroService,
-    private viewportScroller: ViewportScroller,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -125,6 +126,43 @@ export class CadastroComponent implements OnInit {
       error: (error) => {
         console.error('Erro ao carregar cidades:', error);
       },
+    });
+  }
+
+  /*===================================
+      CONSULTAS
+  ===================================*/
+
+  consultaCPF(epf: any, form: any) {
+    this.cadastroService.consultarCPF(epf).subscribe((res: any) => {
+      if (res.mensagem === 'CPF já cadastrado!') {
+        this.toastr.error(res.mensagem);
+        this.resetFormulario();
+      } else {
+        this.toastr.success(res.mensagem);
+      }
+    });
+  }
+
+  consultaCNPJ(epf: any, form: any) {
+    this.cadastroService.consultarCNPJ(epf).subscribe((res: any) => {
+      if (res.mensagem === 'CNPJ já cadastrado!') {
+        this.toastr.error(res.mensagem);
+        this.resetFormulario();
+      } else {
+        this.toastr.success(res.mensagem);
+      }
+    });
+  }
+
+  consultaEmail(email: any, form: any) {
+    this.cadastroService.consultarEmail(email).subscribe((res: any) => {
+      if (res.mensagem === 'Email já cadastrado!') {
+        this.toastr.error(res.mensagem);
+        this.resetFormulario();
+      } else {
+        this.toastr.success(res.mensagem);
+      }
     });
   }
 
