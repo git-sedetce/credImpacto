@@ -115,7 +115,8 @@
                   <label>
                     CPF
                   </label>
-                  <input type="text" appCpfMask class="form-control" formControlName="cpf" (blur)="consultaCPF(cadastroForm.get('cpf')?.value, cadastroForm)">
+                  <input type="text" appCpfMask class="form-control" formControlName="cpf"
+                    (blur)="consultaCPF(cadastroForm.get('cpf')?.value, cadastroForm)">
                   <div class="text-danger mt-1" *ngIf="f['cpf'].touched && f['cpf'].invalid">
                     CPF obrigatório.
                   </div>
@@ -126,11 +127,13 @@
                     Whatsapp
                   </label>
 
-                  <input type="text" class="form-control" formControlName="telefone" appTelefoneMascara appTelefoneValidacao>
+                  <input type="text" class="form-control" formControlName="telefone" appTelefoneMascara
+                    appTelefoneValidacao>
                   <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].errors?.['required']">
                     Telefone obrigatório.
                   </div>
-                  <div class="text-danger mt-1" *ngIf="f['telefone'].touched && f['telefone'].errors?.['telefoneInvalido']">
+                  <div class="text-danger mt-1"
+                    *ngIf="f['telefone'].touched && f['telefone'].errors?.['telefoneInvalido']">
                     Telefone inválido.
                   </div>
                 </div>
@@ -140,7 +143,8 @@
                     Email
                   </label>
 
-                  <input class="form-control" type="email" formControlName="email" (blur)="consultaEmail(cadastroForm.get('email')?.value, cadastroForm)">
+                  <input class="form-control" type="email" formControlName="email"
+                    (blur)="consultaEmail(cadastroForm.get('email')?.value, cadastroForm)">
                   <div class="text-danger mt-1" *ngIf="f['email'].touched && f['email'].invalid">
                     Email inválido.
                   </div>
@@ -149,7 +153,14 @@
                   <label>
                     CNPJ
                   </label>
-                  <input appCnpjMask type="text" class="form-control" formControlName="cnpj" (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)">
+                  <input appCnpjMask appCnpjValidacao type="text" class="form-control" formControlName="cnpj"
+                    (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)">
+                  <div class="text-danger mt-1" *ngIf="f['cnpj'].touched && f['cnpj'].errors?.['required']">
+                    CNPJ obrigatório.
+                  </div>
+                  <div class="text-danger mt-1" *ngIf="f['cnpj'].touched && f['cnpj'].errors?.['cnpjInvalido']">
+                    CNPJ inválido.
+                  </div>
                 </div>
 
                 <div class="col-md-12 mb-3">
@@ -157,7 +168,8 @@
                     Nome do empreendimento
                   </label>
                   <input class="form-control" type="text" formControlName="nome_empreendimento">
-                  <div class="text-danger mt-1" *ngIf="f['nome_empreendimento'].touched && f['nome_empreendimento'].invalid">
+                  <div class="text-danger mt-1"
+                    *ngIf="f['nome_empreendimento'].touched && f['nome_empreendimento'].invalid">
                     Campo obrigatório.
                   </div>
                 </div>
