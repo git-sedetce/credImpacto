@@ -16,6 +16,9 @@ import { TelefoneMascaraDirective } from './directives/telefone-mascara.directiv
 import { TelefoneValidacaoDirective } from './directives/telefone-validacao.directive';
 import { CepMascaraDirective } from './directives/cep-mascara.directive';
 import { ToastrModule } from 'ngx-toastr';
+import { CpfMaskDirective } from './directives/cpf-mask.directive';
+import { CnpjMaskDirective } from './directives/cnpj-mask.directive';
+import { CnpjValidacaoDirective } from './directives/cnpj-validacao.directive';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { ToastrModule } from 'ngx-toastr';
     CpfcnpjMaskDirective,
     TelefoneMascaraDirective,
     TelefoneValidacaoDirective,
-    CepMascaraDirective
+    CepMascaraDirective,
+    CpfMaskDirective,
+    CnpjMaskDirective,
+    CnpjValidacaoDirective
   ],
   imports: [
     CommonModule,

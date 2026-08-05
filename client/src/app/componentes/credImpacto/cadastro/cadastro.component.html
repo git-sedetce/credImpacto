@@ -115,7 +115,7 @@
                   <label>
                     CPF
                   </label>
-                  <input type="text" appCpfcnpjMask="cpf_cnpj" class="form-control" formControlName="cpf" (blur)="consultaCPF(cadastroForm.get('cpf')?.value, cadastroForm)">
+                  <input type="text" appCpfMask class="form-control" formControlName="cpf" (blur)="consultaCPF(cadastroForm.get('cpf')?.value, cadastroForm)">
                   <div class="text-danger mt-1" *ngIf="f['cpf'].touched && f['cpf'].invalid">
                     CPF obrigatório.
                   </div>
@@ -149,7 +149,7 @@
                   <label>
                     CNPJ
                   </label>
-                  <input appCpfcnpjMask="cpf_cnpj" type="text" class="form-control" formControlName="cnpj" (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)">
+                  <input appCnpjMask type="text" class="form-control" formControlName="cnpj" (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)">
                 </div>
 
                 <div class="col-md-12 mb-3">
@@ -415,6 +415,10 @@
                   </label>
 
                   <input type="file" multiple class="form-control" (change)="uploadFotos($event)">
+                  <p>
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Clique para selecionar as Fotos
+                  </p>
                   <p>
                     <i class="fa-solid fa-down-left-and-up-right-to-center"></i>
                     Tamanho total de fotos: 5MB
