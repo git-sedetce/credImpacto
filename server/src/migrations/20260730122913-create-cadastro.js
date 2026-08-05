@@ -16,16 +16,19 @@ module.exports = {
         type: Sequelize.STRING
       },
       cpf: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       telefone: {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       cnpj: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       nome_empreendimento: {
         type: Sequelize.STRING
@@ -63,7 +66,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       resumo_negocio: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1500)
       },
       aceite_termos: {
         type: Sequelize.BOOLEAN
