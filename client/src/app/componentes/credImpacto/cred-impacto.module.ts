@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { CpfcnpjMaskDirective } from './directives/cpfcnpj-mask.directive';
 import { TelefoneMascaraDirective } from './directives/telefone-mascara.directive';
 import { TelefoneValidacaoDirective } from './directives/telefone-validacao.directive';
+import { CepMascaraDirective } from './directives/cep-mascara.directive';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TelefoneValidacaoDirective } from './directives/telefone-validacao.dire
     LoginComponent,
     CpfcnpjMaskDirective,
     TelefoneMascaraDirective,
-    TelefoneValidacaoDirective
+    TelefoneValidacaoDirective,
+    CepMascaraDirective
   ],
   imports: [
     CommonModule,

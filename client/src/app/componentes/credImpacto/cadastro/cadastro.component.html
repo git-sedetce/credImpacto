@@ -165,7 +165,7 @@
                     CEP
                   </label>
 
-                  <input type="text" mask="00000-000" class="form-control" formControlName="cep" (blur)="buscarCEP()">
+                  <input type="text" appCepMascara class="form-control" formControlName="cep" (blur)="buscarCEP()">
                   <div class="text-danger mt-1" *ngIf="f['cep'].touched && f['cep'].invalid">
                     Informe um CEP válido.
                   </div>
