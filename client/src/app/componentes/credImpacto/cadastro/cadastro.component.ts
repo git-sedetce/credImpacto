@@ -417,7 +417,7 @@ export class CadastroComponent implements OnInit {
     this.loading = true;
     this.progress = 0;
     this.cadastro = this.montarCadastro();
-    console.log('Cadastro montado:', this.cadastro);
+    // console.log('Cadastro montado:', this.cadastro);
     const formData = this.criarFormData(this.cadastro);
 
     this.cadastroService.salvar(formData).subscribe({

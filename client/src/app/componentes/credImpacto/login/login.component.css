@@ -1,0 +1,180 @@
+/* ==============================
+   Página
+==============================*/
+
+.login-page {
+  min-height: 70vh;
+  background: linear-gradient(180deg, #eef4e8 0%, #f7f8f5 35%, #ffffff 100%);
+  display: flex;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* ==============================
+Breadcrumb
+==============================*/
+
+.breadcrumb-login {
+  text-align: center;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* ==============================
+Cabeçalho
+==============================*/
+
+.titulo {
+  font-family: "Work Sans", Arial, sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  margin-bottom: 12px;
+  color: #1f1f1f;
+}
+
+.subtitulo {
+  max-width: 620px;
+  margin: auto;
+  color: #666;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+  line-height: 1.7;
+}
+
+/* ==============================
+Card
+==============================*/
+
+.login-card {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* .card-header-login {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  font-style: italic;
+  color: #666;
+  font-size: 0.9rem;
+} */
+
+/* ==============================
+Campos
+==============================*/
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+}
+
+.input-group-text {
+  background: #f5f5f5;
+  border-right: none;
+}
+
+.form-control {
+  border-left: none;
+  height: 52px;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #0ba9d8;
+  box-shadow: none;
+}
+
+.crirConta {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+  color: #666;
+}
+
+/* ==============================
+Botão
+==============================*/
+
+.btn-login {
+  height: 52px;
+  border-radius: 10px;
+  background: #08a6d5;
+  color: #fff;
+  font-weight: 700;
+  transition: 0.3s;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+}
+
+.btn-login:hover {
+  background: #0688af;
+  color: #fff;
+}
+
+/* ==============================
+Links
+==============================*/
+
+a {
+  text-decoration: none;
+  color: #08a6d5;
+  font-weight: 600;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ==============================
+Tablet
+==============================*/
+
+@media (max-width: 992px) {
+  .login-card {
+    max-width: 480px;
+  }
+}
+
+/* ==============================
+Celular
+==============================*/
+
+@media (max-width: 768px) {
+  .login-page {
+    padding: 40px 15px;
+  }
+
+  .titulo {
+    font-size: 2rem;
+  }
+
+  .subtitulo {
+    font-size: 0.95rem;
+  }
+
+  .login-card {
+    padding: 30px 25px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .titulo {
+    font-size: 1.7rem;
+  }
+
+  .login-card {
+    padding: 25px 18px;
+  }
+}
