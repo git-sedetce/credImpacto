@@ -19,7 +19,6 @@ export class CadastroService {
   }
 
   salvar(formData: FormData) {
-    console.log('FormData enviada:', formData)
     return this.http.post(environment.apiUrl + 'registerCompleto', formData, {
       reportProgress: true,
       observe: 'events',

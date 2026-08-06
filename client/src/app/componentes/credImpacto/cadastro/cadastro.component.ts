@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { CadastroService } from '../../../services/cadastro.service';
 import { Cadastro } from '../../../model/cadastro.model';
 import { ViewportScroller } from '@angular/common';
@@ -27,6 +34,8 @@ export class CadastroComponent implements OnInit {
 
   cadastroForm!: FormGroup;
   cadastro!: Cadastro;
+  passwordPtn =
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&()_+\\-=\\[\\]{};:\'",.<>/?\\\\|`~#^]).{8,}$';
 
   /*===================================
       LISTAS
@@ -70,44 +79,56 @@ export class CadastroComponent implements OnInit {
   ===================================*/
 
   private createForm(): void {
-    this.cadastroForm = this.fb.group({
-      /*===================================
+    this.cadastroForm = this.fb.group(
+      {
+        /*===================================
       PERFIL
       ===================================*/
 
-      tipo_proponente: ['', Validators.required],
-      nome_responsavel: ['', [Validators.required, Validators.minLength(3)]],
-      cpf: ['', Validators.required],
-      telefone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      cnpj: ['', Validators.required],
-      nome_empreendimento: ['', Validators.required],
-      cep: ['', Validators.required],
-      cidade: [null, Validators.required],
-      bairro: ['', Validators.required],
-      rua: ['', Validators.required],
-      numero: ['', Validators.required],
-      complemento: [''],
-      aceite_termos: [false, Validators.requiredTrue],
+        tipo_proponente: ['', Validators.required],
+        nome_responsavel: ['', [Validators.required, Validators.minLength(3)]],
+        cpf: ['', Validators.required],
+        telefone: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        cnpj: ['', Validators.required],
+        password: [
+          '',
+          [Validators.required, Validators.pattern(this.passwordPtn)],
+        ],
+        confirm_password: ['', Validators.required],
 
-      /*===================================
+        profile_id: ['7'],
+        nome_empreendimento: ['', Validators.required],
+        cep: ['', Validators.required],
+        cidade: [null, Validators.required],
+        bairro: ['', Validators.required],
+        rua: ['', Validators.required],
+        numero: ['', Validators.required],
+        complemento: [''],
+        linha_credito: ['CredImpacto'],
+        aceite_termos: [false, Validators.requiredTrue],
+
+        /*===================================
       IMPACTO
       ===================================*/
 
-      iniciativa_impacto: ['', Validators.required],
-      cadastro_cadimpacto: ['', Validators.required],
-      status_atual: ['', Validators.required],
-      area_atuacao: ['', Validators.required],
-      resumo_negocio: ['', [Validators.required, Validators.maxLength(1500)]],
+        iniciativa_impacto: ['', Validators.required],
+        cadastro_cadimpacto: ['', Validators.required],
+        status_atual: ['', Validators.required],
+        area_atuacao: ['', Validators.required],
+        resumo_negocio: ['', [Validators.required, Validators.maxLength(1500)]],
 
-      /*===================================
+        /*===================================
       PERFIL
       ===================================*/
 
-      rg: [null],
-      cartaoCnpj: [null],
-      fotos: [null],
-    });
+        rg: [null],
+        cartaoCnpj: [null],
+        fotos: [null],
+      },
+      {
+        validators: this.passwordMatchValidator(),
+      });
   }
 
   /*===================================
@@ -116,6 +137,23 @@ export class CadastroComponent implements OnInit {
 
   get f() {
     return this.cadastroForm.controls;
+  }
+
+  /*===================================
+      COMPARAR SENHAS
+  ===================================*/
+
+  private passwordMatchValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = control.get('password')?.value;
+      const confirm = control.get('confirm_password')?.value;
+
+      if (!password || !confirm) {
+        return null;
+      }
+
+      return password === confirm ? null : { passwordMismatch: true };
+    };
   }
 
   /*===================================
@@ -246,8 +284,8 @@ export class CadastroComponent implements OnInit {
   }
 
   /*===================================
-    VALIDA ETAPA
-===================================*/
+  VALIDA ETAPA
+  ===================================*/
 
   private validarEtapaAtual(): boolean {
     switch (this.step) {
@@ -373,31 +411,26 @@ export class CadastroComponent implements OnInit {
   ===================================*/
 
   uploadFotos(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (!input.files?.length) {
-    return;
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) {
+      return;
+    }
+
+    const arquivos = Array.from(input.files);
+
+    const tamanhoTotal = arquivos.reduce((total, foto) => total + foto.size, 0);
+
+    if (tamanhoTotal > this.MAX_FOTOS) {
+      alert('O conjunto das fotos deve possuir no máximo 5 MB.');
+      input.value = '';
+      return;
+    }
+
+    this.fotos = arquivos;
+    this.cadastroForm.patchValue({
+      fotos: arquivos.map((f) => f.name).join(', '),
+    });
   }
-
-  const arquivos = Array.from(input.files);
-
-  const tamanhoTotal = arquivos.reduce(
-    (total, foto) => total + foto.size,
-    0
-  );
-
-  if (tamanhoTotal > this.MAX_FOTOS) {
-    alert("O conjunto das fotos deve possuir no máximo 5 MB.");
-    input.value = "";
-    return;
-
-  }
-
-  this.fotos = arquivos;
-  this.cadastroForm.patchValue({
-    fotos: arquivos.map(f => f.name).join(", ")
-  });
-
-}
 
   /*===================================
       MODEL
@@ -459,7 +492,7 @@ export class CadastroComponent implements OnInit {
     this.loading = true;
     this.progress = 0;
     this.cadastro = this.montarCadastro();
-    // console.log('Cadastro montado:', this.cadastro);
+    console.log('Cadastro montado:', this.cadastro);
     const formData = this.criarFormData(this.cadastro);
 
     this.cadastroService.salvar(formData).subscribe({

@@ -174,6 +174,34 @@
                   </div>
                 </div>
 
+                <div class="col-md-6 mb-3">
+                  <label>Senha</label>
+                  <input type="password" class="form-control" formControlName="password">
+                  <div class="text-danger mt-1" *ngIf="f['password'].touched && f['password'].errors">
+                    <small *ngIf="f['password'].errors['required']">
+                      A senha é obrigatória.
+                    </small>
+                    <small *ngIf="f['password'].errors['pattern']">
+                      A senha deve possuir no mínimo 8 caracteres, contendo letra maiúscula,
+                      letra minúscula, número e caractere especial.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label>Confirmar senha</label>
+                  <input type="password" class="form-control" formControlName="confirm_password">
+                  <div class="text-danger mt-1" *ngIf="f['confirm_password'].touched">
+                    <small *ngIf="f['confirm_password'].errors?.['required']">
+                      A confirmação da senha é obrigatória.
+                    </small>
+                    <small *ngIf="cadastroForm.errors?.['passwordMismatch'] &&
+             !f['confirm_password'].errors?.['required']">
+                      As senhas não coincidem.
+                    </small>
+                  </div>
+                </div>
+
                 <div class="col-md-4 mb-3">
 
                   <label>

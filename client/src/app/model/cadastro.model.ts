@@ -7,7 +7,10 @@ export class Cadastro {
     public telefone?: string,
     public email?: string,
     public cnpj?: string,
+    public password?: string,
+    public confirm_password?: string,
     public nome_empreendimento?: string,
+    public profile_id?: number,
     public cep?: string,
     public cidade?: number,
     public bairro?: string,
@@ -23,5 +26,6 @@ export class Cadastro {
     public cartaoCnpj?: string,
     public fotos?: string,
     public aceite_termos?: boolean,
+    public linha_credito?: string,
   ){}
 }

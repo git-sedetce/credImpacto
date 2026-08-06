@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Cadastro.belongsTo(models.Cidades, { foreignKey: 'cidade', as: 'ass_cadastro_cidade' })
+      Cadastro.belongsTo(models.Profile, { foreignKey: 'profile_id', as: 'ass_cadastro_profile' });
       Cadastro.hasMany(models.Anexo, { foreignKey: 'cadastro_id', as: 'ass_cadastro_anexo' });
+      
     }
   }
   Cadastro.init({
@@ -21,12 +23,16 @@ module.exports = (sequelize, DataTypes) => {
     telefone: DataTypes.STRING,
     email: DataTypes.STRING,
     cnpj: DataTypes.STRING,
+    user_active: DataTypes.BOOLEAN,
+    password: DataTypes.STRING,
+    user_pin: DataTypes.STRING,
     nome_empreendimento: DataTypes.STRING,
     cep: DataTypes.STRING,
     bairro: DataTypes.STRING,
     rua: DataTypes.STRING,
     numero: DataTypes.STRING,
     complemento: DataTypes.STRING,
+    linha_credito: DataTypes.STRING,
     iniciativa_impacto: DataTypes.STRING,
     cadastro_cadimpacto: DataTypes.STRING,
     status_atual: DataTypes.STRING,

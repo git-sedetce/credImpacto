@@ -30,6 +30,22 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true
       },
+      password: {
+        type: Sequelize.STRING,
+        unique: true
+      },
+      user_active: {
+        type: Sequelize.BOOLEAN
+      },
+      user_pin: {
+        type: Sequelize.STRING(5),
+        allowNull: false,
+      },
+      profile_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: { model: 'Profiles', key: 'id' }
+      },
       nome_empreendimento: {
         type: Sequelize.STRING
       },
@@ -51,6 +67,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       complemento: {
+        type: Sequelize.STRING
+      },
+      linha_credito: {
         type: Sequelize.STRING
       },
       iniciativa_impacto: {
