@@ -4,21 +4,19 @@
 
     <!-- Breadcrumb -->
     <div class="breadcrumb-login">
-      credimpacto >
-      <strong>Login</strong>
+      sistema >
+      <strong>Resetar Senha</strong>
     </div>
 
     <!-- Cabeçalho -->
     <div class="text-center mb-5">
 
       <h1 class="titulo">
-        Acesse sua conta
+        Nova Senha
       </h1>
 
       <p class="subtitulo">
-        Faça login para continuar utilizando a plataforma
-        CredImpacto e acompanhar seus diagnósticos,
-        inscrições e projetos.
+        Crie uma nova senha para acessar sua conta na plataforma CredImpacto. A senha deve possuir no mínimo 8 caracteres, contendo letra maiúscula, letra minúscula, número e caractere especial.
       </p>
 
     </div>
@@ -61,24 +59,26 @@
               placeholder="Digite sua senha">
 
           </div>
-
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox">
-            <label class="form-check-label">
-              Lembrar-me
-            </label>
+        <div class="mb-4">
+          <label>Confirmar Senha</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Digite sua senha">
+
           </div>
-
-          <a routerLink="resetsenha">
-            Esqueci minha senha
-          </a>
         </div>
+
         <button
           class="btn btn-login w-100">
-          Entrar
+          Nova Senha
         </button>
       </form>
 

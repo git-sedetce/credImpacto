@@ -12,6 +12,7 @@ import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.compon
 import { provideHttpClient } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './componentes/sistema/login/login.component';
+import { ResetSenhaComponent } from './componentes/sistema/reset-senha/reset-senha.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LoginComponent } from './componentes/sistema/login/login.component';
     MainLayoutComponent,
     EmptyLayoutComponent,
     LoginComponent,
+    ResetSenhaComponent,
   ],
   imports: [
     BrowserModule,

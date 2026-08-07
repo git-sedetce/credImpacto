@@ -5,6 +5,7 @@ import { HomeComponent } from './componentes/estrutura/home/home.component';
 import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { LoginComponent } from './componentes/sistema/login/login.component';
+import { ResetSenhaComponent } from './componentes/sistema/reset-senha/reset-senha.component';
 
 const routes: Routes = [
   // Layout sem Header/Footer
@@ -22,9 +23,13 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-          path: 'login',
-          component: LoginComponent
-        }
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'resetsenha',
+        component: ResetSenhaComponent,
+      },
     ],
   },
 
