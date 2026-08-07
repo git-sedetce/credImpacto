@@ -10,7 +10,6 @@ import { FaqComponent } from './faq/faq.component';
 import { FaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroComponent } from './cadastro/cadastro.component';
-import { LoginComponent } from './login/login.component';
 import { CpfcnpjMaskDirective } from './directives/cpfcnpj-mask.directive';
 import { TelefoneMascaraDirective } from './directives/telefone-mascara.directive';
 import { TelefoneValidacaoDirective } from './directives/telefone-validacao.directive';
@@ -29,7 +28,6 @@ import { CnpjValidacaoDirective } from './directives/cnpj-validacao.directive';
     FaqComponent,
     FaleConoscoComponent,
     CadastroComponent,
-    LoginComponent,
     CpfcnpjMaskDirective,
     TelefoneMascaraDirective,
     TelefoneValidacaoDirective,

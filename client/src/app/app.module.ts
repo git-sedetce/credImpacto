@@ -11,6 +11,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.component';
 import { provideHttpClient } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { LoginComponent } from './componentes/sistema/login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ToastrModule } from 'ngx-toastr';
     FooterComponent,
     HomeComponent,
     MainLayoutComponent,
-    EmptyLayoutComponent
+    EmptyLayoutComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
