@@ -57,16 +57,6 @@ Card
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
 }
 
-/* .card-header-login {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  font-style: italic;
-  color: #666;
-  font-size: 0.9rem;
-} */
-
 /* ==============================
 Campos
 ==============================*/
@@ -94,7 +84,22 @@ label {
   box-shadow: none;
 }
 
-.crirConta {
+/* ==============================
+PIN
+==============================*/
+
+.pin-ajuda {
+  display: block;
+  margin-top: 6px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.85rem;
+}
+
+/* ==============================
+Criar conta
+==============================*/
+
+.criarConta {
   font-family: "Inter", Arial, sans-serif;
   font-size: 1.255rem;
   color: #666;

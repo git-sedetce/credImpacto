@@ -1,94 +1,100 @@
-<section class="login-page">
+<!-- Breadcrumb -->
 
-  <div class="container">
+<div class="breadcrumb-login">
+  sistema >
+  <strong>Resetar Senha</strong>
+</div>
 
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-login">
-      sistema >
-      <strong>Resetar Senha</strong>
-    </div>
+<!-- Cabeçalho -->
 
-    <!-- Cabeçalho -->
-    <div class="text-center mb-5">
+<div class="text-center mb-5">
+  <h1 class="titulo">
+    Nova Senha
+  </h1>
+  <p class="subtitulo">
+    Crie uma nova senha para acessar sua conta na plataforma CredImpacto.
+    A senha deve possuir no mínimo 8 caracteres, contendo letra maiúscula,
+    letra minúscula, número e caractere especial.
+  </p>
+</div>
 
-      <h1 class="titulo">
-        Nova Senha
-      </h1>
+<!-- Card -->
 
-      <p class="subtitulo">
-        Crie uma nova senha para acessar sua conta na plataforma CredImpacto. A senha deve possuir no mínimo 8 caracteres, contendo letra maiúscula, letra minúscula, número e caractere especial.
-      </p>
+<div class="login-card">
+  <form>
+    ```
+    <!-- Email -->
+    <div class="mb-4">
+      <label>
+        Email
+      </label>
 
-    </div>
-
-    <!-- Card -->
-    <div class="login-card">
-
-      <!-- <div class="card-header-login">
-        <span>Informe seus dados</span>
-      </div> -->
-
-      <form>
-
-        <div class="mb-4">
-          <label>Email</label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="fa-solid fa-envelope"></i>
-            </span>
-
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Digite seu e-mail">
-
-          </div>
-
-        </div>
-
-        <div class="mb-4">
-          <label>Senha</label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="fa-solid fa-lock"></i>
-            </span>
-
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Digite sua senha">
-
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <label>Confirmar Senha</label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="fa-solid fa-lock"></i>
-            </span>
-
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Digite sua senha">
-
-          </div>
-        </div>
-
-        <button
-          class="btn btn-login w-100">
-          Nova Senha
-        </button>
-      </form>
-
-      <div class="text-center mt-4 criarConta">
-        Ainda não possui cadastro?
-        <a routerLink="/credimpacto/cadastro">
-          Criar conta
-        </a>
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fa-solid fa-envelope"></i>
+        </span>
+        <input type="email" class="form-control" placeholder="Digite seu e-mail">
       </div>
     </div>
-  </div>
 
-</section>
+    <!-- PIN -->
+    <div class="mb-4">
+      <label>
+        PIN
+      </label>
+
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fa-solid fa-key"></i>
+        </span>
+
+        <input type="text" class="form-control" placeholder="Digite o PIN recebido" inputmode="numeric" maxlength="6"
+          autocomplete="one-time-code">
+      </div>
+      <small class="text-muted pin-ajuda">
+        Informe o PIN de 6 dígitos enviado para seu e-mail.
+      </small>
+    </div>
+
+    <!-- Nova Senha -->
+    <div class="mb-4">
+      <label>
+        Senha
+      </label>
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fa-solid fa-lock"></i>
+        </span>
+        <input type="password" class="form-control" placeholder="Digite sua nova senha" autocomplete="new-password">
+      </div>
+    </div>
+
+    <!-- Confirmar Senha -->
+    <div class="mb-4">
+      <label>
+        Confirmar Senha
+      </label>
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fa-solid fa-lock"></i>
+        </span>
+        <input type="password" class="form-control" placeholder="Confirme sua nova senha" autocomplete="new-password">
+      </div>
+    </div>
+
+    <!-- Botão -->
+    <button type="submit" class="btn btn-login w-100">
+      Nova Senha
+    </button>
+    ```
+
+  </form>
+  <div class="text-center mt-4 criarConta">
+    ```
+    Ainda não possui cadastro?
+    <a routerLink="/credimpacto/cadastro">
+      Criar conta
+    </a>
+    ```
+  </div>
+</div>
