@@ -1,0 +1,15 @@
+<nav class="navbar navbar-light bg-light px-3">
+  <span class="navbar-brand" *ngIf="!authenticated">Bem vindo</span>
+  <span class="navbar-brand" *ngIf="authenticated">Olá {{ user_name }}</span>
+  <div class="d-flex align-items-center gap-2 flex-wrap">
+
+          <ng-container *ngIf="!authenticated">
+            <button routerLink="/newuser" class="btn btn-primary">Cadastre de Administrador</button>
+          </ng-container>
+
+          <ng-container *ngIf="authenticated">
+            <button routerLink="/login" class="btn btn-danger" (click)="logout()">Sair</button>
+          </ng-container>
+
+        </div>
+</nav>

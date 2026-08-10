@@ -1,0 +1,33 @@
+<div class="sidebar" [class.collapsed]="collapsed">
+
+  <div class="sidebar-header">
+    <span *ngIf="!collapsed">Sistema</span>
+    <button (click)="toggleSidebar()">
+      <i class="fa" [ngClass]="collapsed ? 'fa-bars' : 'fa-times'"></i>
+    </button>
+  </div>
+
+  <ul class="menu">
+
+    <ng-container *ngFor="let item of menu">
+      <li *ngIf="hasAccess(item)">
+
+        <div class="menu-item" [class.active]="isParentActive(item.children)" (click)="toggleMenu(item.label)">
+          <i class=" pe-3 fa" [ngClass]="item.icon"></i>
+          <span *ngIf="!collapsed">{{ item.label }}</span>
+          <i class="fa fa-chevron-down ms-auto" [class.rotate]="menuOpen[item.label]" *ngIf="!collapsed"></i>
+        </div>
+
+        <ul class="submenu" *ngIf="menuOpen[item.label] && !collapsed">
+          <li *ngFor="let sub of item.children">
+            <a [routerLink]="sub.route" [class.active]="isActive(sub.route)">
+              {{ sub.label }}
+            </a>
+          </li>
+        </ul>
+
+      </li>
+    </ng-container>
+
+  </ul>
+</div>

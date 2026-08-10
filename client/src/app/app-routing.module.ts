@@ -6,6 +6,7 @@ import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.compon
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { LoginComponent } from './componentes/sistema/login/login.component';
 import { ResetSenhaComponent } from './componentes/sistema/reset-senha/reset-senha.component';
+import { MenuLateralComponent } from './layouts/menu-lateral/menu-lateral.component';
 
 const routes: Routes = [
   // Layout sem Header/Footer
@@ -55,6 +56,21 @@ const routes: Routes = [
       },
     ],
   },
+
+  // Layout com Menu Lateral
+  // {
+  //   path: '',
+  //   component: MenuLateralComponent,
+  //   children: [
+  //     {
+  //       path: 'admin',
+  //       loadChildren: () =>
+  //         import('./componentes/admin/admin.module').then(
+  //           (ml) => ml.AdminModule,
+  //         ),
+  //     },
+  //   ],
+  // },
 
   {
     path: '**',
