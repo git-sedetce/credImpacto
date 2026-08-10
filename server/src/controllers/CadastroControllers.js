@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require('crypto');
 
 class CadastroControllers {
   static async registerCompleto(req, res) {
@@ -42,7 +43,7 @@ class CadastroControllers {
       const dados = JSON.parse(req.body.dados);
       const salt = await bcrypt.genSalt(10);
       dados.password = await bcrypt.hash(dados.password, salt);
-      dados.user_pin = Math.floor(10000 + Math.random() * 90000).toString();
+      dados.user_pin = crypto.randomInt(100000, 1000000).toString();
       dados.user_active = false;
 
       delete dados.rg;
