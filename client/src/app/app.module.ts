@@ -13,6 +13,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './componentes/sistema/login/login.component';
 import { ResetSenhaComponent } from './componentes/sistema/reset-senha/reset-senha.component';
+import { CpfMaskDirective } from './componentes/sistema/login/directives/cpf-mask.directive';
+import { CpfOrEmailValidatorDirective } from './componentes/sistema/login/directives/cpf-or-email-validator.directive';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { ResetSenhaComponent } from './componentes/sistema/reset-senha/reset-sen
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    CpfMaskDirective,
+    CpfOrEmailValidatorDirective
   ],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent]

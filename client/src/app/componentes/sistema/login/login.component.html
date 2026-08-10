@@ -10,17 +10,13 @@
 
     <!-- Cabeçalho -->
     <div class="text-center mb-5">
-
       <h1 class="titulo">
         Acesse sua conta
       </h1>
 
       <p class="subtitulo">
-        Faça login para continuar utilizando a plataforma
-        CredImpacto e acompanhar seus diagnósticos,
-        inscrições e projetos.
+        Faça login para continuar utilizando a plataforma CredImpacto e acompanhar seus diagnósticos, inscrições e projetos.
       </p>
-
     </div>
 
     <!-- Card -->
@@ -30,38 +26,40 @@
         <span>Informe seus dados</span>
       </div> -->
 
-      <form>
-
+      <form #formLogin="ngForm">
         <div class="mb-4">
-          <label>Email</label>
+          <label>
+            Email ou CPF
+          </label>
           <div class="input-group">
             <span class="input-group-text">
               <i class="fa-solid fa-envelope"></i>
             </span>
-
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Digite seu e-mail">
-
+            <input type="text" class="form-control" placeholder="Digite seu e-mail ou CPF" appCpfMask appCpfOrEmailValidator name="emailCpf" [(ngModel)]="loginUsers.user" #emailCpf="ngModel" required>
           </div>
-
+          <div class="invalid-feedback d-block" *ngIf="emailCpf.invalid && emailCpf.touched">
+            <span *ngIf="emailCpf.errors?.['required']">
+              E-mail ou CPF é obrigatório.
+            </span>
+            <span *ngIf="emailCpf.errors?.['invalidCpfOrEmail']">
+              Informe um e-mail ou CPF válido.
+            </span>
+          </div>
         </div>
 
         <div class="mb-4">
-          <label>Senha</label>
+          <label>
+            Senha
+          </label>
           <div class="input-group">
             <span class="input-group-text">
               <i class="fa-solid fa-lock"></i>
             </span>
-
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Digite sua senha">
-
+            <input type="password" class="form-control" placeholder="Digite sua senha" name="password" [(ngModel)]="loginUsers.password" #password="ngModel" required>
           </div>
-
+          <div class="invalid-feedback d-block" *ngIf="password.invalid && password.touched">
+            Senha é obrigatória.
+          </div>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -72,12 +70,13 @@
             </label>
           </div>
 
-          <a routerLink="resetsenha">
+          <a class="forgot-password-link" data-bs-toggle="modal" data-bs-target="#modalReset">
             Esqueci minha senha
           </a>
         </div>
-        <button
-          class="btn btn-login w-100">
+
+
+        <button type="submit" class="btn btn-login w-100" [disabled]="formLogin.invalid">
           Entrar
         </button>
       </form>
@@ -92,3 +91,64 @@
   </div>
 
 </section>
+
+<!--Modal de gerar Pin-->
+
+<div class="modal fade" id="modalReset" tabindex="-1" aria-labelledby="modalResetLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content modal-reset-content">
+
+      <!-- HEADER -->
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-semibold" id="modalResetLabel">
+          Recuperação de Senha
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+        <p class="modal-reset-text mb-4">
+          Informe o e-mail ou CPF utilizado no cadastro para gerar o PIN de acesso.
+        </p>
+
+        <form #formReset="ngForm">
+          <div class="mb-4">
+            <label for="user_email_reset" class="form-label">
+              E-mail ou CPF
+            </label>
+
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fa-solid fa-envelope"></i>
+              </span>
+              <input type="text" id="user_email_reset" name="user_email_reset" class="form-control"
+                placeholder="exemplo@email.com ou 123.456.789-00" appCpfMask appCpfOrEmailValidator
+                [(ngModel)]="loginUsers.user" [ngModelOptions]="{ updateOn: 'blur' }" #user_email="ngModel" required />
+            </div>
+
+            <div class="invalid-feedback d-block" *ngIf="user_email.invalid && user_email.touched">
+              <span *ngIf="user_email.errors?.['required']">
+                E-mail ou CPF é obrigatório.
+              </span>
+              <span *ngIf="user_email.errors?.['invalidCpfOrEmail']">
+                Informe um e-mail ou CPF válido.
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer border-0 d-flex flex-column flex-sm-row gap-2">
+        <button type="button" class="btn btn-outline-secondary w-100" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+
+        <button type="button" class="btn btn-login w-100" [disabled]="formReset.invalid" (click)="gerarPin()">
+          Gerar PIN
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
