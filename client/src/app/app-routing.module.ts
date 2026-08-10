@@ -58,19 +58,19 @@ const routes: Routes = [
   },
 
   // Layout com Menu Lateral
-  // {
-  //   path: '',
-  //   component: MenuLateralComponent,
-  //   children: [
-  //     {
-  //       path: 'admin',
-  //       loadChildren: () =>
-  //         import('./componentes/admin/admin.module').then(
-  //           (ml) => ml.AdminModule,
-  //         ),
-  //     },
-  //   ],
-  // },
+  {
+    path: '',
+    component: MenuLateralComponent,
+    children: [
+      {
+        path: 'admin',
+        loadChildren: () =>
+          import('./componentes/admin/admin.module').then(
+            (ml) => ml.AdminModule,
+          ),
+      },
+    ],
+  },
 
   {
     path: '**',
