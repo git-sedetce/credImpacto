@@ -14,6 +14,8 @@ import { min } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Cidade } from '../../../model/cidade.model';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro',
@@ -66,6 +68,7 @@ export class CadastroComponent implements OnInit {
     private fb: FormBuilder,
     private cadastroService: CadastroService,
     private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -128,7 +131,8 @@ export class CadastroComponent implements OnInit {
       },
       {
         validators: this.passwordMatchValidator(),
-      });
+      },
+    );
   }
 
   /*===================================
@@ -486,6 +490,14 @@ export class CadastroComponent implements OnInit {
   submit(): void {
     if (this.cadastroForm.invalid) {
       this.markFields();
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Atenção!',
+        text: 'Verifique os campos obrigatórios antes de enviar o cadastro.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#198754',
+      });
       return;
     }
 
@@ -503,7 +515,14 @@ export class CadastroComponent implements OnInit {
       error: (erro) => {
         console.error(erro);
         this.loading = false;
-        alert('Erro ao enviar cadastro.');
+        // alert('Erro ao enviar cadastro.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro no cadastro!',
+          text: 'Não foi possível realizar o cadastro. Verifique os dados e tente novamente.',
+          confirmButtonText: 'Tentar novamente',
+          confirmButtonColor: '#dc3545',
+        });
       },
     });
   }
@@ -524,9 +543,19 @@ export class CadastroComponent implements OnInit {
       case HttpEventType.Response:
         this.loading = false;
         this.progress = 100;
-        alert('Cadastro realizado com sucesso!');
+        // alert('Cadastro realizado com sucesso!');
 
-        this.resetFormulario();
+        Swal.fire({
+          icon: 'success',
+          title: 'Cadastro realizado!',
+          text: 'Seu cadastro foi realizado com sucesso.',
+          confirmButtonText: 'Continuar',
+          confirmButtonColor: '#198754',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        }).then(() => {
+          this.resetFormulario();
+        });
         break;
     }
   }
@@ -546,6 +575,7 @@ export class CadastroComponent implements OnInit {
     this.rgFile = undefined;
     this.cnpjFile = undefined;
     this.fotos = [];
+    this.router.navigate(['/login']);
   }
 
   /*===================================

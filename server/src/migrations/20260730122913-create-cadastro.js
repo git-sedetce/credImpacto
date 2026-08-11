@@ -38,7 +38,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       user_pin: {
-        type: Sequelize.STRING(5),
+        type: Sequelize.STRING(6),
         allowNull: false,
       },
       profile_id: {
