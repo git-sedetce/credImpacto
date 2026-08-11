@@ -25,6 +25,16 @@ export class LoginComponent implements OnInit {
     this.loginUsers = new LoginUser()
   }
 
+  login(): void {
+    // this.loginUsers.password = this.serviceUser.CriptografarMD5(this.loginUsers.password)
+    console.log('loginUser', this.loginUsers)
+    this.serviceUser.login(this.loginUsers).subscribe({
+      next: (res) => res,
+      error: (e) => (this.toastr.error(e.error.message), this.formLogin.reset())
+    })
+
+  }
+
   gerarPin(){
     this.serviceUser.resetPin(this.loginUsers).subscribe(
       () =>{

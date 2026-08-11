@@ -116,6 +116,7 @@ class UserController {
 
   static async login(req, res) {
     const user = req.body;
+    console.log('user', user)
 
     try {
       // Verifica se foi informado email ou CPF
