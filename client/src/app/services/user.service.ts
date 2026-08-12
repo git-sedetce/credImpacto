@@ -65,7 +65,10 @@ export class UserService {
   // ------ AUTENTICAÇÃO ------ //
 
   login(data: any): Observable<any> {
-    return this.http.post<any>(environment.apiUrl + 'login', data).pipe(
+    // Transforma o campo email/cpf para o formato esperado pelo backend
+    const loginData = this.transformLoginData(data);
+    
+    return this.http.post<any>(environment.apiUrl + 'login', loginData).pipe(
       tap((response) => {
         localStorage.setItem('access_token', response.token);
         const decoded = jwtDecode(response.token);
@@ -74,6 +77,27 @@ export class UserService {
         this.router.navigate(['/admin']);
       }),
     );
+  }
+
+  private transformLoginData(data: any): any {
+    const transformedData = { ...data };
+    
+    // Se o campo é email, mantém como email; se é CPF, transforma para cpf
+    if (data.email) {
+      const emailOrCpf = data.email;
+      
+      // Verifica se é um email (contém @) ou um CPF
+      if (emailOrCpf.includes('@')) {
+        transformedData.email = emailOrCpf;
+        delete transformedData.cpf;
+      } else {
+        // Se não tem @, assume que é CPF
+        transformedData.cpf = emailOrCpf;
+        delete transformedData.email;
+      }
+    }
+    
+    return transformedData;
   }
 
   logout() {
@@ -85,6 +109,8 @@ export class UserService {
   // ------ REQUISIÇÕES ------ //
 
   resetPin(data: any): Observable<any> {
-    return this.http.post(environment.apiUrl + 'newPin', data);
+    // Transforma o campo email/cpf para o formato esperado pelo backend
+    const loginData = this.transformLoginData(data);
+    return this.http.post(environment.apiUrl + 'newPin', loginData);
   }
 }
