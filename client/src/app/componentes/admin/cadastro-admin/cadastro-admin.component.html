@@ -1,0 +1,456 @@
+<section class="cadastro-section">
+  <div class="container">
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <small class="breadcrumb-custom">
+          credimpacto >
+          <strong>Cadastro</strong>
+        </small>
+        <h1 class="titulo">
+          Realizar Cadastro
+        </h1>
+      </div>
+    </div>
+
+
+    <!-- =====================================================
+         CARD
+    ====================================================== -->
+
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-9">
+        <div class="cadastro-card">
+          <div class="conteudo">
+            <form [formGroup]="cadastroForm" (ngSubmit)="submit()" novalidate>
+
+              <!-- =====================================================
+                   TÍTULO
+              ====================================================== -->
+
+              <div class="form-header">
+                <h3>
+                  <strong>Cadastro</strong> - Identificação
+                </h3>
+                <p>
+                  Preencha os dados abaixo para realizar seu cadastro.
+                </p>
+              </div>
+
+
+              <!-- =====================================================
+                   DADOS PESSOAIS
+              ====================================================== -->
+
+              <div class="section-title">
+                <i class="fa-solid fa-user"></i>
+                <span>
+                  Dados pessoais
+                </span>
+              </div>
+
+              <div class="row">
+                <!-- NOME -->
+
+                <div class="col-md-12 mb-3">
+                  <label for="nome_responsavel">
+                    Nome completo
+                  </label>
+                  <input id="nome_responsavel" type="text" class="form-control" formControlName="nome_responsavel"
+                    placeholder="Digite seu nome completo">
+                  @if(
+                  f['nome_responsavel'].touched &&
+                  f['nome_responsavel'].invalid
+                  ){
+                  <div class="invalid-feedback-custom">
+                    Informe seu nome completo.
+                  </div>
+                  }
+                </div>
+
+                <!-- CPF -->
+                <div class="col-md-6 mb-3">
+                  <label for="cpf">
+                    CPF
+                  </label>
+                  <input id="cpf" type="text" appCpfMask class="form-control" formControlName="cpf"
+                    placeholder="000.000.000-00" (blur)="
+                      consultaCPF(
+                        cadastroForm.get('cpf')?.value,
+                        cadastroForm
+                      )
+                    ">
+                  @if(
+                  f['cpf'].touched &&
+                  f['cpf'].invalid
+                  ){
+                  <div class="text-danger mt-1">
+                    CPF obrigatório.
+                  </div>
+                  }
+                </div>
+
+                <!-- TELEFONE -->
+                <div class="col-md-6 mb-3">
+                  <label for="telefone">
+                    WhatsApp
+                  </label>
+                  <input id="telefone" type="text" class="form-control" formControlName="telefone" appTelefoneMascara
+                    appTelefoneValidacao placeholder="(00) 00000-0000">
+                  @if(
+                  f['telefone'].touched &&
+                  f['telefone'].errors?.['required']
+                  ){
+                  <div class="text-danger mt-1">
+                    Telefone obrigatório.
+                  </div>
+                  }
+                  @if(
+                  f['telefone'].touched &&
+                  f['telefone'].errors?.['telefoneInvalido']
+                  ){
+                  <div class="text-danger mt-1">
+                    Telefone inválido.
+                  </div>
+                  }
+                </div>
+
+                <!-- EMAIL -->
+                <div class="col-md-12 mb-3">
+                  <label for="email">
+                    E-mail
+                  </label>
+                  <input id="email" type="email" class="form-control" formControlName="email"
+                    placeholder="seuemail@exemplo.com" (blur)="
+                      consultaEmail(
+                        cadastroForm.get('email')?.value,
+                        cadastroForm
+                      )
+                    ">
+                  @if(
+                  f['email'].touched &&
+                  f['email'].invalid
+                  ){
+                  <div class="text-danger mt-1">
+                    @if(f['email'].errors?.['required']){
+                    E-mail obrigatório.
+                    }
+                    @if(f['email'].errors?.['email']){
+                    Informe um e-mail válido.
+                    }
+                  </div>
+                  }
+                </div>
+              </div>
+
+
+              <!-- =====================================================
+                   PERFIL
+              ====================================================== -->
+
+              <div class="section-title">
+                <i class="fa-solid fa-id-card"></i>
+                <span>
+                  Perfil de acesso
+                </span>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 mb-3">
+                  <label for="profile_id">
+                    Perfil
+                  </label>
+                  <select id="profile_id" class="form-select" formControlName="profile_id">
+                    <option value="">
+                      Selecione um perfil
+                    </option>
+                    @for(
+                    profile of profile_list;
+                    track profile.id
+                    ){
+                    <option [value]="profile.id">
+                      {{ profile.perfil }}
+                    </option>
+                    }
+                  </select>
+                  @if(
+                  f['profile_id'].touched &&
+                  f['profile_id'].invalid
+                  ){
+                  <div class="text-danger mt-1">
+                    Selecione um perfil.
+                  </div>
+                  }
+                </div>
+              </div>
+
+
+              <!-- =====================================================
+                   SENHA
+              ====================================================== -->
+              <div class="section-title">
+                <i class="fa-solid fa-lock"></i>
+                <span>
+                  Segurança
+                </span>
+              </div>
+              <div class="row">
+
+                <!-- SENHA -->
+
+                <div class="col-md-6 mb-3">
+                  <label for="password">
+                    Senha
+                  </label>
+                  <input id="password" type="password" class="form-control" formControlName="password"
+                    placeholder="Digite sua senha">
+                  @if(
+                  f['password'].touched &&
+                  f['password'].errors
+                  ){
+                  <div class="text-danger mt-1">
+                    @if(
+                    f['password'].errors['required']
+                    ){
+                    <small>
+                      A senha é obrigatória.
+                    </small>
+                    }
+                    @if(
+                    f['password'].errors['pattern']
+                    ){
+                    <small>
+                      A senha deve possuir no mínimo 8 caracteres,
+                      contendo letra maiúscula, letra minúscula,
+                      número e caractere especial.
+                    </small>
+                    }
+                  </div>
+                  }
+                </div>
+
+
+                <!-- CONFIRMAR SENHA -->
+
+                <div class="col-md-6 mb-3">
+                  <label for="confirm_password">
+                    Confirmar senha
+                  </label>
+                  <input id="confirm_password" type="password" class="form-control" formControlName="confirm_password"
+                    placeholder="Confirme sua senha">
+                  @if(
+                  f['confirm_password'].touched
+                  ){
+                  <div class="text-danger mt-1">
+                    @if(
+                    f['confirm_password'].errors?.['required']
+                    ){
+
+                    <small>
+                      A confirmação da senha é obrigatória.
+                    </small>
+                    }
+                    @if(
+                    cadastroForm.errors?.['passwordMismatch'] &&
+                    !f['confirm_password'].errors?.['required']
+                    ){
+                    <small>
+                      As senhas não coincidem.
+                    </small>
+                    }
+                  </div>
+                  }
+                </div>
+              </div>
+
+
+              <!-- =====================================================
+                   ENDEREÇO
+              ====================================================== -->
+
+              <div class="section-title">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>
+                  Endereço
+                </span>
+              </div>
+              <div class="row">
+
+
+                <!-- CEP -->
+
+                <div class="col-md-4 mb-3">
+                  <label for="cep">
+                    CEP
+                  </label>
+                  <input id="cep" type="text" appCepMascara class="form-control" formControlName="cep"
+                    placeholder="00000-000" (blur)="buscarCEP()">
+                  @if(
+                  f['cep'].touched &&
+                  f['cep'].invalid
+                  ){
+                  <div class="text-danger mt-1">
+                    Informe um CEP válido.
+                  </div>
+                  }
+                </div>
+
+
+                <!-- CIDADE -->
+
+                <div class="col-md-8 mb-3">
+                  <label for="cidade">
+                    Cidade
+                  </label>
+                  <select id="cidade" class="form-select" formControlName="cidade">
+                    <option [ngValue]="null">
+                      Selecione uma cidade
+                    </option>
+                    @for(
+                    city of city_list;
+                    track city.id
+                    ){
+                    <option [ngValue]="city.id">
+                      {{ city.nome_municipio }}
+                    </option>
+                    }
+
+                  </select>
+                  @if(
+                  f['cidade'].touched &&
+                  f['cidade'].invalid
+                  ){
+                  <div class="text-danger mt-1">
+                    Selecione uma cidade.
+                  </div>
+                  }
+                </div>
+
+
+                <!-- BAIRRO -->
+
+                <div class="col-md-5 mb-3">
+                  <label for="bairro">
+                    Bairro
+                  </label>
+                  <input id="bairro" type="text" class="form-control" formControlName="bairro"
+                    placeholder="Digite o bairro">
+                </div>
+
+
+                <!-- RUA -->
+                <div class="col-md-7 mb-3">
+                  <label for="rua">
+                    Rua
+                  </label>
+                  <input id="rua" type="text" class="form-control" formControlName="rua" placeholder="Digite a rua">
+                </div>
+
+
+                <!-- NÚMERO -->
+
+                <div class="col-md-4 mb-3">
+                  <label for="numero">
+                    Número
+                  </label>
+                  <input id="numero" type="text" class="form-control" formControlName="numero" placeholder="Número">
+                </div>
+
+
+                <!-- COMPLEMENTO -->
+
+                <div class="col-md-8 mb-3">
+                  <label for="complemento">
+                    Complemento
+                  </label>
+
+                  <input id="complemento" type="text" class="form-control" formControlName="complemento"
+                    placeholder="Apartamento, sala, bloco, etc.">
+
+                </div>
+
+              </div>
+
+
+              <!-- =====================================================
+                   DECLARAÇÃO
+              ====================================================== -->
+
+              <div class="declaracao">
+                <div class="declaracao-header">
+                  <i class="fa-solid fa-circle-check"></i>
+                  <h5>
+                    Declaração
+                  </h5>
+                </div>
+
+                <p>
+                  Declaro que todas as informações apresentadas são verdadeiras e estou ciente das condições do cadastro.
+                </p>
+
+
+                <div class="form-check">
+                  <input id="aceite_termos" type="checkbox" class="form-check-input" formControlName="aceite_termos">
+                  <label for="aceite_termos" class="form-check-label">
+                    Estou ciente e concordo com os termos.
+                  </label>
+                </div>
+
+                @if(
+                f['aceite_termos'].touched &&
+                f['aceite_termos'].invalid
+                ){
+
+                <div class="text-danger mt-2">
+                  Você precisa aceitar a declaração.
+                </div>
+                }
+              </div>
+
+              <!-- =====================================================
+                   PROGRESSO
+              ====================================================== -->
+
+              @if(loading){
+
+              <div class="upload-progress">
+                <div class="progress">
+                  <div class="progress-bar" [style.width.%]="progress">
+                    {{ progress }}%
+                  </div>
+                </div>
+              </div>
+              }
+
+              <!-- =====================================================
+                   BOTÃO
+              ====================================================== -->
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary-custom" [disabled]="loading">
+                  @if(!loading){
+                  <span>
+                    <i class="fa-solid fa-check me-2"></i>
+                    Realizar cadastro
+                  </span>
+                  }
+
+                  @if(loading){
+                  <span>
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Cadastrando...
+                  </span>
+                  }
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

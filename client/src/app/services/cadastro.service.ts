@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
+import { Cadastro } from '../model/cadastro.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,10 @@ export class CadastroService {
     });
   }
 
+  salvarAdmin(data: Cadastro) {
+    return this.http.post(environment.apiUrl + 'registeradmin', data);
+  }
+
   consultarCPF(cpf: string): Observable<any> {
     return this.http.get(environment.apiUrl + 'consultacpf/' + cpf);
   }
@@ -35,5 +40,9 @@ export class CadastroService {
 
   consultarEmail(email: string): Observable<any> {
     return this.http.get(environment.apiUrl + 'consultaemail/' + email);
+  }
+
+  getProfiles(metodo: string): Observable<any> {
+    return this.http.get(environment.apiUrl + metodo);
   }
 }

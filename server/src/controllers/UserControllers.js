@@ -6,6 +6,104 @@ const { Op } = require("sequelize");
 const crypto = require("crypto");
 
 class UserController {
+  static async registerAdmin(req, res) {
+    const t = await database.sequelize.transaction();
+
+    try {
+      /*====================================================
+      1 - DADOS DO CADASTRO
+    ====================================================*/
+
+      const dados = { ...req.body };
+
+      /*====================================================
+      2 - VALIDAR SENHA
+    ====================================================*/
+
+      if (!dados.password) {
+        await t.rollback();
+
+        return res.status(400).json({
+          message: "A senha é obrigatória.",
+        });
+      }
+
+      /*====================================================
+      3 - VALIDAR CONFIRMAÇÃO DA SENHA
+    ====================================================*/
+
+      if (dados.password !== dados.confirm_password) {
+        await t.rollback();
+
+        return res.status(400).json({
+          message: "As senhas não coincidem.",
+        });
+      }
+
+      /*====================================================
+      4 - REMOVER CONFIRMAÇÃO DA SENHA
+    ====================================================*/
+
+      delete dados.confirm_password;
+
+      /*====================================================
+      5 - CRIPTOGRAFAR SENHA
+    ====================================================*/
+
+      const salt = await bcrypt.genSalt(10);
+
+      dados.password = await bcrypt.hash(dados.password, salt);
+
+      /*====================================================
+      6 - GERAR PIN
+    ====================================================*/
+
+      dados.user_pin = crypto.randomInt(100000, 1000000).toString();
+
+      /*====================================================
+      7 - ATIVAR USUÁRIO
+    ====================================================*/
+
+      dados.user_active = true;
+
+      /*====================================================
+      8 - CRIAR CADASTRO
+    ====================================================*/
+
+      const novoCadastro = await database.Cadastro.create(dados, {
+        transaction: t,
+      });
+
+      /*====================================================
+      9 - COMMIT
+    ====================================================*/
+
+      await t.commit();
+
+      /*====================================================
+      10 - RESPOSTA
+    ====================================================*/
+
+      const cadastroResponse = novoCadastro.toJSON();
+
+      delete cadastroResponse.password;
+
+      return res.status(201).json({
+        message: "Cadastro realizado com sucesso.",
+
+        cadastro: cadastroResponse,
+      });
+    } catch (error) {
+      await t.rollback();
+
+      console.error("Erro ao cadastrar usuário:", error);
+
+      return res.status(500).json({
+        message: error.message || "Erro ao realizar cadastro.",
+      });
+    }
+  }
+
   static async gerarPin(req, res) {
     const user = req.body;
 
@@ -116,7 +214,7 @@ class UserController {
 
   static async login(req, res) {
     const user = req.body;
-    console.log('user', user)
+    console.log("user", user);
 
     try {
       // Verifica se foi informado email ou CPF
@@ -248,6 +346,20 @@ class UserController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Erro ao buscar usuários" });
+    }
+  }
+
+  static async pegarPerfils(req, res) {
+    try {
+      const getProfiles = await database.Profile.findAll({
+        order: [["id", "ASC"]],
+        attributes: ["id", "perfil"],
+      });
+
+      return res.status(200).json(getProfiles);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar perfis" });
     }
   }
 
