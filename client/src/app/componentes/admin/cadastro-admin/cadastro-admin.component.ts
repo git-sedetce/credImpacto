@@ -75,7 +75,6 @@ export class CadastroAdminComponent implements OnInit {
         cpf: ['', Validators.required],
         telefone: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        cnpj: ['', Validators.required],
         password: [
           '',
           [Validators.required, Validators.pattern(this.passwordPtn)],
@@ -88,7 +87,6 @@ export class CadastroAdminComponent implements OnInit {
         rua: ['', Validators.required],
         numero: ['', Validators.required],
         complemento: [''],
-        aceite_termos: [false, Validators.requiredTrue],
       },
       {
         validators: this.passwordMatchValidator(),
@@ -222,17 +220,6 @@ export class CadastroAdminComponent implements OnInit {
   }
 
   /*===================================
-      MARCAR CAMPOS
-  ===================================*/
-
-  markFields(): void {
-    Object.values(this.cadastroForm.controls).forEach((control) => {
-      control.markAsTouched();
-      control.updateValueAndValidity();
-    });
-  }
-
-  /*===================================
       MODEL
   ===================================*/
 
@@ -249,8 +236,7 @@ export class CadastroAdminComponent implements OnInit {
   ===================================*/
 
   submit(): void {
-    if (!this.validarFormulario()) {
-      this.markFields();
+    if (this.cadastroForm.invalid) {
 
       Swal.fire({
         icon: 'warning',
@@ -307,9 +293,6 @@ export class CadastroAdminComponent implements OnInit {
   private resetFormulario(): void {
     this.cadastro = new Cadastro();
     this.cadastroForm.reset();
-    this.cadastroForm.patchValue({
-      aceite_termos: false,
-    });
 
     this.router.navigate(['/login']);
   }

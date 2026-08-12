@@ -15,6 +15,7 @@ class UserController {
     ====================================================*/
 
       const dados = { ...req.body };
+      dados.aceite_termos = false;
 
       /*====================================================
       2 - VALIDAR SENHA

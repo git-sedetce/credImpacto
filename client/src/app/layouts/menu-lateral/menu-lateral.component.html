@@ -1,11 +1,27 @@
-<div class="d-flex">
-  <app-sidebar></app-sidebar>
+<div class="layout">
 
-  <div class="flex-grow-1">
-    <app-header-admin></app-header-admin>
+  <!-- MENU LATERAL -->
+  <aside class="sidebar">
+    <app-sidebar></app-sidebar>
+  </aside>
 
-    <div class="container mt-3">
+  <!-- ÁREA PRINCIPAL -->
+  <div class="main-area">
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+      <app-header-admin></app-header-admin>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <main class="content">
       <router-outlet></router-outlet>
-    </div>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="footer">
+      <app-footer></app-footer>
+    </footer>
   </div>
+
 </div>
