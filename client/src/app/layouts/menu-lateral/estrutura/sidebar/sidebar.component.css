@@ -1,67 +1,189 @@
 .sidebar {
   width: 250px;
-  height: 161vh;
-  background: #2f353a;
-  color: white;
+  min-height: 100vh;
+  height: 100%;
+  background: #003c71;
+  color: #fff;
   transition: width 0.3s ease;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
 }
+
+/* ================================
+   SIDEBAR RECOLHIDA
+================================ */
 
 .sidebar.collapsed {
   width: 70px;
 }
 
+/* ================================
+   CABEÇALHO
+================================ */
+
 .sidebar-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
+  background-color: #003c71;
+  color: #fff;
+  border-bottom: 1px solid rgba(255,255,255,0.15)
 }
 
-.menu-item.active {
-  background: #0d6efd;
-  color: white;
+.sidebar-header span {
+  font-weight: 600;
+  font-size: 1.125rem;
+  font-family: "Inter", Arial, sans-serif;
 }
 
-.submenu li a.active {
-  color: #0d6efd;
-  font-weight: bold;
+.sidebar-header button {
+  border: none;
+  background: transparent;
+  color: #FFF;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
-.submenu li a.active::before {
-  content: '• ';
+.sidebar-header button:hover {
+  color: #c4d332;
 }
 
-.rotate {
-  transform: rotate(180deg);
-  transition: 0.3s;
-}
+/* ================================
+   MENU
+================================ */
 
 .menu {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
+
+/* ================================
+   ITEM DO MENU
+================================ */
 
 .menu-item {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 12px 15px;
+  color: #FFF;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .menu-item:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(0, 171, 189, 0.25);
+  color: #FFF;
 }
+
+/* ================================
+   ITEM ATIVO
+================================ */
+
+.menu-item.active {
+  background: #00abbd;
+  color: #fff;
+  border-left: 4px solid #c4d332;
+}
+
+/* ================================
+   ÍCONES
+================================ */
+
+.MENU-ITEM I {
+  min-width: 25px;
+  text-align: center;
+}
+
+.menu-item > sapn {
+  margin-left: 5px;
+}
+
+/* ================================
+   SUBMENU
+================================ */
 
 .submenu {
   list-style: none;
-  padding-left: 20px;
+  padding: 5px 0 5px 25px;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.12);
   animation: fadeIn 0.3s ease;
 }
 
 .submenu li a {
   display: block;
-  padding: 6px 0;
-  color: #ccc;
+  padding: 8px 10px;
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.submenu li a:hover {
+  background: rgba(0, 171, 189, 0.25);
+  color: #fff;
+}
+
+/* ================================
+   SUBMENU ATIVO
+================================ */
+
+.submenu li a.active {
+  color: #c4d332;
+  font-weight: 600;
+}
+
+.submenu li a.active::before {
+  content: '• ';
+  color: #c4d332
+}
+
+/* ================================
+   SETA
+================================ */
+
+.rotate {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+/* ================================
+   ANIMAÇÃO
+================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   SCROLLBAR
+================================ */
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #003c71;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #00abbd;
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #c4d332;
 }
