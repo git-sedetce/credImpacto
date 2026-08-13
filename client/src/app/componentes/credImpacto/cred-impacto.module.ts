@@ -18,6 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { CpfMaskDirective } from './directives/cpf-mask.directive';
 import { CnpjMaskDirective } from './directives/cnpj-mask.directive';
 import { CnpjValidacaoDirective } from './directives/cnpj-validacao.directive';
+import { EditarDadosComponent } from './editar-dados/editar-dados.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CnpjValidacaoDirective } from './directives/cnpj-validacao.directive';
     CepMascaraDirective,
     CpfMaskDirective,
     CnpjMaskDirective,
-    CnpjValidacaoDirective
+    CnpjValidacaoDirective,
+    EditarDadosComponent
   ],
   imports: [
     CommonModule,

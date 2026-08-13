@@ -7,6 +7,7 @@ import { NegociosImpactoComponent } from './negocios-impacto/negocios-impacto.co
 import { FaqComponent } from './faq/faq.component';
 import { FaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 import { CadastroComponent } from './cadastro/cadastro.component';
+import { EditarDadosComponent } from './editar-dados/editar-dados.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'cadastro',
     component: CadastroComponent
+  },
+  {
+    path: 'editdados',
+    component: EditarDadosComponent
   }
 ];
 
