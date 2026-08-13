@@ -1,59 +1,114 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
+
+interface TokenPayload {
+  _id: number;
+  _profile_id: number;
+  _user_name: string;
+  iat: number;
+  exp: number;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly TOKEN_KEY = 'access_token';
-  private readonly USER_KEY = 'current_user';
 
   constructor(
     private http: HttpClient,
     private router: Router,
   ) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http
-      .post<any>('http://localhost:1426/api/login', {
-        email,
-        password,
-      })
-      .pipe(
-        tap((response) => {
-          localStorage.setItem(this.TOKEN_KEY, response.token);
-
-          localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
-        }),
-      );
-  }
-
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
-
-    this.router.navigate(['/login']);
-  }
-
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  getUser(): any | null {
-    const user = localStorage.getItem(this.USER_KEY);
-
-    return user ? JSON.parse(user) : null;
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+  getTokenPayload(): TokenPayload | null {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+    try {
+      return jwtDecode<TokenPayload>(token);
+    } catch (error) {
+      console.error(`Token Inválido: `, error);
+      return null;
+    }
   }
 
   getPerfil(): number | null {
-    const user = this.getUser();
+    const payload = this.getTokenPayload();
 
-    return user ? Number(user.perfil) : null;
+    if (!payload) {
+      return null;
+    }
+
+    return Number(payload._profile_id);
+  }
+
+  isAuthenticated(): boolean {
+    const payload = this.getTokenPayload();
+
+    if (!payload) {
+      return false;
+    }
+
+    const agora = Math.floor(Date.now() / 1000);
+
+    return payload.exp > agora;
+  }
+
+  redirecionarPorPerfil(): void {
+    const perfil = this.getPerfil();
+
+    switch (perfil) {
+      // Admin
+      case 1:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Gestão
+      case 2:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Suporte
+      case 3:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Supervisão
+      case 4:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Agente
+      case 5:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Conformidade
+      case 6:
+        this.router.navigate(['/home']);
+        break;
+
+      // Cliente
+      case 7:
+        this.router.navigate(['/credimpacto/editdados']);
+        break;
+
+      default:
+        this.router.navigate(['/login']);
+        break;
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    this.router.navigate(['/login']);
   }
 }

@@ -247,6 +247,8 @@ class UserController {
         },
       });
 
+      console.log('USER', verificaUser)
+
       // Usuário não encontrado
       if (!verificaUser) {
         return res.status(404).send({
@@ -273,14 +275,13 @@ class UserController {
         {
           _id: verificaUser.id,
           _profile_id: verificaUser.profile_id,
-          _user_name: verificaUser.user_name,
+          _user_name: verificaUser.nome_responsavel,
         },
         process.env.ACCESS_TOKEN,
         {
           expiresIn: "8h",
         },
-      );
-
+      );      
       return res.json({
         auth: true,
         token: token,
