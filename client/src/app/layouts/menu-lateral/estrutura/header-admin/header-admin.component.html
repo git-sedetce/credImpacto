@@ -1,15 +1,39 @@
-<nav class="navbar navbar-light bg-light px-3">
-  <span class="navbar-brand" *ngIf="!authenticated">Bem vindo</span>
-  <span class="navbar-brand" *ngIf="authenticated">Olá {{ user_name }}</span>
-  <div class="d-flex align-items-center gap-2 flex-wrap">
+<nav class="header-admin px-3">
 
-          <ng-container *ngIf="!authenticated">
-            <button routerLink="/newuser" class="btn btn-primary">Cadastre de Administrador</button>
-          </ng-container>
+  <!-- Saudação -->
+  <div class="header-title">
+    <span *ngIf="!authenticated">
+      Bem-vindo
+    </span>
 
-          <ng-container *ngIf="authenticated">
-            <button routerLink="/login" class="btn btn-danger" (click)="logout()">Sair</button>
-          </ng-container>
+    <span *ngIf="authenticated">
+      Olá, <strong>{{ user_name }}</strong>
+    </span>
+  </div>
 
-        </div>
+  <!-- Ações -->
+  <div class="header-actions">
+
+    <!-- Usuário não autenticado -->
+    <ng-container *ngIf="!authenticated">
+      <button routerLink="/newuser" class="btn-header btn-register">
+
+        <i class="fa fa-user-plus"></i>
+        <span>Cadastre-se</span>
+
+      </button>
+    </ng-container>
+
+    <!-- Usuário autenticado -->
+    <ng-container *ngIf="authenticated">
+      <button routerLink="/login" class="btn-header btn-logout" (click)="logout()">
+
+        <i class="fa fa-sign-out-alt"></i>
+        <span>Sair</span>
+
+      </button>
+    </ng-container>
+
+  </div>
+
 </nav>

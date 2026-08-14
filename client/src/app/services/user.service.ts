@@ -94,8 +94,9 @@ export class UserService {
         localStorage.setItem('access_token', response.token);
         const decoded = jwtDecode(response.token);
         this.userSubject.next(decoded);
+        this.redirecionarPorPerfil();
 
-        this.router.navigate(['/admin']);
+        // this.router.navigate(['/admin']);
       }),
     );
   }

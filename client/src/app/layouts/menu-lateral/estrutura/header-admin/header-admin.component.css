@@ -1,0 +1,129 @@
+/* =========================================
+   HEADER ADMIN
+========================================= */
+
+.header-admin {
+  width: 100%;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #003c71;
+  color: #fff;
+  border-bottom: 3px solid #00abbd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================
+   TÍTULO / SAUDAÇÃO
+========================================= */
+
+.header-title {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.header-title strong {
+  color: #c4d332;
+  font-weight: 600;
+}
+
+/* =========================================
+   AÇÕES
+========================================= */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.btn-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* =========================================
+   BOTÃO CADASTRO
+========================================= */
+
+.btn-register {
+  background: #00abbd;
+  color: #fff;
+  border-color: #00abbd;
+}
+
+.btn-register:hover {
+  background: #c4d332;
+  color: #003c71;
+  border-color: #c4d332;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   BOTÃO SAIR
+========================================= */
+
+.btn-logout {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-logout:hover {
+  background: #c4d332;
+  color: #003c71;
+  border-color: #c4d332;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   ÍCONES
+========================================= */
+
+.btn-header i {
+  font-size: 14px;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 576px) {
+  .header-admin {
+    min-height: 60px;
+    padding: 8px 12px !important;
+  }
+
+  .header-title {
+    font-size: 15px;
+  }
+
+  .btn-header {
+    padding: 7px 10px;
+  }
+
+  .btn-header span {
+    display: none;
+  }
+}
