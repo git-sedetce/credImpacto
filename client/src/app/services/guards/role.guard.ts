@@ -1,20 +1,16 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../auth.service';
+import { UserService } from '../user.service';
 
 export const roleGuard: CanActivateFn = (route, state) => {
 
-  const authService = inject(AuthService);
+  const userService = inject(UserService);
   const router = inject(Router);
 
   const roles = route.data['roles'] as number[];
 
-  const perfil = authService.getPerfil();
-
-  if (
-    perfil !== null &&
-    roles.includes(perfil)
-  ) {
+  if (userService.hasRole(roles)) {
     return true;
   }
 

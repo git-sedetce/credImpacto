@@ -26,16 +26,28 @@ export class UserService {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }
 
-  private loadUserFromToken() {
-    if (!this.isBrowser()) return;
+  private loadUserFromToken(): void {
+    if (!this.isBrowser()) {
+      return;
+    }
 
     const token = this.getToken();
-    if (!token) return;
+    if (!token) {
+      return;
+    }
 
     try {
       const decoded = jwtDecode<any>(token);
+      const now = Math.floor(Date.now() / 1000);
+      if (decoded.exp && decoded.exp <= now) {
+        localStorage.removeItem('access_token');
+        this.userSubject.next(null);
+        return;
+      }
+
       this.userSubject.next(decoded);
-    } catch (e) {
+    } catch (error) {
+      localStorage.removeItem('access_token');
       this.userSubject.next(null);
     }
   }
@@ -54,7 +66,16 @@ export class UserService {
   }
 
   isLogged(): boolean {
-    return !!this.userSubject.value;
+    const user = this.userSubject.value;
+    if (!user) {
+      return false;
+    }
+    if (!user.exp) {
+      return false;
+    }
+
+    const now = Math.floor(Date.now() / 1000);
+    return user.exp > now;
   }
 
   hasRole(roles: number[]): boolean {
@@ -67,7 +88,7 @@ export class UserService {
   login(data: any): Observable<any> {
     // Transforma o campo email/cpf para o formato esperado pelo backend
     const loginData = this.transformLoginData(data);
-    
+
     return this.http.post<any>(environment.apiUrl + 'login', loginData).pipe(
       tap((response) => {
         localStorage.setItem('access_token', response.token);
@@ -79,13 +100,63 @@ export class UserService {
     );
   }
 
+  redirecionarPorPerfil(): void {
+    const user = this.getUser();
+
+    if (!user) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    switch (Number(user._profile_id)) {
+      // Admin
+      case 1:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Gestão
+      case 2:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Suporte
+      case 3:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Supervisão
+      case 4:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Agente
+      case 5:
+        this.router.navigate(['/admin/admin']);
+        break;
+
+      // Conformidade
+      case 6:
+        this.router.navigate(['/home']);
+        break;
+
+      // Cliente
+      case 7:
+        this.router.navigate(['/credimpacto/editdados']);
+        break;
+
+      default:
+        this.router.navigate(['/login']);
+        break;
+    }
+  }
+
   private transformLoginData(data: any): any {
     const transformedData = { ...data };
-    
+
     // Se o campo é email, mantém como email; se é CPF, transforma para cpf
     if (data.email) {
       const emailOrCpf = data.email;
-      
+
       // Verifica se é um email (contém @) ou um CPF
       if (emailOrCpf.includes('@')) {
         transformedData.email = emailOrCpf;
@@ -96,7 +167,7 @@ export class UserService {
         delete transformedData.email;
       }
     }
-    
+
     return transformedData;
   }
 

@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './componentes/estrutura/home/home.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { EmptyLayoutComponent } from './layouts/empty-layout/empty-layout.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './componentes/sistema/login/login.component';
 import { ResetSenhaComponent } from './componentes/sistema/reset-senha/reset-senha.component';
@@ -18,6 +18,7 @@ import { CpfOrEmailValidatorDirective } from './componentes/sistema/login/direct
 import { HeaderAdminComponent } from './layouts/menu-lateral/estrutura/header-admin/header-admin.component';
 import { SidebarComponent } from './layouts/menu-lateral/estrutura/sidebar/sidebar.component';
 import { MenuLateralComponent } from './layouts/menu-lateral/menu-lateral.component';
+import { authInterceptor } from './services/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { MenuLateralComponent } from './layouts/menu-lateral/menu-lateral.compon
     ResetSenhaComponent,
     HeaderAdminComponent,
     SidebarComponent,
-    MenuLateralComponent
+    MenuLateralComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +41,9 @@ import { MenuLateralComponent } from './layouts/menu-lateral/menu-lateral.compon
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     CpfMaskDirective,
-    CpfOrEmailValidatorDirective
+    CpfOrEmailValidatorDirective,
   ],
-  providers: [provideHttpClient()],
-  bootstrap: [AppComponent]
+  providers: [provideHttpClient(withInterceptors([authInterceptor]))],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
