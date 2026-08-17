@@ -5,6 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { Cadastro } from '../../../model/cadastro.model';
 import { Anexo } from '../../../model/anexo.model';
 import { forkJoin } from 'rxjs';
+import { Cidade } from '../../../model/cidade.model';
 @Component({
   selector: 'app-editar-dados',
   standalone: false,
@@ -14,6 +15,7 @@ import { forkJoin } from 'rxjs';
 export class EditarDadosComponent implements OnInit {
   empresa!: Cadastro;
   anexos: Anexo[] = [];
+  city_list: Cidade[] = [];
   cadastroForm!: FormGroup;
   editando = false;
   loading = false;
@@ -30,6 +32,22 @@ export class EditarDadosComponent implements OnInit {
   ngOnInit(): void {
     this.criarFormulario();
     this.carregarDados();
+    this.loadCities();
+  }
+
+  /*===================================
+        CARREGAR CIDADES
+    ===================================*/
+
+  loadCities(): void {
+    this.cadastroService.getCitys('takecitys').subscribe({
+      next: (cities: Cidade[]) => {
+        this.city_list = cities;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar cidades:', error);
+      },
+    });
   }
 
   // ============================================================
@@ -48,6 +66,7 @@ export class EditarDadosComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       nome_empreendimento: ['', Validators.required],
       cep: [''],
+      cidade: [``],
       bairro: [''],
       rua: [''],
       numero: [''],
@@ -103,6 +122,8 @@ export class EditarDadosComponent implements OnInit {
             this.empresa = resultado.empresa;
             this.anexos = resultado.anexos;
             this.preencherFormulario();
+            this.cadastroForm.get('tipo_proponente')?.disable();
+            this.cadastroForm.get('cidade')?.disable();
             this.loading = false;
           },
           error: (error) => {
@@ -137,6 +158,7 @@ export class EditarDadosComponent implements OnInit {
       cnpj: this.empresa.cnpj,
       nome_empreendimento: this.empresa.nome_empreendimento,
       cep: this.empresa.cep,
+      cidade: this.empresa.cidade,
       bairro: this.empresa.bairro,
       rua: this.empresa.rua,
       numero: this.empresa.numero,
@@ -155,6 +177,8 @@ export class EditarDadosComponent implements OnInit {
 
   editar(): void {
     this.editando = true;
+    this.cadastroForm.get('tipo_proponente')?.enable();
+    this.cadastroForm.get('cidade')?.enable();
     this.mensagem = '';
     this.erro = '';
   }
@@ -166,6 +190,8 @@ export class EditarDadosComponent implements OnInit {
   cancelar(): void {
     this.editando = false;
     this.preencherFormulario();
+    this.cadastroForm.get('tipo_proponente')?.disable();
+    this.cadastroForm.get('cidade')?.disable();
     this.mensagem = '';
     this.erro = '';
   }
@@ -187,6 +213,17 @@ export class EditarDadosComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  // ============================================================
+  // EDITAR EIXO-IMPACTO
+  // ============================================================
+
+  selecionarEixo(eixo: string): void {
+    if (!this.editando) {
+      return;
+    }
+    this.cadastroForm.get('iniciativa_impacto')?.setValue(eixo);
   }
 
   // ============================================================
@@ -223,11 +260,13 @@ export class EditarDadosComponent implements OnInit {
     this.erro = '';
 
     const dados = {
+      tipo_proponente: this.cadastroForm.value.tipo_proponente,
       nome_responsavel: this.cadastroForm.value.nome_responsavel,
       telefone: this.cadastroForm.value.telefone,
       email: this.cadastroForm.value.email,
       nome_empreendimento: this.cadastroForm.value.nome_empreendimento,
       cep: this.cadastroForm.value.cep,
+      cidade: this.cadastroForm.getRawValue().cidade,
       bairro: this.cadastroForm.value.bairro,
       rua: this.cadastroForm.value.rua,
       numero: this.cadastroForm.value.numero,

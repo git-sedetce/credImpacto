@@ -129,7 +129,8 @@
   color: #333;
 }
 
-.form-control {
+.form-control,
+.form-select {
   height: 30px;
   padding: 5px 9px;
   border: 1px solid #d9d9d9;
@@ -140,7 +141,8 @@
   box-shadow: none;
 }
 
-.form-control:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: #00abbd;
   box-shadow: 0 0 0 2px rgba(0, 171, 189, 0.1);
 }
@@ -149,6 +151,11 @@
   background-color: #fff;
   font-family: "Inter", Arial, sans-serif;
   font-size: 0.875rem;
+}
+
+.form-select:disabled {
+  background-color: #fff;
+  opacity: 1;
 }
 
 textarea.form-control {
@@ -174,25 +181,32 @@ textarea.form-control {
   background: #fff;
   color: #999;
   border-radius: 4px;
-  padding: 5px 10px;
-  font-size: 9px;
+  padding: 7px 12px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.975rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-button:hover:not(:disabled) {
+  border-color: #00abbd;
+  color:#00abbd
 }
 
 .option-button.selected {
   background: #f5f8fa;
-  border-color: #777;
+  border-color: #00abbd;
   color: #333;
   font-family: "Inter", Arial, sans-serif;
-  font-size: 1.255rem;
+  font-size: 0.975rem;
   font-weight: 600;
 }
 
 .option-button:disabled {
   cursor: default;
   opacity: 1;
-  font-family: "Inter", Arial, sans-serif;
-  font-size: 0.975rem;
+  /* font-family: "Inter", Arial, sans-serif;
+  font-size: 0.975rem; */
 }
 
 /* =========================================================
