@@ -4,7 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const crypto = require('crypto');
+const crypto = require("crypto");
+const baseUrl = process.cwd() + "/src"; //__dirname + '.
 
 class CadastroControllers {
   static async registerCompleto(req, res) {
@@ -251,6 +252,90 @@ class CadastroControllers {
       }
     } catch (error) {
       return res.status(500).json(error.message);
+    }
+  }
+
+  static async empresaId(req, res) {
+    const { id } = req.params;
+    try {
+      const getCompanie = await database.Cadastro.findOne({
+        where: { id: Number(id) },
+        attributes: [
+          "id",
+          "tipo_proponente",
+          "nome_responsavel",
+          "cpf",
+          "telefone",
+          "email",
+          "cnpj",
+          "nome_empreendimento",
+          "cep",
+          "cidade",
+          "bairro",
+          "rua",
+          "numero",
+          "complemento",
+          "iniciativa_impacto",
+          "cadastro_cadimpacto",
+          "status_atual",
+          "area_atuacao",
+          "resumo_negocio",
+          "aceite_termos",
+        ],
+        include: [
+          {
+            association: "ass_cadastro_cidade",
+            attributes: ["id", "nome_municipio"],
+            include: [
+              {
+                association: "ass_municipio_regiao",
+                attributes: ["id", "nome"],
+              },
+            ],
+          },
+        ],
+      });
+      console.log(
+        "getCompanie.ass_cadastro_anexo",
+        getCompanie.ass_cadastro_anexo,
+      );
+
+      return res.status(200).json(getCompanie);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar empresa" });
+    }
+  }
+
+  static async pegarImagensId(req, res) {
+    const { id } = req.params;
+
+    try {
+      const anexos = await database.Anexo.findAll({
+        where: {
+          cadastro_id: Number(id),
+        },
+        attributes: ["id", "tipo_anexo", "mimetype", "filename", "path"],
+        order: [["id", "ASC"]],
+      });
+
+      const mostraAnexos = anexos.map((anexo) => {
+        const dadosAnexo = anexo.toJSON();
+
+        dadosAnexo.path = `${req.protocol}://${req.get("host")}${dadosAnexo.path}`;
+
+        return dadosAnexo;
+      });
+
+      console.log("mostraAnexos", mostraAnexos);
+
+      return res.status(200).json(mostraAnexos);
+    } catch (error) {
+      console.error("Erro ao buscar anexos:", error);
+
+      return res.status(500).json({
+        message: error.message,
+      });
     }
   }
 }

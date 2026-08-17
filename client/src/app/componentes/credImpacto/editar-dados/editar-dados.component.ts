@@ -1,11 +1,286 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CadastroService } from '../../../services/cadastro.service';
+import { UserService } from '../../../services/user.service';
+import { Cadastro } from '../../../model/cadastro.model';
+import { Anexo } from '../../../model/anexo.model';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-editar-dados',
   standalone: false,
   templateUrl: './editar-dados.component.html',
-  styleUrl: './editar-dados.component.css'
+  styleUrl: './editar-dados.component.css',
 })
-export class EditarDadosComponent {
+export class EditarDadosComponent implements OnInit {
+  empresa!: Cadastro;
+  anexos: Anexo[] = [];
+  cadastroForm!: FormGroup;
+  editando = false;
+  loading = false;
+  salvando = false;
+  mensagem = '';
+  erro = '';
 
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private cadastroService: CadastroService,
+  ) {}
+
+  ngOnInit(): void {
+    this.criarFormulario();
+    this.carregarDados();
+  }
+
+  // ============================================================
+  // FORMULÁRIO
+  // ============================================================
+
+  criarFormulario(): void {
+    this.cadastroForm = this.fb.group({
+      tipo_proponente: [''],
+      nome_responsavel: ['', Validators.required],
+
+      // CPF e CNPJ serão somente leitura
+      cpf: [''],
+      cnpj: [''],
+      telefone: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      nome_empreendimento: ['', Validators.required],
+      cep: [''],
+      bairro: [''],
+      rua: [''],
+      numero: [''],
+      complemento: [''],
+
+      iniciativa_impacto: [''],
+      cadastro_cadimpacto: [''],
+      status_atual: [''],
+      area_atuacao: [''],
+      resumo_negocio: ['', [Validators.maxLength(1500)]],
+    });
+  }
+
+  // ============================================================
+  // CARREGAR USUÁRIO
+  // ============================================================
+
+  carregarDados(): void {
+    this.loading = true;
+    this.erro = '';
+    this.userService.user$.subscribe({
+      next: (user) => {
+        // console.log('USUÁRIO DO JWT:', user);
+        // console.log('ID:', user?.id);
+        // console.log('CHAVES:', Object.keys(user || {}));
+
+        if (!user) {
+          this.erro = 'Usuário não encontrado.';
+          this.loading = false;
+          return;
+        }
+
+        /*
+         * Aqui estou considerando que o ID do cadastro
+         * está disponível no usuário autenticado.
+         *
+         * Se seu JWT possuir outro nome para esse campo,
+         * ajuste user.id.
+         */
+
+        const id = user._id;
+
+        if (!id) {
+          this.erro = 'Não foi possível identificar o cadastro do usuário.';
+          this.loading = false;
+          return;
+        }
+        forkJoin({
+          empresa: this.cadastroService.empresaId(id),
+          anexos: this.cadastroService.imagensId(id),
+        }).subscribe({
+          next: (resultado) => {
+            this.empresa = resultado.empresa;
+            this.anexos = resultado.anexos;
+            this.preencherFormulario();
+            this.loading = false;
+          },
+          error: (error) => {
+            console.error('Erro ao carregar dados:', error);
+            this.erro = 'Não foi possível carregar seus dados.';
+            this.loading = false;
+          },
+        });
+      },
+      error: () => {
+        this.erro = 'Erro ao carregar usuário.';
+        this.loading = false;
+      },
+    });
+  }
+
+  // ============================================================
+  // PREENCHER FORMULÁRIO
+  // ============================================================
+
+  preencherFormulario(): void {
+    if (!this.empresa) {
+      return;
+    }
+
+    this.cadastroForm.patchValue({
+      tipo_proponente: this.empresa.tipo_proponente,
+      nome_responsavel: this.empresa.nome_responsavel,
+      cpf: this.empresa.cpf,
+      telefone: this.empresa.telefone,
+      email: this.empresa.email,
+      cnpj: this.empresa.cnpj,
+      nome_empreendimento: this.empresa.nome_empreendimento,
+      cep: this.empresa.cep,
+      bairro: this.empresa.bairro,
+      rua: this.empresa.rua,
+      numero: this.empresa.numero,
+      complemento: this.empresa.complemento,
+      iniciativa_impacto: this.empresa.iniciativa_impacto,
+      cadastro_cadimpacto: this.empresa.cadastro_cadimpacto,
+      status_atual: this.empresa.status_atual,
+      area_atuacao: this.empresa.area_atuacao,
+      resumo_negocio: this.empresa.resumo_negocio,
+    });
+  }
+
+  // ============================================================
+  // EDITAR
+  // ============================================================
+
+  editar(): void {
+    this.editando = true;
+    this.mensagem = '';
+    this.erro = '';
+  }
+
+  // ============================================================
+  // CANCELAR
+  // ============================================================
+
+  cancelar(): void {
+    this.editando = false;
+    this.preencherFormulario();
+    this.mensagem = '';
+    this.erro = '';
+  }
+
+  // ============================================================
+  // BUSCAR EMPRESA
+  // ============================================================
+
+  buscarEmpresa(id: number): void {
+    this.cadastroService.empresaId(id).subscribe({
+      next: (data: Cadastro) => {
+        this.empresa = data;
+        console.log('empresa', this.empresa);
+        this.preencherFormulario();
+      },
+      error: (error) => {
+        console.error('Erro ao buscar empresa:', error);
+        this.erro = 'Não foi possível carregar seus dados.';
+        this.loading = false;
+      },
+    });
+  }
+
+  // ============================================================
+  // PEGAR ANEXOS
+  // ============================================================
+
+  anexosById(id: number): void {
+    this.cadastroService.imagensId(id).subscribe({
+      next: (data: Anexo[]) => {
+        this.anexos = data;
+        console.log('anexos', this.anexos);
+      },
+
+      error: (error) => {
+        console.error('Erro ao buscar empresa:', error);
+        this.erro = 'Não foi possível carregar seus dados.';
+        this.loading = false;
+      },
+    });
+  }
+
+  // ============================================================
+  // SALVAR
+  // ============================================================
+
+  salvar(): void {
+    if (this.cadastroForm.invalid) {
+      this.cadastroForm.markAllAsTouched();
+      return;
+    }
+
+    this.salvando = true;
+    this.mensagem = '';
+    this.erro = '';
+
+    const dados = {
+      nome_responsavel: this.cadastroForm.value.nome_responsavel,
+      telefone: this.cadastroForm.value.telefone,
+      email: this.cadastroForm.value.email,
+      nome_empreendimento: this.cadastroForm.value.nome_empreendimento,
+      cep: this.cadastroForm.value.cep,
+      bairro: this.cadastroForm.value.bairro,
+      rua: this.cadastroForm.value.rua,
+      numero: this.cadastroForm.value.numero,
+      complemento: this.cadastroForm.value.complemento,
+      iniciativa_impacto: this.cadastroForm.value.iniciativa_impacto,
+      area_atuacao: this.cadastroForm.value.area_atuacao,
+      resumo_negocio: this.cadastroForm.value.resumo_negocio,
+    };
+
+    this.cadastroService
+      .atualizarEmpresa(Number(this.empresa.id), dados)
+      .subscribe({
+        next: (response) => {
+          console.log('Dados atualizados:', response);
+          this.mensagem = 'Dados atualizados com sucesso!';
+          this.editando = false;
+          this.salvando = false;
+
+          // Atualiza os dados exibidos
+          this.buscarEmpresa(Number(this.empresa.id));
+        },
+
+        error: (error) => {
+          console.error('Erro ao atualizar:', error);
+          this.erro =
+            error?.error?.message || 'Não foi possível atualizar os dados.';
+          this.salvando = false;
+        },
+      });
+  }
+
+  // ============================================================
+  // ANEXOS
+  // ============================================================
+
+  get rg(): Anexo | undefined {
+    return this.anexos?.find((anexo) => anexo.tipo_anexo === 'RG');
+  }
+  get cartaoCnpj(): Anexo | undefined {
+    return this.anexos?.find((anexo) => anexo.tipo_anexo === 'CARTAO_CNPJ');
+  }
+  get fotos(): Anexo[] {
+    return this.anexos?.filter((anexo) => anexo.tipo_anexo === 'FOTO') || [];
+  }
+
+  // ============================================================
+  // ARQUIVO
+  // ============================================================
+
+  abrirArquivo(anexo: Anexo): void {
+    if (!anexo?.path) {
+      return;
+    }
+    window.open(anexo.path, '_blank');
+  }
 }

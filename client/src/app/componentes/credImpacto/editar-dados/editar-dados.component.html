@@ -1,1 +1,572 @@
-<p>editar-dados works!</p>
+<section class="editar-dados-page">
+
+  <div class="container-fluid">
+
+    <!-- =====================================================
+         CABEÇALHO
+    ====================================================== -->
+
+    <div class="page-header">
+
+      <div>
+        <h1>Visualizar dados</h1>
+        <p>Confira e mantenha seus dados atualizados.</p>
+      </div>
+
+      <div class="status-container" *ngIf="empresa">
+
+        <span class="status-label">
+          Status do cadastro
+        </span>
+
+        <span class="status-value">
+
+          {{ empresa.cadastro_cadimpacto }}
+
+          <span class="status-info">
+            ⓘ
+          </span>
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         LOADING
+    ====================================================== -->
+
+    <div class="loading-container" *ngIf="loading">
+
+      <div class="spinner-border"></div>
+
+      <span>
+        Carregando seus dados...
+      </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         ERRO
+    ====================================================== -->
+
+    <div class="alert alert-danger" *ngIf="erro">
+
+      {{ erro }}
+
+    </div>
+
+
+    <!-- =====================================================
+         MENSAGEM
+    ====================================================== -->
+
+    <div class="alert alert-success" *ngIf="mensagem">
+
+      {{ mensagem }}
+
+    </div>
+
+
+    <!-- =====================================================
+         CONTEÚDO
+    ====================================================== -->
+
+    <div class="content-card" *ngIf="empresa && !loading">
+
+      <form [formGroup]="cadastroForm">
+
+
+        <!-- =================================================
+             PRIMEIRA PARTE
+        ================================================== -->
+
+        <div class="row">
+
+          <!-- ===============================================
+               IDENTIFICAÇÃO
+          ================================================ -->
+
+          <div class="col-lg-6 section-column">
+
+            <div class="section-title">
+              <h2>Identificação</h2>
+            </div>
+
+
+            <!-- Tipo -->
+
+            <div class="form-field">
+
+              <label>
+                Tipo de proponente
+              </label>
+
+              <input type="text" class="form-control" formControlName="tipo_proponente" readonly>
+
+            </div>
+
+
+            <!-- Nome -->
+
+            <div class="form-field">
+
+              <label>
+                Nome completo (Responsável)
+              </label>
+
+              <input type="text" class="form-control" formControlName="nome_responsavel" [readonly]="!editando">
+
+            </div>
+
+
+            <!-- CPF / Telefone -->
+
+            <div class="row">
+
+              <div class="col-md-6">
+
+                <div class="form-field">
+
+                  <label>CPF</label>
+
+                  <input type="text" class="form-control" formControlName="cpf" readonly>
+
+                </div>
+
+              </div>
+
+
+              <div class="col-md-6">
+
+                <div class="form-field">
+
+                  <label>Whatsapp</label>
+
+                  <input type="text" class="form-control" formControlName="telefone" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Email / CNPJ -->
+
+            <div class="row">
+
+              <div class="col-md-7">
+
+                <div class="form-field">
+
+                  <label>E-mail</label>
+
+                  <input type="email" class="form-control" formControlName="email" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+
+              <div class="col-md-5">
+
+                <div class="form-field">
+
+                  <label>CNPJ</label>
+
+                  <input type="text" class="form-control" formControlName="cnpj" readonly>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Empreendimento -->
+
+            <div class="form-field">
+
+              <label>
+                Nome do empreendimento
+              </label>
+
+              <input type="text" class="form-control" formControlName="nome_empreendimento" [readonly]="!editando">
+
+            </div>
+
+
+            <!-- CEP / Cidade -->
+
+            <div class="row">
+
+              <div class="col-md-5">
+
+                <div class="form-field">
+
+                  <label>CEP</label>
+
+                  <input type="text" class="form-control" formControlName="cep" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+
+              <!-- <div class="col-md-7">
+
+                <div class="form-field">
+
+                  <label>Cidade</label>
+
+                  <input type="text" class="form-control" [value]="empresa.ass_cadastro_cidade?.nome_municipio"
+                    readonly>
+
+                </div>
+
+              </div> -->
+
+            </div>
+
+
+            <!-- Bairro / Rua -->
+
+            <div class="row">
+
+              <div class="col-md-5">
+
+                <div class="form-field">
+
+                  <label>Bairro</label>
+
+                  <input type="text" class="form-control" formControlName="bairro" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+
+              <div class="col-md-7">
+
+                <div class="form-field">
+
+                  <label>Rua</label>
+
+                  <input type="text" class="form-control" formControlName="rua" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Número / Complemento -->
+
+            <div class="row">
+
+              <div class="col-md-4">
+
+                <div class="form-field">
+
+                  <label>Número</label>
+
+                  <input type="text" class="form-control" formControlName="numero" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+
+              <div class="col-md-8">
+
+                <div class="form-field">
+
+                  <label>Complemento</label>
+
+                  <input type="text" class="form-control" formControlName="complemento" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ===============================================
+               EIXO DE IMPACTO
+          ================================================ -->
+
+          <div class="col-lg-6 section-column right-column">
+
+            <div class="section-title">
+              <h2>Eixo de impacto e resumo</h2>
+            </div>
+
+
+            <!-- Iniciativa -->
+
+            <div class="form-field">
+
+              <label>
+                Em qual eixo sua iniciativa gera impacto
+              </label>
+
+              <div class="options-container">
+
+                <button type="button" class="option-button" [class.selected]="
+                    cadastroForm.get('iniciativa_impacto')?.value === 'Inclusão produtiva'
+                  " [disabled]="!editando">
+
+                  Inclusão produtiva
+
+                </button>
+
+                <button type="button" class="option-button" [class.selected]="
+                    cadastroForm.get('iniciativa_impacto')?.value === 'Geração de renda'
+                  " [disabled]="!editando">
+
+                  Geração de renda
+
+                </button>
+
+                <button type="button" class="option-button" [class.selected]="
+                    cadastroForm.get('iniciativa_impacto')?.value === 'Meio ambiente'
+                  " [disabled]="!editando">
+
+                  Meio ambiente
+
+                </button>
+
+                <button type="button" class="option-button" [class.selected]="
+                    cadastroForm.get('iniciativa_impacto')?.value === 'Reciclagem'
+                  " [disabled]="!editando">
+
+                  Reciclagem
+
+                </button>
+
+                <button type="button" class="option-button" [class.selected]="
+                    cadastroForm.get('iniciativa_impacto')?.value === 'Educação'
+                  " [disabled]="!editando">
+
+                  Educação
+
+                </button>
+
+                <button type="button" class="option-button" [class.selected]="
+                    cadastroForm.get('iniciativa_impacto')?.value === 'Tecnologia social'
+                  " [disabled]="!editando">
+
+                  Tecnologia social
+
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <!-- CADIMPACTO -->
+
+            <div class="form-field">
+
+              <label>
+                Possui cadastro ativo no CADIMPACTO nacional
+              </label>
+
+              <div class="radio-group">
+
+                <label>
+                  <input type="radio" [checked]="empresa.cadastro_cadimpacto === 'PROCESSO'" disabled>
+                  Sim
+                </label>
+
+                <label>
+                  <input type="radio" disabled>
+                  Não
+                </label>
+
+                <label>
+                  <input type="radio" [checked]="empresa.cadastro_cadimpacto === 'PROCESSO'" disabled>
+                  Em processo
+                </label>
+
+              </div>
+
+            </div>
+
+
+            <!-- Situação / Área -->
+
+            <div class="row">
+
+              <div class="col-md-6">
+
+                <div class="form-field">
+
+                  <label>Situação Atual</label>
+
+                  <input type="text" class="form-control" formControlName="status_atual" readonly>
+
+                </div>
+
+              </div>
+
+
+              <div class="col-md-6">
+
+                <div class="form-field">
+
+                  <label>
+                    Área principal de atuação
+                  </label>
+
+                  <input type="text" class="form-control" formControlName="area_atuacao" [readonly]="!editando">
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- Resumo -->
+
+            <div class="form-field">
+
+              <label>
+                Resumo do negócio (máx 1500 carac.)
+              </label>
+
+              <textarea class="form-control resumo" rows="8" maxlength="1500" formControlName="resumo_negocio"
+                [readonly]="!editando">
+              </textarea>
+
+              <div class="contador" *ngIf="editando">
+
+                {{ cadastroForm.get('resumo_negocio')?.value?.length || 0 }}
+                / 1500
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DOCUMENTOS
+        ================================================== -->
+
+        <div class="documents-section">
+
+          <div class="section-title">
+
+            <h2>
+              Finalização e documentos
+            </h2>
+
+          </div>
+
+
+          <div class="subsection-title">
+            📎 Upload de arquivos
+          </div>
+
+
+          <!-- RG -->
+
+          <div class="file-row" *ngIf="rg">
+            <span class="file-name">
+              <strong>RG do representante</strong>
+            </span>
+            <button type="button" class="file-link" (click)="abrirArquivo(rg!)">
+              {{ rg.filename }}
+              ↗
+            </button>
+          </div>
+
+
+          <!-- CNPJ -->
+
+          <div class="file-row" *ngIf="cartaoCnpj">
+            <span class="file-name">
+              <strong>Cartão CNPJ</strong>
+            </span>
+            <button type="button" class="file-link" (click)="abrirArquivo(cartaoCnpj!)">
+              {{ cartaoCnpj.filename }}
+              ↗
+            </button>
+          </div>
+
+
+          <!-- FOTOS -->
+
+          <div class="photos-header">
+            <span>📷 Fotos da atividade <small>(máx 10)</small>
+            </span>
+          </div>
+          <div class="photo-grid">
+            <div class="photo-card" *ngFor="let foto of fotos">
+              <img [src]="foto.path" [alt]="foto.filename" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <!-- =================================================
+             AÇÕES
+        ================================================== -->
+
+        <div class="actions">
+
+          <!-- MODO VISUALIZAÇÃO -->
+
+          <button *ngIf="!editando" type="button" class="btn-edit" (click)="editar()">
+
+            ✎
+            Editar informações
+
+          </button>
+
+
+          <!-- MODO EDIÇÃO -->
+
+          <ng-container *ngIf="editando">
+
+            <button type="button" class="btn-cancel" (click)="cancelar()" [disabled]="salvando">
+
+              Cancelar
+
+            </button>
+
+
+            <button type="button" class="btn-save" (click)="salvar()" [disabled]="salvando">
+
+              <span *ngIf="salvando" class="spinner-border spinner-border-sm">
+              </span>
+
+              {{ salvando ? 'Salvando...' : 'Salvar alterações' }}
+
+            </button>
+
+          </ng-container>
+
+        </div>
+
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>

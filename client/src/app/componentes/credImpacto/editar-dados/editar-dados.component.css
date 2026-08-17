@@ -1,0 +1,533 @@
+/* =========================================================
+   PÁGINA
+========================================================= */
+
+.editar-dados-page {
+  min-height: 100vh;
+  background: #f7faf4;
+  padding: 35px 25px 60px;
+}
+
+/* =========================================================
+   CABEÇALHO
+========================================================= */
+
+.page-header {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.page-header p {
+  margin-top: 5px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+  color: #777;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-container {
+  text-align: right;
+}
+
+.status-label {
+  display: block;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.status-value {
+  display: block;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 2rem;
+  color: #00abbd;
+  font-weight: 800;
+}
+
+.status-info {
+  font-size: 11px;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.content-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px 36px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================================
+   COLUNAS
+========================================================= */
+
+.section-column {
+  padding: 0 25px;
+}
+
+.right-column {
+  border-left: 1px solid #e5e5e5;
+}
+
+/* =========================================================
+   TÍTULOS
+========================================================= */
+
+.section-title {
+  margin-bottom: 22px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.subsection-title {
+  margin: 10px 0;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* =========================================================
+   CAMPOS
+========================================================= */
+
+.form-field {
+  margin-bottom: 12px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.075rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  height: 30px;
+  padding: 5px 9px;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.875rem;
+  color: #444;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #00abbd;
+  box-shadow: 0 0 0 2px rgba(0, 171, 189, 0.1);
+}
+
+.form-control[readonly] {
+  background-color: #fff;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.875rem;
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 120px;
+  resize: vertical;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.875rem;
+}
+
+/* =========================================================
+   OPÇÕES
+========================================================= */
+
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.option-button {
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #999;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.option-button.selected {
+  background: #f5f8fa;
+  border-color: #777;
+  color: #333;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.255rem;
+  font-weight: 600;
+}
+
+.option-button:disabled {
+  cursor: default;
+  opacity: 1;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.975rem;
+}
+
+/* =========================================================
+   RADIO
+========================================================= */
+
+.radio-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.radio-group label {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.975rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+}
+
+.radio-group input {
+  accent-color: #00abbd;
+}
+
+/* =========================================================
+   RESUMO
+========================================================= */
+
+.resumo {
+  line-height: 1.5;
+  font-size: 10px;
+}
+
+.contador {
+  text-align: right;
+  margin-top: 3px;
+  font-size: 9px;
+  color: #999;
+}
+
+/* =========================================================
+   DOCUMENTOS
+========================================================= */
+
+.documents-section {
+  margin-top: 30px;
+  padding: 0 25px;
+}
+
+.file-row {
+  min-height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 7px 12px;
+  border: 1px solid #cdeef2;
+  border-radius: 5px;
+  font-size: 9px;
+}
+
+.file-row + .file-row {
+  border-top: 0;
+  border-radius: 0;
+}
+
+.file-name {
+  color: #333;
+}
+.file-name strong {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.875rem;
+}
+
+.file-link {
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-align: right;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-link:hover {
+  color: #00abbd;
+}
+
+/* =========================================================
+   FOTOS
+========================================================= */
+
+.photos-header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.photos-header small {
+  font-size: 0.875rem;
+  color: #999;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+  padding: 8px;
+  min-height: 130px;
+  border: 1px solid #cdeef2;
+  border-radius: 5px;
+}
+
+.photo-card {
+  height: 120px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #f2f2f2;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.photo-card:hover img {
+  transform: scale(1.04);
+}
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.btn-edit,
+.btn-save,
+.btn-cancel {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-edit,
+.btn-save {
+  background: #00abbd;
+  color: #fff;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.125rem;
+}
+
+.btn-edit:hover,
+.btn-save:hover {
+  background: #008f9f;
+}
+
+.btn-cancel {
+  background: #e9ecef;
+  color: #555;
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 1.125rem;
+}
+
+.btn-cancel:hover {
+  background: #ddd;
+}
+
+.btn-edit:disabled,
+.btn-save:disabled,
+.btn-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading-container {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: #666;
+  font-size: 13px;
+}
+
+.loading-container .spinner-border {
+  color: #00abbd;
+}
+
+/* =========================================================
+   ALERTAS
+========================================================= */
+
+.alert {
+  max-width: 1100px;
+  margin: 0 auto 15px;
+  font-size: 12px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+  .editar-dados-page {
+    padding: 25px 15px 40px;
+  }
+
+  .content-card {
+    padding: 25px 20px;
+  }
+
+  .section-column {
+    padding: 0 10px;
+  }
+
+  .right-column {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-left: none;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .documents-section {
+    padding: 0 10px;
+  }
+}
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 575px) {
+  .editar-dados-page {
+    padding: 18px 10px 30px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .page-header h1 {
+    font-size: 21px;
+  }
+
+  .status-container {
+    text-align: left;
+  }
+
+  .content-card {
+    padding: 20px 14px;
+    border-radius: 8px;
+  }
+
+  .section-column {
+    padding: 0;
+  }
+
+  .right-column {
+    padding-top: 25px;
+    margin-top: 25px;
+  }
+
+  .documents-section {
+    padding: 0;
+  }
+
+  .section-title h2 {
+    font-size: 13px;
+  }
+
+  .form-field label {
+    font-size: 10px;
+  }
+
+  .form-control {
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .file-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .file-link {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .photo-card {
+    height: 140px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn-edit,
+  .btn-save,
+  .btn-cancel {
+    width: 100%;
+    min-height: 42px;
+  }
+}

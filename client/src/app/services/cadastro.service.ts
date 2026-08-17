@@ -8,7 +8,6 @@ import { Cadastro } from '../model/cadastro.model';
   providedIn: 'root',
 })
 export class CadastroService {
-
   constructor(private http: HttpClient) {}
 
   getAddressByCEP(cep: string): Observable<any> {
@@ -44,5 +43,22 @@ export class CadastroService {
 
   getProfiles(metodo: string): Observable<any> {
     return this.http.get(environment.apiUrl + metodo);
+  }
+
+  empresaId(id: number): Observable<any> {
+    // return this.http.get<any>(`${environment.apiUrl}/companiebyid/${id}`);
+    return this.http.get(environment.apiUrl + 'companiebyid/' + id);
+  }
+
+  imagensId(id: number): Observable<any> {
+    // return this.http.get<any>(`${environment.apiUrl}/companiebyid/${id}`);
+    return this.http.get(environment.apiUrl + 'imagens/' + id);
+  }
+
+  atualizarEmpresa(id: number, dados: any): Observable<any> {
+    return this.http.put<any>(
+      `${environment.apiUrl}/updatecompanie/${id}`,
+      dados,
+    );
   }
 }
