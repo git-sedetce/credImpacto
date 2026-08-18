@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CadastroService } from '../../../services/cadastro.service';
 import { UserService } from '../../../services/user.service';
@@ -6,6 +6,7 @@ import { Cadastro } from '../../../model/cadastro.model';
 import { Anexo } from '../../../model/anexo.model';
 import { forkJoin } from 'rxjs';
 import { Cidade } from '../../../model/cidade.model';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 @Component({
   selector: 'app-editar-dados',
   standalone: false,
@@ -23,10 +24,18 @@ export class EditarDadosComponent implements OnInit {
   mensagem = '';
   erro = '';
 
+  modalAberto = false;
+  anexoSelecionado?: Anexo;
+  anexoSelecionadoUrl?: SafeResourceUrl;
+  anexoParaAlterar?: Anexo;
+  @ViewChild('fileInput')
+  fileInput!: ElementRef<HTMLInputElement>;
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private cadastroService: CadastroService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit(): void {
@@ -246,6 +255,45 @@ export class EditarDadosComponent implements OnInit {
   }
 
   // ============================================================
+  // VISUALIZAR ANEXOS
+  // ============================================================
+
+  visualizarArquivo(anexo: Anexo): void {
+    if (!anexo?.path) {
+      return;
+    }
+    this.anexoSelecionado = anexo;
+    this.anexoSelecionadoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      anexo.path,
+    );
+    this.modalAberto = true;
+  }
+
+  ehImagem(anexo?: Anexo): boolean {
+    if (!anexo) {
+      return false;
+    }
+    return anexo.mimetype?.startsWith('image/') ?? false;
+  }
+
+  ehPdf(anexo?: Anexo): boolean {
+    if (!anexo) {
+      return false;
+    }
+    return anexo.mimetype === 'application/pdf';
+  }
+
+  // ============================================================
+  // FECHAR MODAL
+  // ============================================================
+
+  fecharModal(): void {
+    this.modalAberto = false;
+    this.anexoSelecionado = undefined;
+    this.anexoSelecionadoUrl = undefined;
+  }
+
+  // ============================================================
   // SALVAR
   // ============================================================
 
@@ -321,5 +369,90 @@ export class EditarDadosComponent implements OnInit {
       return;
     }
     window.open(anexo.path, '_blank');
+  }
+
+  // ============================================================
+  // EDITAR ARQUIVO
+  // ============================================================
+
+  selecionarNovoArquivo(anexo: Anexo): void {
+    this.anexoParaAlterar = anexo;
+    this.fileInput.nativeElement.value = '';
+    this.fileInput.nativeElement.click();
+  }
+
+  arquivoSelecionado(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const arquivo = input.files[0];
+
+    if (!this.anexoParaAlterar) {
+      return;
+    }
+    this.alterarAnexo(this.anexoParaAlterar, arquivo);
+  }
+
+  alterarAnexo(anexo: Anexo, arquivo: File): void {
+    if (!anexo.id) {
+      return;
+    }
+
+    this.salvando = true;
+    this.erro = '';
+    this.mensagem = '';
+
+    this.cadastroService.alterarAnexo(anexo.id, arquivo).subscribe({
+      next: (response) => {
+        console.log('Anexo alterado:', response);
+        this.mensagem = 'Arquivo alterado com sucesso!';
+        this.salvando = false;
+        this.anexoParaAlterar = undefined;
+        this.anexosById(Number(this.empresa.id));
+      },
+
+      error: (error) => {
+        console.error('Erro ao alterar anexo:', error);
+
+        this.erro =
+          error?.error?.message || 'Não foi possível alterar o arquivo.';
+        this.salvando = false;
+      },
+    });
+  }
+
+  excluirAnexo(anexo: Anexo): void {
+    if (!anexo.id) {
+      return;
+    }
+
+    const confirmar = confirm(`Deseja realmente excluir "${anexo.filename}"?`);
+
+    if (!confirmar) {
+      return;
+    }
+
+    this.salvando = true;
+    this.erro = '';
+    this.mensagem = '';
+
+    this.cadastroService.excluirAnexo(anexo.id).subscribe({
+      next: () => {
+        this.mensagem = 'Arquivo excluído com sucesso!';
+        this.salvando = false;
+        this.anexosById(Number(this.empresa.id));
+      },
+
+      error: (error) => {
+        console.error('Erro ao excluir anexo:', error);
+
+        this.erro =
+          error?.error?.message || 'Não foi possível excluir o arquivo.';
+        this.salvando = false;
+      },
+    });
   }
 }

@@ -61,4 +61,15 @@ export class CadastroService {
       dados,
     );
   }
+  alterarAnexo(id: number, arquivo: File) {
+    const formData = new FormData();
+    formData.append('arquivo', arquivo);
+    // return this.http.put(`${this.apiUrl}/anexos/${id}`, formData);
+    return this.http.put(environment.apiUrl + 'anexos/' + id, formData);
+  }
+
+  excluirAnexo(id: number) {
+    // return this.http.delete(`${this.apiUrl}/anexos/${id}`);
+    return this.http.delete(environment.apiUrl + 'anexos/' + id);
+  }
 }

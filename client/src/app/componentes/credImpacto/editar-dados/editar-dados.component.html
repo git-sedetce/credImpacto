@@ -246,38 +246,32 @@
               <div class="options-container">
                 <button type="button" class="option-button" [class.selected]="
                     cadastroForm.get('iniciativa_impacto')?.value === 'Inclusão produtiva'
-                  " [disabled]="!editando"
-                  (click)="selecionarEixo('Inclusão produtiva')">
+                  " [disabled]="!editando" (click)="selecionarEixo('Inclusão produtiva')">
                   Inclusão produtiva
                 </button>
                 <button type="button" class="option-button" [class.selected]="
                     cadastroForm.get('iniciativa_impacto')?.value === 'Geração de renda'
-                  " [disabled]="!editando"
-                  (click)="selecionarEixo('Geração de renda')">
+                  " [disabled]="!editando" (click)="selecionarEixo('Geração de renda')">
                   Geração de renda
                 </button>
                 <button type="button" class="option-button" [class.selected]="
                     cadastroForm.get('iniciativa_impacto')?.value === 'Meio ambiente'
-                  " [disabled]="!editando"
-                  (click)="selecionarEixo('Meio ambiente')">
+                  " [disabled]="!editando" (click)="selecionarEixo('Meio ambiente')">
                   Meio ambiente
                 </button>
                 <button type="button" class="option-button" [class.selected]="
                     cadastroForm.get('iniciativa_impacto')?.value === 'Reciclagem'
-                  " [disabled]="!editando"
-                  (click)="selecionarEixo('Reciclagem')">
+                  " [disabled]="!editando" (click)="selecionarEixo('Reciclagem')">
                   Reciclagem
                 </button>
                 <button type="button" class="option-button" [class.selected]="
                     cadastroForm.get('iniciativa_impacto')?.value === 'Educação'
-                  " [disabled]="!editando"
-                  (click)="selecionarEixo('Educação')">
+                  " [disabled]="!editando" (click)="selecionarEixo('Educação')">
                   Educação
                 </button>
                 <button type="button" class="option-button" [class.selected]="
                     cadastroForm.get('iniciativa_impacto')?.value === 'Tecnologia social'
-                  " [disabled]="!editando"
-                  (click)="selecionarEixo('Tecnologia social')">
+                  " [disabled]="!editando" (click)="selecionarEixo('Tecnologia social')">
                   Tecnologia social
                 </button>
               </div>
@@ -353,55 +347,193 @@
         ================================================== -->
 
         <div class="documents-section">
-          <div class="section-title">
-            <h2>
-              Finalização e documentos
-            </h2>
-          </div>
 
+          <div class="section-title">
+            <h2>Finalização e documentos</h2>
+          </div>
 
           <div class="subsection-title">
-            📎 Upload de arquivos
+            📎 Documentos enviados
           </div>
 
-
-          <!-- RG -->
+          <!-- =====================================================
+       RG
+  ====================================================== -->
 
           <div class="file-row" *ngIf="rg">
+
             <span class="file-name">
               <strong>RG do representante</strong>
             </span>
-            <button type="button" class="file-link" (click)="abrirArquivo(rg!)">
-              {{ rg.filename }}
-              ↗
-            </button>
+
+            <div class="file-actions">
+
+              <!-- Visualizar -->
+              <button type="button" class="file-link" (click)="visualizarArquivo(rg!)">
+                {{ rg.filename }}
+                ↗
+              </button>
+
+              <!-- Editar -->
+              <ng-container *ngIf="editando">
+
+                <button type="button" class="btn-file btn-change" (click)="selecionarNovoArquivo(rg!)">
+                  Alterar
+                </button>
+
+                <button type="button" class="btn-file btn-delete" (click)="excluirAnexo(rg!)">
+                  Excluir
+                </button>
+
+              </ng-container>
+
+            </div>
+
           </div>
 
 
-          <!-- CNPJ -->
+          <!-- =====================================================
+       CARTÃO CNPJ
+  ====================================================== -->
 
           <div class="file-row" *ngIf="cartaoCnpj">
+
             <span class="file-name">
               <strong>Cartão CNPJ</strong>
             </span>
-            <button type="button" class="file-link" (click)="abrirArquivo(cartaoCnpj!)">
-              {{ cartaoCnpj.filename }}
-              ↗
-            </button>
+
+            <div class="file-actions">
+
+              <button type="button" class="file-link" (click)="visualizarArquivo(cartaoCnpj!)">
+                {{ cartaoCnpj.filename }}
+                ↗
+              </button>
+
+              <ng-container *ngIf="editando">
+
+                <button type="button" class="btn-file btn-change" (click)="selecionarNovoArquivo(cartaoCnpj!)">
+                  Alterar
+                </button>
+
+                <button type="button" class="btn-file btn-delete" (click)="excluirAnexo(cartaoCnpj!)">
+                  Excluir
+                </button>
+
+              </ng-container>
+
+            </div>
+
           </div>
 
 
-          <!-- FOTOS -->
+          <!-- =====================================================
+       FOTOS
+  ====================================================== -->
 
           <div class="photos-header">
-            <span>📷 Fotos da atividade <small>(máx 10)</small>
+
+            <span>
+              📷 Fotos da atividade
+              <small>(máx. 10)</small>
             </span>
+
           </div>
+
+
           <div class="photo-grid">
+
             <div class="photo-card" *ngFor="let foto of fotos">
-              <img [src]="foto.path" [alt]="foto.filename" loading="lazy">
+
+              <!-- IMAGEM -->
+              <img [src]="foto.path" [alt]="foto.filename" loading="lazy" (click)="visualizarArquivo(foto)">
+
+              <!-- AÇÕES DA FOTO -->
+              <div class="photo-actions" *ngIf="editando">
+
+                <button type="button" title="Alterar imagem" (click)="selecionarNovoArquivo(foto)">
+                  ✎
+                </button>
+
+                <button type="button" title="Excluir imagem" (click)="excluirAnexo(foto)">
+                  🗑
+                </button>
+
+              </div>
+
             </div>
+
           </div>
+
+        </div>
+
+
+        <!-- =====================================================
+     INPUT OCULTO PARA ALTERAÇÃO DE ARQUIVO
+====================================================== -->
+
+        <input #fileInput type="file" hidden (change)="arquivoSelecionado($event)">
+
+
+        <!-- =====================================================
+     MODAL DE VISUALIZAÇÃO
+====================================================== -->
+
+        <div class="file-modal-backdrop" *ngIf="modalAberto" (click)="fecharModal()">
+
+          <div class="file-modal" (click)="$event.stopPropagation()">
+
+            <!-- CABEÇALHO -->
+            <div class="file-modal-header">
+
+              <h3>
+                {{ anexoSelecionado?.filename }}
+              </h3>
+
+              <button type="button" class="modal-close" (click)="fecharModal()">
+                ×
+              </button>
+
+            </div>
+
+
+            <!-- CONTEÚDO -->
+
+            <div class="file-modal-body">
+
+              <!-- IMAGEM -->
+
+              <img *ngIf="ehImagem(anexoSelecionado)" [src]="anexoSelecionado?.path" [alt]="anexoSelecionado?.filename"
+                class="modal-image">
+
+
+              <!-- PDF -->
+
+              <iframe *ngIf="ehPdf(anexoSelecionado)" [src]="anexoSelecionadoUrl" class="modal-pdf">
+              </iframe>
+
+
+              <!-- OUTROS ARQUIVOS -->
+
+              <div *ngIf="
+          anexoSelecionado &&
+          !ehImagem(anexoSelecionado) &&
+          !ehPdf(anexoSelecionado)
+        " class="arquivo-nao-suportado">
+
+                <p>
+                  Este tipo de arquivo não pode ser exibido diretamente.
+                </p>
+
+                <button type="button" class="btn-edit" (click)="abrirArquivo(anexoSelecionado)">
+                  Abrir arquivo
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
         <!-- =================================================

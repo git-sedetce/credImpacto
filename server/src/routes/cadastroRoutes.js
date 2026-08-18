@@ -42,7 +42,10 @@ router.get("/takeregion", CadastroController.pegaRegiao);
 router.get("/consultacpf/:cpf", CadastroController.consultaCPF);
 router.get("/consultacnpj/:cnpj", CadastroController.consultaCNPJ);
 router.get("/consultaemail/:email", CadastroController.consultaEmail);
-router.get("/companiebyid/:id", CadastroController.empresaId)
-router.get('/imagens/:id', CadastroController.pegarImagensId)
+router.get("/companiebyid/:id", CadastroController.empresaId);
+router.get('/imagens/:id', CadastroController.pegarImagensId);
+
+router.put('/anexos/:id', CadastroController.alterarAnexo);
+router.delete('/anexos/:id', CadastroController.excluirAnexo);
 
 module.exports = router;

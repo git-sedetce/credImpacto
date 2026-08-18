@@ -338,6 +338,70 @@ class CadastroControllers {
       });
     }
   }
+
+  static async alterarAnexo(req, res) {
+  const { id } = req.params;
+  try {
+    const anexo = await database.Anexo.findByPk(id);
+    if (!anexo) {
+      return res.status(404).json({
+        message: 'Anexo não encontrado.'
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        message: 'Nenhum arquivo enviado.'
+      });
+    }
+
+    // Remover arquivo antigo
+    // fs.unlinkSync(anexo.path);
+
+    await anexo.update({
+      filename: req.file.filename,
+      mimetype: req.file.mimetype,
+      path: req.file.path
+    });
+
+    return res.status(200).json({
+      message: 'Anexo alterado com sucesso.',
+      anexo
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro ao alterar anexo.'
+    });
+  }
+}
+
+  static async excluirAnexo(req, res) {
+  const { id } = req.params;
+  try {
+    const anexo = await database.Anexo.findByPk(id);
+    if (!anexo) {
+      return res.status(404).json({
+        message: 'Anexo não encontrado.'
+      });
+    }
+
+    // excluir arquivo físico
+    // fs.unlinkSync(anexo.path);
+
+    await anexo.destroy();
+
+    return res.status(200).json({
+      message: 'Anexo excluído com sucesso.'
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Erro ao excluir anexo.'
+    });
+  }
+}
 }
 
 module.exports = CadastroControllers;
