@@ -57,7 +57,7 @@ export class FluxoCapacitacaoComponent {
       subtitulo: 'Capacitação em gestão financeira e administrativa',
       descricao:
         'Apoio financeiro, capacitação e orientação técnica para empreendimentos que promovem impacto social e inclusão produtiva.',
-      imagem: 'assets/imgs/imagens/person_01.png',
+      imagem: 'assets/imgs/imagens/trilha_gestao_2.jpg',
       cor: 'azul',
       invertido: false,
     },
@@ -67,7 +67,7 @@ export class FluxoCapacitacaoComponent {
       subtitulo: 'Avaliação e mensuração de impacto',
       descricao:
         'Metodologias para monitorar indicadores sociais e ambientais, garantindo transparência e prestação de contas.',
-      imagem: 'assets/imgs/imagens/person_01.png',
+      imagem: 'assets/imgs/imagens/trilha_monitoramento.jpg',
       cor: 'verde',
       invertido: true,
     },
@@ -77,7 +77,7 @@ export class FluxoCapacitacaoComponent {
       subtitulo: 'Soluções criativas para desafios sociais',
       descricao:
         'Desenvolvimento de modelos inovadores com foco em impacto territorial, sustentabilidade e transformação comunitária.',
-      imagem: 'assets/imgs/imagens/person_01.png',
+      imagem: 'assets/imgs/imagens/trilha_inovacao.jpg',
       cor: 'azul',
       invertido: false,
     },
