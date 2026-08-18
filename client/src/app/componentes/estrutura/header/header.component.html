@@ -7,18 +7,13 @@
     </a>
 
     <!-- Botão Mobile -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent">
-
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <!-- Menu -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
       <ul class="navbar-nav mx-auto">
 
         <li class="nav-item dropdown">
@@ -54,28 +49,33 @@
           </ul>
         </li>
 
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-            Suporte
-          </a>
-
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" routerLink="credimpacto/faq">FAQ</a></li>
-            <li><a class="dropdown-item" routerLink="credimpacto/faleconosco">Fale conosco</a></li>
-          </ul>
-        </li> -->
-
         <li class="nav-item">
           <a class="nav-link" routerLink="credimpacto/faq">FAQ</a>
         </li>
-
       </ul>
 
-      <a class="btn btn-outline-success" routerLink="home">
-        OUTROS PROGRAMAS
-      </a>
+      <!-- Área direita -->
+      <div class="header-actions">
 
+        <!-- Outros programas -->
+        <a class="btn btn-outline-success" routerLink="home" *ngIf="!authenticated">
+          OUTROS PROGRAMAS
+        </a>
+
+        <!-- Usuário logado -->
+        <ng-container *ngIf="authenticated">
+
+          <div class="user-info">
+            <span class="user-greeting">
+              Olá, <strong>{{ user_name }}</strong>
+            </span>
+
+            <button type="button" class="btn btn-danger btn-sair" (click)="logout()">
+              SAIR
+            </button>
+          </div>
+        </ng-container>
+      </div>
     </div>
-
   </div>
 </nav>

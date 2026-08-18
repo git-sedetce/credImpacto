@@ -1,21 +1,28 @@
-/* Navbar */
+/* =====================================
+   NAVBAR
+===================================== */
+
 .navbar {
   background: #fff;
   padding: 12px 0;
 }
 
-/* Logo */
+/* =====================================
+   LOGO
+===================================== */
+
 .navbar-brand img {
   width: 120px;
   height: auto;
 }
 
-/* Centralizar menu */
+/* =====================================
+   MENU
+===================================== */
 .navbar-nav {
   gap: 15px;
 }
 
-/* Links */
 .navbar-nav .nav-link {
   font-family: "Inter", sans-serif;
   font-size: 20px;
@@ -23,6 +30,14 @@
   color: #4b5563;
   transition: 0.3s;
 }
+
+.navbar-nav .nav-link:hover {
+  color: #198754
+}
+
+/* =====================================
+   DROPDOWN
+===================================== */
 
 .dropdown-item {
   font-family: "Inter", sans-serif;
@@ -32,29 +47,77 @@
   transition: 0.3s;
 }
 
-.navbar-nav .nav-link:hover {
+.dropdown-item:hover {
   color: #198754;
+  background-color: #f5f5f5;
 }
 
-/* Botão */
-.btn-outline-success {
-  font-family: "Inter", sans-serif;
-  font-size: 1.20rem !important;
-  border-radius: 8px;
-  padding: 8px 18px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* Dropdown */
 .dropdown-menu {
   border-radius: 10px;
   border: none;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Tablet */
+
+/* =====================================
+   ÁREA DIREITA DO HEADER
+===================================== */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* =====================================
+   BOTÃO
+===================================== */
+
+.btn-sair {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.btn-outline-success {
+  font-family: "Inter", sans-serif;
+  font-size: 1.20rem;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* =====================================
+   USUÁRIO
+===================================== */
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.user-greeting {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  color: #003c71;
+}
+
+.user-greeting strong {
+  font-weight: 700;
+  color: #003c71;
+}
+
+/* =====================================
+   TABLET
+===================================== */
+
 @media (max-width: 991px) {
+
   .navbar-brand img {
     width: 100px;
   }
@@ -68,14 +131,31 @@
     text-align: center;
   }
 
-  .btn-outline-success {
+  .header-actions {
     width: 100%;
     margin-top: 20px;
+    flex-direction: column;
   }
+
+  .btn-outline-success {
+    width: 100%;
+  }
+
+  .user-info {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
 }
 
-/* Celular */
+
+/* =====================================
+   CELULAR
+===================================== */
+
 @media (max-width: 576px) {
+
   .navbar-brand img {
     width: 90px;
   }
@@ -88,4 +168,19 @@
   .btn-outline-success {
     font-size: 15px;
   }
+
+  .user-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .user-greeting {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .btn-sair {
+    width: 100%;
+  }
+
 }
