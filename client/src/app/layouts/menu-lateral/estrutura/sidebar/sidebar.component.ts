@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,8 +19,8 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-shield-alt',
       roles: [1],
       children: [
-        { label: 'Usuários', route: '/usuarios', icon: 'fa-user' },
-        { label: 'Clientes', route: '/empresas', icon: 'fa-building' }
+        { label: 'Empresas', route: '/admin/admin', icon: 'fa-user' },
+        { label: 'Agentes', route: '/empresas', icon: 'fa-building' }
       ],
     },
     {
@@ -27,25 +28,21 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-folder',
       roles: [1,2,3],
       children: [
-        { label: 'Animais', route: '/animais', icon: 'fa-paw' },
-        { label: 'Tipo de Custo', route: '/tipocusto', icon: 'fa-paw' },
-        { label: 'Vacina', route: '/vacina', icon: 'fa-paw' },
-        { label: 'Fornecedores', route: '/fornecedores', icon: 'fa-paw' },
-        { label: 'Ração', route: '/homeracao', icon: 'fa-paw' },
+        { label: 'Admin', route: '/admin/cadastro', icon: 'fa-paw' },
       ],
     },
-    {
-      label: 'Operacional',
-      icon: 'fa-cogs',
-      roles: [1, 2, 3],
-      children: [
-        { label: 'Lotes', route: '/cadastrolotes' },
-        { label: 'Movimentação', route: '/movimentacao' },
-        { label: 'Consumo de Ração', route: '/consumoracao' },
-        { label: 'Aplicação de Vacinas', route: '/aplicacaovacina' },
-        { label: 'Custos', route: '/custos' },
-      ],
-    },
+    // {
+    //   label: 'Operacional',
+    //   icon: 'fa-cogs',
+    //   roles: [1, 2, 3],
+    //   children: [
+    //     { label: 'Lotes', route: '/cadastrolotes' },
+    //     { label: 'Movimentação', route: '/movimentacao' },
+    //     { label: 'Consumo de Ração', route: '/consumoracao' },
+    //     { label: 'Aplicação de Vacinas', route: '/aplicacaovacina' },
+    //     { label: 'Custos', route: '/custos' },
+    //   ],
+    // },
     {
       label: 'Dashboard',
       icon: 'fa-chart-simple',
@@ -59,6 +56,7 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private serviceUser: UserService
   ) {}
 
   isActive(route: string): boolean {
@@ -73,8 +71,8 @@ export class SidebarComponent implements OnInit {
     const saved = localStorage.getItem('sidebar_collapsed');
     this.collapsed = saved === 'true';
 
-    // const user = this.serviceUser.getUser();
-    // this.perfil_id = user._profile_id|| 0;
+    const user = this.serviceUser.getUser();
+    this.perfil_id = user._profile_id|| 0;
 
     this.abrirMenuAtivo();
   }
