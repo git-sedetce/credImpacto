@@ -45,6 +45,10 @@ export class CadastroService {
     return this.http.get(environment.apiUrl + metodo);
   }
 
+  listarEmpresas(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'allcompanies');
+  }
+
   empresaId(id: number): Observable<any> {
     // return this.http.get<any>(`${environment.apiUrl}/companiebyid/${id}`);
     return this.http.get(environment.apiUrl + 'companiebyid/' + id);

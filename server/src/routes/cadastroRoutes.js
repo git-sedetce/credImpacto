@@ -44,6 +44,8 @@ router.get("/consultacnpj/:cnpj", CadastroController.consultaCNPJ);
 router.get("/consultaemail/:email", CadastroController.consultaEmail);
 router.get("/companiebyid/:id", CadastroController.empresaId);
 router.get('/imagens/:id', CadastroController.pegarImagensId);
+router.get('/allcompanies', CadastroController.pegarTodasEmpresas);
+router.put('/updatecompanie/:id', CadastroController.atualizarEmpresa);
 
 router.put('/anexos/:id', CadastroController.alterarAnexo);
 router.delete('/anexos/:id', CadastroController.excluirAnexo);

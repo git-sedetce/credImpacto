@@ -1,1 +1,309 @@
-<p>home-admin works!</p>
+<section class="admin-page">
+  <div class="container admin-shell">
+    <div class="page-header">
+      <div>
+        <small class="breadcrumb-custom">credimpacto > <strong>Administração</strong></small>
+        <h1 class="titulo">Empresas cadastradas</h1>
+      </div>
+      <div class="summary-card">
+        <span>Total</span>
+        <strong>{{ empresasFiltradas.length }}</strong>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="filter-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input
+          type="text"
+          [(ngModel)]="filtro"
+          (ngModelChange)="aplicarFiltro()"
+          placeholder="Filtrar por empresa, responsável, área, município ou região"
+          aria-label="Filtrar empresas por cidade ou região"
+        />
+      </div>
+    </div>
+
+    @if (mensagem) {
+      <div class="alert-box">{{ mensagem }}</div>
+    }
+
+    <div class="table-card">
+      @if (carregando) {
+        <div class="loading-state">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <span>Carregando empresas...</span>
+        </div>
+      } @else {
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <button type="button" class="sort-button" (click)="ordenarPor('nome_empreendimento')">
+                    <span>Empresa</span>
+                    <i class="fa-solid {{ getOrdenacaoIcone('nome_empreendimento') }}"></i>
+                  </button>
+                </th>
+                <th>
+                  <button type="button" class="sort-button" (click)="ordenarPor('nome_responsavel')">
+                    <span>Responsável</span>
+                    <i class="fa-solid {{ getOrdenacaoIcone('nome_responsavel') }}"></i>
+                  </button>
+                </th>
+                <th>
+                  <button type="button" class="sort-button" (click)="ordenarPor('municipio')">
+                    <span>Município</span>
+                    <i class="fa-solid {{ getOrdenacaoIcone('municipio') }}"></i>
+                  </button>
+                </th>
+                <th>
+                  <button type="button" class="sort-button" (click)="ordenarPor('regiao')">
+                    <span>Região</span>
+                    <i class="fa-solid {{ getOrdenacaoIcone('regiao') }}"></i>
+                  </button>
+                </th>
+                <th>Áreas</th>
+                <th>
+                  <button type="button" class="sort-button" (click)="ordenarPor('status')">
+                    <span>Status</span>
+                    <i class="fa-solid {{ getOrdenacaoIcone('status') }}"></i>
+                  </button>
+                </th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (empresa of paginatedEmpresas; track empresa.id) {
+                <tr>
+                  <td>
+                    <div class="empresa-cell">
+                      <strong>{{ empresa.nome_empreendimento }}</strong>
+                      <span>{{ empresa.tipo_proponente }}</span>
+                    </div>
+                  </td>
+                  <td>{{ empresa.nome_responsavel }}</td>
+                  <td>{{ empresa.ass_cadastro_cidade?.nome_municipio ?? '—' }}</td>
+                  <td>{{ empresa.ass_cadastro_cidade?.ass_municipio_regiao?.nome ?? '—' }}</td>
+                  <td>{{ empresa.area_atuacao ?? '—' }}</td>
+                  <td>
+                    <span class="status-pill">
+                      {{ empresa.iniciativa_impacto ?? 'Sem status' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary-custom btn-small" (click)="abrirEmpresa(empresa.id)">
+                      Ver detalhes
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="empty-state">Nenhuma empresa encontrada.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination" aria-label="Paginação de empresas">
+          <button type="button" class="btn btn-outline-primary btn-small" (click)="mudarPagina(currentPage - 1)" [disabled]="currentPage === 1">
+            Anterior
+          </button>
+
+          <div class="page-numbers">
+            @for (page of paginas; track page) {
+              <button
+                type="button"
+                class="page-number"
+                [class.active]="page === currentPage"
+                (click)="mudarPagina(page)"
+              >
+                {{ page }}
+              </button>
+            }
+          </div>
+
+          <button type="button" class="btn btn-outline-primary btn-small" (click)="mudarPagina(currentPage + 1)" [disabled]="currentPage === totalPages">
+            Próxima
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+@if (modalDetalhesAberto) {
+  <div class="modal-backdrop" (click)="fecharModais()"></div>
+
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="empresa-modal-title">
+    <div class="modal-header">
+      <div>
+        <small>Empresa</small>
+        <h2 id="empresa-modal-title">{{ empresaSelecionada?.nome_empreendimento ?? 'Detalhes da empresa' }}</h2>
+      </div>
+      <button type="button" class="close-button" (click)="fecharModais()" aria-label="Fechar modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="empresaForm" class="empresa-form">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="tipo_proponente">Tipo de proponente</label>
+          <input id="tipo_proponente" type="text" class="form-control" formControlName="tipo_proponente" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="nome_empreendimento">Nome do empreendimento</label>
+          <input id="nome_empreendimento" type="text" class="form-control" formControlName="nome_empreendimento" />
+          @if (nomeEmpreendimentoControl?.touched && nomeEmpreendimentoControl?.invalid) {
+            <small class="text-error">Informe o nome do empreendimento.</small>
+          }
+        </div>
+
+        <div class="col-md-6">
+          <label for="nome_responsavel">Responsável</label>
+          <input id="nome_responsavel" type="text" class="form-control" formControlName="nome_responsavel" />
+          @if (nomeResponsavelControl?.touched && nomeResponsavelControl?.invalid) {
+            <small class="text-error">Informe o nome do responsável.</small>
+          }
+        </div>
+
+        <div class="col-md-6">
+          <label for="cpf">CPF</label>
+          <input id="cpf" type="text" class="form-control" formControlName="cpf" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="cnpj">CNPJ</label>
+          <input id="cnpj" type="text" class="form-control" formControlName="cnpj" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="telefone">Telefone</label>
+          <input id="telefone" type="text" class="form-control" formControlName="telefone" />
+        </div>
+
+        <div class="col-md-12">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" class="form-control" formControlName="email" />
+          @if (emailControl?.touched && emailControl?.invalid) {
+            <small class="text-error">Informe um e-mail válido.</small>
+          }
+        </div>
+
+        <div class="col-md-3">
+          <label for="cep">CEP</label>
+          <input id="cep" type="text" class="form-control" formControlName="cep" />
+        </div>
+
+        <div class="col-md-3">
+          <label for="cidade">Cidade</label>
+          <input id="cidade" type="text" class="form-control" formControlName="cidade" />
+        </div>
+
+        <div class="col-md-3">
+          <label for="bairro">Bairro</label>
+          <input id="bairro" type="text" class="form-control" formControlName="bairro" />
+        </div>
+
+        <div class="col-md-3">
+          <label for="numero">Número</label>
+          <input id="numero" type="text" class="form-control" formControlName="numero" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="rua">Rua</label>
+          <input id="rua" type="text" class="form-control" formControlName="rua" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="complemento">Complemento</label>
+          <input id="complemento" type="text" class="form-control" formControlName="complemento" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="area_atuacao">Área de atuação</label>
+          <input id="area_atuacao" type="text" class="form-control" formControlName="area_atuacao" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="status_atual">Status atual</label>
+          <input id="status_atual" type="text" class="form-control" formControlName="status_atual" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="iniciativa_impacto">Iniciativa de impacto</label>
+          <input id="iniciativa_impacto" type="text" class="form-control" formControlName="iniciativa_impacto" />
+        </div>
+
+        <div class="col-md-6">
+          <label for="linha_credito">Linha de crédito</label>
+          <input id="linha_credito" type="text" class="form-control" formControlName="linha_credito" />
+        </div>
+
+        <div class="col-12">
+          <label for="resumo_negocio">Resumo do negócio</label>
+          <textarea id="resumo_negocio" class="form-control" rows="4" formControlName="resumo_negocio"></textarea>
+        </div>
+      </div>
+    </form>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary" (click)="abrirModalAnexos()">
+        Ver anexos e imagens
+      </button>
+      <button type="button" class="btn btn-primary-custom" (click)="salvarEmpresa()">
+        Salvar alterações
+      </button>
+    </div>
+  </div>
+}
+
+@if (modalAnexosAberto) {
+  <div class="modal-backdrop" (click)="fecharModais()"></div>
+
+  <div class="modal-panel modal-panel-wide" role="dialog" aria-modal="true" aria-labelledby="anexos-modal-title">
+    <div class="modal-header">
+      <div>
+        <small>Anexos</small>
+        <h2 id="anexos-modal-title">Arquivos de {{ empresaSelecionada?.nome_empreendimento }}</h2>
+      </div>
+      <button type="button" class="close-button" (click)="fecharModais()" aria-label="Fechar anexos">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    @if (anexos.length) {
+      <div class="attachment-grid">
+        @for (anexo of anexos; track anexo.id) {
+          <div class="attachment-card">
+            @if (isImagem(anexo.mimetype)) {
+              <img [src]="anexo.path" [alt]="anexo.tipo_anexo" />
+            } @else {
+              <div class="file-preview">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
+            }
+
+            <div class="attachment-info">
+              <strong>{{ anexo.tipo_anexo }}</strong>
+              <span>{{ anexo.mimetype }}</span>
+            </div>
+
+            <a [href]="anexo.path" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-small">
+              Abrir arquivo
+            </a>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="empty-attachments">
+        <i class="fa-regular fa-folder-open"></i>
+        <p>Nenhum anexo ou imagem encontrado para esta empresa.</p>
+      </div>
+    }
+  </div>
+}
+

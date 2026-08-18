@@ -339,6 +339,64 @@ class CadastroControllers {
     }
   }
 
+  static async pegarTodasEmpresas(req, res) {
+    try {
+      const getCompanies = await database.Cadastro.findAll({
+        where: { linha_credito: "CredImpacto" },
+        attributes: [
+          "id",
+          "tipo_proponente",
+          "nome_responsavel",          
+          "nome_empreendimento",          
+          "iniciativa_impacto",
+          "area_atuacao",
+        ],
+        include: [
+          {
+            association: "ass_cadastro_cidade",
+            attributes: ["id", "nome_municipio"],
+            include: [
+              {
+                association: "ass_municipio_regiao",
+                attributes: ["id", "nome"],
+              },
+            ],
+          },
+        ],
+      });
+
+      return res.status(200).json(getCompanies);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar empresa" });
+    }
+  }
+
+  static async atualizarEmpresa(req, res) {
+    const { id } = req.params;
+    const dados = req.body;
+
+    try {
+      const empresa = await database.Cadastro.findByPk(Number(id));
+
+      if (!empresa) {
+        return res.status(404).json({ message: "Empresa não encontrada." });
+      }
+
+      await database.Cadastro.update(dados, { where: { id: Number(id) } });
+
+      const empresaAtualizada = await database.Cadastro.findByPk(Number(id));
+
+      return res.status(200).json({
+        message: "Empresa atualizada com sucesso.",
+        empresa: empresaAtualizada,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao atualizar empresa." });
+    }
+  }
+
   static async alterarAnexo(req, res) {
   const { id } = req.params;
   try {
