@@ -152,7 +152,7 @@ TIMELINE
 .card-step {
   font-family: "Work Sans", Arial, sans-serif;
   width: 200px;
-  min-height: 82px;
+  min-height: 92px;
   background: var(--branco);
   border-radius: 6px;
   display: flex;
@@ -162,7 +162,7 @@ TIMELINE
   text-align: center;
   padding: 15px;
   box-shadow: var(--sombra);
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
@@ -299,7 +299,7 @@ TEXTOS
   font-family: "Inter", Arial, sans-serif;
   font-size: 1.125rem;
   color: inherit;
-  line-height: 1.9;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -434,7 +434,7 @@ CTA FINAL
   font-family: "Inter", Arial, sans-serif;
   font-size: 1.125rem;
   color: #666;
-  line-height: 1.8;
+  line-height: 1.6;
   margin-bottom: 30px;
 }
 

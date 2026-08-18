@@ -50,30 +50,15 @@ export class FluxoCapacitacaoComponent {
       descricao: 'Aprovação e Contratação',
       azul: true,
     },
+    {
+      numero: 5,
+      // titulo: 'Acompanhamento',
+      descricao: 'Acompanhamento',
+    },
   ];
   trilhas: Trilha[] = [
     {
-      titulo: 'TRILHA DE GESTÃO',
-      subtitulo: 'Capacitação em gestão financeira e administrativa',
-      descricao:
-        'Apoio financeiro, capacitação e orientação técnica para empreendimentos que promovem impacto social e inclusão produtiva.',
-      imagem: 'assets/imgs/imagens/trilha_gestao_2.jpg',
-      cor: 'azul',
-      invertido: false,
-    },
-
-    {
-      titulo: 'TRILHA DE MONITORAMENTO',
-      subtitulo: 'Avaliação e mensuração de impacto',
-      descricao:
-        'Metodologias para monitorar indicadores sociais e ambientais, garantindo transparência e prestação de contas.',
-      imagem: 'assets/imgs/imagens/trilha_monitoramento.jpg',
-      cor: 'verde',
-      invertido: true,
-    },
-
-    {
-      titulo: 'TRILHA DE INOVAÇÃO SOCIAL',
+      titulo: 'TRILHA DE IRECONHECIMENTO DE IMPACTO',
       subtitulo: 'Soluções criativas para desafios sociais',
       descricao:
         'Desenvolvimento de modelos inovadores com foco em impacto territorial, sustentabilidade e transformação comunitária.',
@@ -81,5 +66,25 @@ export class FluxoCapacitacaoComponent {
       cor: 'azul',
       invertido: false,
     },
+    {
+      titulo: 'TRILHA DE GESTÃO',
+      subtitulo: 'Capacitação em modelos de negócios',
+      descricao:
+        'Orientação técnica para gestão de clientes, mercados, produtos, receitas e custos.',
+      imagem: 'assets/imgs/imagens/trilha_gestao_2.jpg',
+      cor: 'verde',
+      invertido: true,
+    },
+
+    {
+      titulo: 'TRILHA DE MONITORAMENTO',
+      subtitulo: 'Avaliação e mensuração de impacto',
+      descricao:
+        'Trilha formativa para mensuração e acompanhamento dos negócios de impacto.',
+      imagem: 'assets/imgs/imagens/trilha_monitoramento.jpg',
+      cor: 'azul',
+      invertido: false,
+    },
+
   ];
 }

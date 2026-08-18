@@ -49,23 +49,9 @@ export class NegociosImpactoComponent {
     },
 
     {
-      titulo: 'Cultura e economia criativa',
-      imagem: 'assets/imgs/imagens/exemplo_atuacao.png',
-    },
-
-    {
       titulo: 'Empreendedorismo comunitário',
       imagem: 'assets/imgs/imagens/exemplo_atuacao.png',
     },
 
-    {
-      titulo: 'Desenvolvimento territorial',
-      imagem: 'assets/imgs/imagens/exemplo_atuacao.png',
-    },
-
-    {
-      titulo: 'Turismo comunitário sustentável',
-      imagem: 'assets/imgs/imagens/exemplo_atuacao.png',
-    },
   ];
 }

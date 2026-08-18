@@ -13,44 +13,17 @@ BREADCRUMB
             <strong>Realizar teste</strong>
           </div>
           <h1>
-            Diagnóstico Inicial de Impacto
+            Reconhecimento Inicial de Impacto
           </h1>
           <p>
-            O objetivo deste questionário é identificar se o seu negócio,
-            projeto ou organização possui características relacionadas às
-            iniciativas de impacto social, ambiental, produtivo ou territorial.
+            O objetivo deste questionário é ajudar você a reconhecer se o seu negócio possui caacterísticas relacionadas
+            a impacto social e ambiental.
           </p>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- ==========================================================
-TÍTULO
-========================================================== -->
-
-<!-- <section class="cabecalho">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 text-center">
-        <h1>
-          Diagnóstico Inicial de Impacto
-        </h1>
-        <p>
-          O objetivo deste questionário é identificar se o seu negócio,
-          projeto ou organização possui características relacionadas às
-          iniciativas de impacto social, ambiental, produtivo ou territorial.
-        </p>
-      </div>
-    </div>
-  </div>
-
-</section> -->
-
-<!-- ==========================================================
-QUESTIONÁRIO
-========================================================== -->
 
 <section class="questionario" *ngIf="!mostrarResultado">
   <div class="container">
@@ -94,8 +67,8 @@ QUESTIONÁRIO
                 <!-- SIM -->
 
                 <div class="form-check">
-                  <input class="form-check-input me-2" type="radio" [value]="1" [formControlName]="'pergunta'+pergunta.id"
-                    [id]="'sim'+pergunta.id">
+                  <input class="form-check-input me-2" type="radio" [value]="1"
+                    [formControlName]="'pergunta'+pergunta.id" [id]="'sim'+pergunta.id">
                   <label class="form-check-label" [for]="'sim'+pergunta.id">
                     Sim
                   </label>
@@ -200,6 +173,13 @@ RESULTADO
                 <p>
                   {{descricao}}
                 </p>
+
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                  <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                  <div>
+                    <strong>Atenção:</strong> O resultado não determina, por si só, a avaliação do crédito.
+                  </div>
+                </div>
 
                 <div class="d-flex flex-wrap gap-3 mt-4">
                   <button class="btn btn-outline-primary" (click)="reiniciar()">
