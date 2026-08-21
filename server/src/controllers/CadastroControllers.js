@@ -311,10 +311,6 @@ class CadastroControllers {
           },
         ],
       });
-      console.log(
-        "getCompanie.ass_cadastro_anexo",
-        getCompanie.ass_cadastro_anexo,
-      );
 
       return res.status(200).json(getCompanie);
     } catch (error) {
@@ -342,8 +338,6 @@ class CadastroControllers {
 
         return dadosAnexo;
       });
-
-      console.log("mostraAnexos", mostraAnexos);
 
       return res.status(200).json(mostraAnexos);
     } catch (error) {
