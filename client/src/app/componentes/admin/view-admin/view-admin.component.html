@@ -1,1 +1,769 @@
-<p>view-admin works!</p>
+<section class="admin-page">
+
+  <div class="container admin-shell">
+
+    <!-- CABEÇALHO -->
+    <div class="page-header">
+
+      <div>
+
+        <small class="breadcrumb-custom">
+          credimpacto >
+          <strong>Administração</strong>
+        </small>
+
+        <h1 class="titulo">
+          Agentes cadastrados
+        </h1>
+
+      </div>
+
+      <div class="summary-card">
+
+        <span>Total</span>
+
+        <strong>
+          {{ agentesFiltradas.length }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- FILTRO -->
+    <div class="toolbar">
+
+      <div class="filter-box">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input type="text" [(ngModel)]="filtro" (ngModelChange)="aplicarFiltro()"
+          placeholder="Filtrar por CPF, responsável, e-mail, município ou perfil" aria-label="Filtrar agentes" />
+
+      </div>
+
+    </div>
+
+
+    <!-- MENSAGEM -->
+    @if (mensagem) {
+
+    <div class="alert-box">
+
+      <i class="fa-solid fa-circle-info"></i>
+
+      <span>
+        {{ mensagem }}
+      </span>
+
+    </div>
+
+    }
+
+
+    <!-- TABELA -->
+    <div class="table-card">
+
+      @if (carregando) {
+
+      <div class="loading-state">
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        <span>
+          Carregando agentes...
+        </span>
+
+      </div>
+
+      } @else {
+
+      <div class="table-responsive">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <!-- CPF -->
+              <th>
+
+                <button type="button" class="sort-button" (click)="ordenarPor('cpf')">
+
+                  <span>CPF</span>
+
+                  <i class="fa-solid {{
+                        getOrdenacaoIcone('cpf')
+                      }}"></i>
+
+                </button>
+
+              </th>
+
+
+              <!-- RESPONSÁVEL -->
+              <th>
+
+                <button type="button" class="sort-button" (click)="ordenarPor('nome_responsavel')">
+
+                  <span>Responsável</span>
+
+                  <i class="fa-solid {{
+                        getOrdenacaoIcone('nome_responsavel')
+                      }}"></i>
+
+                </button>
+
+              </th>
+
+
+              <!-- MUNICÍPIO -->
+              <th>
+
+                <button type="button" class="sort-button" (click)="ordenarPor('municipio')">
+
+                  <span>Município</span>
+
+                  <i class="fa-solid {{
+                        getOrdenacaoIcone('municipio')
+                      }}"></i>
+
+                </button>
+
+              </th>
+
+
+              <!-- REGIÃO -->
+              <th>
+
+                <button type="button" class="sort-button" (click)="ordenarPor('regiao')">
+
+                  <span>Região</span>
+
+                  <i class="fa-solid {{
+                        getOrdenacaoIcone('regiao')
+                      }}"></i>
+
+                </button>
+
+              </th>
+
+
+              <!-- PERFIL -->
+              <th>
+
+                <button type="button" class="sort-button" (click)="ordenarPor('perfil')">
+
+                  <span>Perfil</span>
+
+                  <i class="fa-solid {{
+                        getOrdenacaoIcone('perfil')
+                      }}"></i>
+
+                </button>
+
+              </th>
+
+
+              <!-- STATUS -->
+              <th>
+
+                <button type="button" class="sort-button" (click)="ordenarPor('status')">
+
+                  <span>Status</span>
+
+                  <i class="fa-solid {{
+                        getOrdenacaoIcone('status')
+                      }}"></i>
+
+                </button>
+
+              </th>
+
+
+              <th>
+                Ações
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            @for (
+            agente of paginatedAgentes;
+            track agente.id
+            ) {
+
+            <tr>
+
+              <!-- CPF -->
+              <td>
+
+                <div class="agente-cell">
+
+                  <strong>
+                    {{ agente.cpf }}
+                  </strong>
+
+                </div>
+
+              </td>
+
+
+              <!-- RESPONSÁVEL -->
+              <td>
+
+                {{ agente.nome_responsavel }}
+
+              </td>
+
+
+              <!-- MUNICÍPIO -->
+              <td>
+
+                {{
+                agente.ass_cadastro_cidade
+                ?.nome_municipio ?? '—'
+                }}
+
+              </td>
+
+
+              <!-- REGIÃO -->
+              <td>
+
+                {{
+                agente.ass_cadastro_cidade
+                ?.ass_municipio_regiao
+                ?.nome ?? '—'
+                }}
+
+              </td>
+
+
+              <!-- PERFIL -->
+              <td>
+
+                <span class="profile-pill">
+
+                  {{
+                  agente.ass_cadastro_profile
+                  ?.perfil ?? '—'
+                  }}
+
+                </span>
+
+              </td>
+
+
+              <!-- STATUS -->
+              <td>
+
+                @if (agente.user_active) {
+
+                <span class="status-pill status-active">
+
+                  <i class="fa-solid fa-circle"></i>
+
+                  Ativo
+
+                </span>
+
+                } @else {
+
+                <span class="status-pill status-inactive">
+
+                  <i class="fa-solid fa-circle"></i>
+
+                  Inativo
+
+                </span>
+
+                }
+
+              </td>
+
+
+              <!-- AÇÕES -->
+              <td>
+
+                <button type="button" class="btn btn-primary-custom btn-small" (click)="abrirAgente(agente.id)">
+
+                  <i class="fa-solid fa-pen-to-square"></i>
+
+                  Editar
+
+                </button>
+
+              </td>
+
+            </tr>
+
+            } @empty {
+
+            <tr>
+
+              <td colspan="7" class="empty-state">
+
+                <i class="fa-solid fa-user-slash"></i>
+
+                Nenhum agente encontrada.
+
+              </td>
+
+            </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- PAGINAÇÃO -->
+      <div class="pagination" aria-label="Paginação de agentes">
+
+        <button type="button" class="btn btn-outline-primary btn-small" (click)="mudarPagina(currentPage - 1)"
+          [disabled]="currentPage === 1">
+
+          <i class="fa-solid fa-chevron-left"></i>
+
+          Anterior
+
+        </button>
+
+
+        <div class="page-numbers">
+
+          @for (
+          page of paginas;
+          track page
+          ) {
+
+          <button type="button" class="page-number" [class.active]="page === currentPage" (click)="mudarPagina(page)">
+
+            {{ page }}
+
+          </button>
+
+          }
+
+        </div>
+
+
+        <button type="button" class="btn btn-outline-primary btn-small" (click)="mudarPagina(currentPage + 1)"
+          [disabled]="currentPage === totalPages">
+
+          Próxima
+
+          <i class="fa-solid fa-chevron-right"></i>
+
+        </button>
+
+      </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- MODAL EDITAR AGENTE -->
+<!-- ========================================================= -->
+
+@if (modalDetalhesAberto) {
+
+<div class="modal-backdrop" (click)="fecharModais()"></div>
+
+<div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="agente-modal-title">
+
+  <!-- CABEÇALHO -->
+  <div class="modal-header">
+
+    <div>
+      <small>Administração</small>
+
+      <h2 id="agente-modal-title">
+        Editar agente
+      </h2>
+    </div>
+
+    <button type="button" class="close-button" (click)="fecharModais()" aria-label="Fechar modal" [disabled]="salvando">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+  </div>
+
+
+  <!-- FORMULÁRIO -->
+  <form [formGroup]="agenteForm" class="agente-form" (ngSubmit)="salvarAgente()">
+
+    <div class="row g-3">
+
+      <!-- ============================================== -->
+      <!-- NOME -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <label for="nome_responsavel">
+          Nome do responsável
+        </label>
+
+        <input id="nome_responsavel" type="text" class="form-control" formControlName="nome_responsavel"
+          autocomplete="name" />
+
+        @if (
+        nomeResponsavelControl?.touched &&
+        nomeResponsavelControl?.invalid
+        ) {
+
+        <small class="text-error">
+          Informe o nome do responsável.
+        </small>
+
+        }
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- CPF -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <label for="cpf">
+          CPF
+        </label>
+
+        <input id="cpf" type="text" class="form-control" formControlName="cpf" maxlength="11" inputmode="numeric"
+          autocomplete="off" />
+
+        @if (
+        cpfControl?.touched &&
+        cpfControl?.invalid
+        ) {
+
+        <small class="text-error">
+          Informe um CPF válido.
+        </small>
+
+        }
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- TELEFONE -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <label for="telefone">
+          Telefone
+        </label>
+
+        <input id="telefone" type="text" class="form-control" formControlName="telefone" maxlength="15" inputmode="tel"
+          placeholder="(00) 00000-0000" autocomplete="tel" />
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- EMAIL -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <label for="email">
+          E-mail
+        </label>
+
+        <input id="email" type="email" class="form-control" formControlName="email" autocomplete="email" />
+
+        @if (
+        emailControl?.touched &&
+        emailControl?.invalid
+        ) {
+
+        <small class="text-error">
+          Informe um e-mail válido.
+        </small>
+
+        }
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- CEP -->
+      <!-- ============================================== -->
+
+      <div class="col-md-4">
+
+        <label for="cep">
+          CEP
+        </label>
+
+        <div class="input-with-loader">
+
+          <input id="cep" type="text" class="form-control" formControlName="cep" maxlength="9" inputmode="numeric"
+            placeholder="00000-000" autocomplete="postal-code" (input)="buscarCep($event)" />
+
+          @if (buscandoCep) {
+
+          <i class="fa-solid fa-spinner fa-spin cep-loader"></i>
+
+          }
+
+        </div>
+
+        @if (erroCep) {
+
+        <small class="text-error">
+          {{ erroCep }}
+        </small>
+
+        } @else {
+
+        <small class="field-help">
+          Digite o CEP para preencher o endereço automaticamente.
+        </small>
+
+        }
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- CIDADE -->
+      <!-- ============================================== -->
+
+      <div class="col-md-8">
+
+        <label for="cidade">
+          Município
+        </label>
+
+        <select id="cidade" class="form-select" formControlName="cidade">
+
+          <option value="">
+            Selecione o município
+          </option>
+
+          @for (cidade of city_list; track cidade.id) {
+
+          <option [value]="cidade.id">
+            {{ cidade.nome_municipio }}
+          </option>
+
+          }
+
+        </select>
+
+        @if (
+        cidadeControl?.touched &&
+        cidadeControl?.invalid
+        ) {
+
+        <small class="text-error">
+          Selecione o município.
+        </small>
+
+        }
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- BAIRRO -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <label for="bairro">
+          Bairro
+        </label>
+
+        <input id="bairro" type="text" class="form-control" formControlName="bairro" autocomplete="address-level3" />
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- RUA -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <label for="rua">
+          Rua
+        </label>
+
+        <input id="rua" type="text" class="form-control" formControlName="rua" autocomplete="street-address" />
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- NÚMERO -->
+      <!-- ============================================== -->
+
+      <div class="col-md-4">
+
+        <label for="numero">
+          Número
+        </label>
+
+        <input id="numero" type="text" class="form-control" formControlName="numero" placeholder="Número"
+          autocomplete="off" />
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- COMPLEMENTO -->
+      <!-- ============================================== -->
+
+      <div class="col-md-8">
+
+        <label for="complemento">
+          Complemento
+        </label>
+
+        <input id="complemento" type="text" class="form-control" formControlName="complemento"
+          placeholder="Apartamento, sala, bloco..." autocomplete="address-line2" />
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- PERFIL -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <label for="profile_id">
+          Perfil
+        </label>
+
+        <select id="profile_id" class="form-select" formControlName="profile_id">
+
+          <option value="">
+            Selecione um perfil
+          </option>
+
+          @for (perfil of perfis; track perfil.id) {
+
+          <option [value]="perfil.id">
+            {{ perfil.perfil }}
+          </option>
+
+          }
+
+        </select>
+
+        @if (
+        profileControl?.touched &&
+        profileControl?.invalid
+        ) {
+
+        <small class="text-error">
+          Selecione o perfil.
+        </small>
+
+        }
+
+      </div>
+
+
+      <!-- ============================================== -->
+      <!-- STATUS -->
+      <!-- ============================================== -->
+
+      <div class="col-md-6">
+
+        <div class="status-edit">
+
+          <div>
+
+            <strong>
+              Status do agente
+            </strong>
+
+            <small>
+              Define se o usuário poderá acessar o sistema.
+            </small>
+
+          </div>
+
+          <label class="switch">
+
+            <input type="checkbox" formControlName="user_active" />
+
+            <span class="slider"></span>
+
+          </label>
+
+          <span class="status-label">
+
+            {{
+            agenteForm.get('user_active')?.value
+            ? 'Ativo'
+            : 'Inativo'
+            }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- FOOTER -->
+    <!-- ============================================== -->
+
+    <div class="modal-footer">
+
+      <button type="button" class="btn btn-outline-primary" (click)="fecharModais()" [disabled]="salvando">
+        Cancelar
+      </button>
+
+      <button type="submit" class="btn btn-primary-custom" [disabled]="salvando || agenteForm.invalid">
+
+        @if (salvando) {
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Salvando...
+
+        } @else {
+
+        <i class="fa-solid fa-floppy-disk"></i>
+        Salvar alterações
+
+        }
+
+      </button>
+
+    </div>
+
+  </form>
+
+</div>
+
+}

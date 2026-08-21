@@ -65,6 +65,7 @@ export class CadastroService {
       dados,
     );
   }
+
   alterarAnexo(id: number, arquivo: File) {
     const formData = new FormData();
     formData.append('arquivo', arquivo);
@@ -75,5 +76,21 @@ export class CadastroService {
   excluirAnexo(id: number) {
     // return this.http.delete(`${this.apiUrl}/anexos/${id}`);
     return this.http.delete(environment.apiUrl + 'anexos/' + id);
+  }
+
+  listarAgentes(): Observable<any> {
+    return this.http.get(environment.apiUrl + 'allagents');
+  }
+
+  agentId(id: number): Observable<any> {
+    // return this.http.get<any>(`${environment.apiUrl}/companiebyid/${id}`);
+    return this.http.get(environment.apiUrl + 'agentebyid/' + id);
+  }
+
+  atualizarAgente(id: number, dados: any): Observable<any> {
+    return this.http.put<any>(
+      `${environment.apiUrl}/updateagente/${id}`,
+      dados,
+    );
   }
 }

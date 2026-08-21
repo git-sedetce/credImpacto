@@ -111,7 +111,7 @@ export class CadastroComponent implements OnInit {
         linha_credito: ['CredImpacto'],
         aceite_termos: [false, Validators.requiredTrue],
 
-        /*===================================
+      /*===================================
       IMPACTO
       ===================================*/
 
@@ -121,7 +121,7 @@ export class CadastroComponent implements OnInit {
         area_atuacao: ['', Validators.required],
         resumo_negocio: ['', [Validators.required, Validators.maxLength(1500)]],
 
-        /*===================================
+      /*===================================
       PERFIL
       ===================================*/
 

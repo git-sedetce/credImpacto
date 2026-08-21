@@ -255,6 +255,22 @@ class CadastroControllers {
     }
   }
 
+  static async pegarPerfis(req, res) {
+    try {
+      const getProfiles = await database.Profile.findAll({
+        attributes: [
+          "id",
+          "perfil"
+        ],        
+      });
+
+      return res.status(200).json(getProfiles);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar empresa" });
+    }
+  }
+
   static async empresaId(req, res) {
     const { id } = req.params;
     try {
@@ -346,8 +362,8 @@ class CadastroControllers {
         attributes: [
           "id",
           "tipo_proponente",
-          "nome_responsavel",          
-          "nome_empreendimento",          
+          "nome_responsavel",
+          "nome_empreendimento",
           "iniciativa_impacto",
           "area_atuacao",
         ],
@@ -378,15 +394,11 @@ class CadastroControllers {
 
     try {
       const empresa = await database.Cadastro.findByPk(Number(id));
-
       if (!empresa) {
         return res.status(404).json({ message: "Empresa não encontrada." });
       }
-
       await database.Cadastro.update(dados, { where: { id: Number(id) } });
-
       const empresaAtualizada = await database.Cadastro.findByPk(Number(id));
-
       return res.status(200).json({
         message: "Empresa atualizada com sucesso.",
         empresa: empresaAtualizada,
@@ -398,68 +410,149 @@ class CadastroControllers {
   }
 
   static async alterarAnexo(req, res) {
-  const { id } = req.params;
-  try {
-    const anexo = await database.Anexo.findByPk(id);
-    if (!anexo) {
-      return res.status(404).json({
-        message: 'Anexo não encontrado.'
+    const { id } = req.params;
+    try {
+      const anexo = await database.Anexo.findByPk(id);
+      if (!anexo) {
+        return res.status(404).json({
+          message: "Anexo não encontrado.",
+        });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({
+          message: "Nenhum arquivo enviado.",
+        });
+      }
+
+      // Remover arquivo antigo
+      // fs.unlinkSync(anexo.path);
+
+      await anexo.update({
+        filename: req.file.filename,
+        mimetype: req.file.mimetype,
+        path: req.file.path,
+      });
+
+      return res.status(200).json({
+        message: "Anexo alterado com sucesso.",
+        anexo,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Erro ao alterar anexo.",
       });
     }
-
-    if (!req.file) {
-      return res.status(400).json({
-        message: 'Nenhum arquivo enviado.'
-      });
-    }
-
-    // Remover arquivo antigo
-    // fs.unlinkSync(anexo.path);
-
-    await anexo.update({
-      filename: req.file.filename,
-      mimetype: req.file.mimetype,
-      path: req.file.path
-    });
-
-    return res.status(200).json({
-      message: 'Anexo alterado com sucesso.',
-      anexo
-    });
-
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      message: 'Erro ao alterar anexo.'
-    });
   }
-}
 
   static async excluirAnexo(req, res) {
-  const { id } = req.params;
-  try {
-    const anexo = await database.Anexo.findByPk(id);
-    if (!anexo) {
-      return res.status(404).json({
-        message: 'Anexo não encontrado.'
+    const { id } = req.params;
+    try {
+      const anexo = await database.Anexo.findByPk(id);
+      if (!anexo) {
+        return res.status(404).json({
+          message: "Anexo não encontrado.",
+        });
+      }
+
+      // excluir arquivo físico
+      // fs.unlinkSync(anexo.path);
+
+      await anexo.destroy();
+
+      return res.status(200).json({
+        message: "Anexo excluído com sucesso.",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Erro ao excluir anexo.",
       });
     }
-
-    // excluir arquivo físico
-    // fs.unlinkSync(anexo.path);
-
-    await anexo.destroy();
-
-    return res.status(200).json({
-      message: 'Anexo excluído com sucesso.'
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      message: 'Erro ao excluir anexo.'
-    });
   }
-}
+
+  static async pegarTodosAgentes(req, res) {
+    try {
+      const getAgentes = await database.Cadastro.findAll({
+        where: { linha_credito: null },
+        attributes: [
+          "id",
+          "nome_responsavel",          
+          "cpf",          
+          "email",
+          "user_active",
+          "profile_id"
+        ],
+        include: [
+          {
+            association: "ass_cadastro_cidade",
+            attributes: ["id", "nome_municipio"],
+            include: [
+              {
+                association: "ass_municipio_regiao",
+                attributes: ["id", "nome"],
+              },
+            ],
+          },
+          {
+            association: "ass_cadastro_profile",
+            attributes: ["id", "perfil"]
+          },
+        ],
+      });
+
+      return res.status(200).json(getAgentes);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar agentes" });
+    }
+  }
+
+  static async agenteId(req, res) {
+    const { id } = req.params;
+    try {
+      const getAgentes = await database.Cadastro.findOne({
+        where: { id: Number(id), linha_credito: null },
+        attributes: [
+          "id",
+          "nome_responsavel",          
+          "cpf",          
+          "email",
+          "telefone",
+          "user_active",
+          "profile_id",
+          "cep",
+          "cidade",
+          "bairro",
+          "rua",
+          "numero",
+          "complemento",
+        ],
+        include: [
+          {
+            association: "ass_cadastro_cidade",
+            attributes: ["id", "nome_municipio"],
+            include: [
+              {
+                association: "ass_municipio_regiao",
+                attributes: ["id", "nome"],
+              },
+            ],
+          },
+          {
+            association: "ass_cadastro_profile",
+            attributes: ["id", "perfil"]
+          },
+        ],
+      });
+
+      return res.status(200).json(getAgentes);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar agentes" });
+    }
+  }
 }
 
 module.exports = CadastroControllers;
