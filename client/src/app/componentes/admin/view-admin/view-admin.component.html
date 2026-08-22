@@ -106,12 +106,12 @@
               <!-- RESPONSÁVEL -->
               <th>
 
-                <button type="button" class="sort-button" (click)="ordenarPor('nome_responsavel')">
+                <button type="button" class="sort-button" (click)="ordenarPor('nome')">
 
                   <span>Responsável</span>
 
                   <i class="fa-solid {{
-                        getOrdenacaoIcone('nome_responsavel')
+                        getOrdenacaoIcone('nome')
                       }}"></i>
 
                 </button>
@@ -218,7 +218,7 @@
               <!-- RESPONSÁVEL -->
               <td>
 
-                {{ agente.nome_responsavel }}
+                {{ agente.nome }}
 
               </td>
 
@@ -227,7 +227,7 @@
               <td>
 
                 {{
-                agente.ass_cadastro_cidade
+                agente.ass_agente_cidade
                 ?.nome_municipio ?? '—'
                 }}
 
@@ -238,7 +238,7 @@
               <td>
 
                 {{
-                agente.ass_cadastro_cidade
+                agente.ass_agente_cidade
                 ?.ass_municipio_regiao
                 ?.nome ?? '—'
                 }}
@@ -252,7 +252,7 @@
                 <span class="profile-pill">
 
                   {{
-                  agente.ass_cadastro_profile
+                  agente.ass_agente_profile
                   ?.perfil ?? '—'
                   }}
 
@@ -417,11 +417,11 @@
 
       <div class="col-md-6">
 
-        <label for="nome_responsavel">
+        <label for="nome">
           Nome do responsável
         </label>
 
-        <input id="nome_responsavel" type="text" class="form-control" formControlName="nome_responsavel"
+        <input id="nome" type="text" class="form-control" formControlName="nome"
           autocomplete="name" />
 
         @if (

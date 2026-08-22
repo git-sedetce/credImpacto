@@ -8,7 +8,9 @@ const router = Router()
 router.post("/registeradmin", UserController.registerAdmin,
 );
 router.post('/login', UserController.login)
-router.get('/allUser', auth.authenticatedUser, checkRole.checkRole([1]), UserController.pegaUsers)
+router.get('/allUser', auth.authenticatedUser, checkRole.checkRole([1]), UserController.pegaUsers);
+router.get('/allagents', UserController.pegarTodosAgentes);
+router.get("/agentebyid/:id", UserController.agenteId);
 router.get('/pegarperfils', UserController.pegarPerfils)
 router.put('/atualizaUser/:id', auth.authenticatedUser, checkRole.checkRole([1]), UserController.atualizaUser)
 router.post('/logout', UserController.logout)

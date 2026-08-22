@@ -57,14 +57,14 @@
                 <!-- NOME -->
 
                 <div class="col-md-12 mb-3">
-                  <label for="nome_responsavel">
+                  <label for="nome">
                     Nome completo
                   </label>
-                  <input id="nome_responsavel" type="text" class="form-control" formControlName="nome_responsavel"
+                  <input id="nome" type="text" class="form-control" formControlName="nome"
                     placeholder="Digite seu nome completo">
                   @if(
-                  f['nome_responsavel'].touched &&
-                  f['nome_responsavel'].invalid
+                  f['nome'].touched &&
+                  f['nome'].invalid
                   ){
                   <div class="invalid-feedback-custom">
                     Informe seu nome completo.

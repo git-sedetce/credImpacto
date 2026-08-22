@@ -11,10 +11,10 @@ import {
 import { CadastroService } from '../../../services/cadastro.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { Cadastro } from '../../../model/cadastro.model';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Perfil } from '../../../model/perfil.model';
+import { Agente } from '../../../model/agente.model';
 
 @Component({
   selector: 'app-cadastro-admin',
@@ -28,7 +28,7 @@ export class CadastroAdminComponent implements OnInit {
   ===================================*/
 
   cadastroForm!: FormGroup;
-  cadastro!: Cadastro;
+  cadastro!: Agente;
   passwordPtn =
     '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&()_+\\-=\\[\\]{};:\'",.<>/?\\\\|`~#^]).{8,}$';
 
@@ -55,7 +55,7 @@ export class CadastroAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.cadastro = new Cadastro();
+    this.cadastro = new Agente();
     this.loadCities();
     this.loadProfile();
   }
@@ -71,7 +71,7 @@ export class CadastroAdminComponent implements OnInit {
       PERFIL
       ===================================*/
 
-        nome_responsavel: ['', [Validators.required, Validators.minLength(3)]],
+        nome: ['', [Validators.required, Validators.minLength(3)]],
         cpf: ['', Validators.required],
         telefone: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -223,9 +223,9 @@ export class CadastroAdminComponent implements OnInit {
       MODEL
   ===================================*/
 
-  private montarCadastro(): Cadastro {
+  private montarCadastro(): Agente {
     return Object.assign(
-      new Cadastro(),
+      new Agente(),
       this.cadastro,
       this.cadastroForm.getRawValue(),
     );
@@ -291,7 +291,7 @@ export class CadastroAdminComponent implements OnInit {
   ===================================*/
 
   private resetFormulario(): void {
-    this.cadastro = new Cadastro();
+    this.cadastro = new Agente();
     this.cadastroForm.reset();
 
     this.router.navigate(['/login']);

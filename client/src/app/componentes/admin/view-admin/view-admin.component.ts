@@ -21,7 +21,7 @@ export class ViewAdminComponent implements OnInit {
   currentPage = 1;
   pageSize = 10;
   totalPages = 1;
-  sortField = 'nome_responsavel';
+  sortField = 'nome';
   sortDirection: 'asc' | 'desc' = 'asc';
   modalDetalhesAberto = false;
   carregando = false;
@@ -42,7 +42,7 @@ export class ViewAdminComponent implements OnInit {
     private fb: FormBuilder,
   ) {
     this.agenteForm = this.fb.group({
-      nome_responsavel: ['', Validators.required],
+      nome: ['', Validators.required],
       cpf: [
         '',
         [
@@ -121,13 +121,13 @@ export class ViewAdminComponent implements OnInit {
     const termo = this.filtro.trim().toLowerCase();
 
     this.agentesFiltradas = this.agentes.filter((agente) => {
-      const responsavel = agente.nome_responsavel ?? '';
+      const responsavel = agente.nome ?? '';
       const cpf = agente.cpf ?? '';
       const email = agente.email ?? '';
-      const cidade = agente.ass_cadastro_cidade?.nome_municipio ?? '';
+      const cidade = agente.ass_agente_cidade?.nome_municipio ?? '';
       const regiao =
-        agente.ass_cadastro_cidade?.ass_municipio_regiao?.nome ?? '';
-      const perfil = agente.ass_cadastro_profile?.perfil ?? '';
+        agente.ass_agente_cidade?.ass_municipio_regiao?.nome ?? '';
+      const perfil = agente.ass_agente_profile?.perfil ?? '';
       const status = agente.user_active ? 'ativo' : 'inativo';
 
       return (
@@ -175,14 +175,14 @@ export class ViewAdminComponent implements OnInit {
     switch (campo) {
       case 'cpf':
         return agente.cpf ?? '';
-      case 'nome_responsavel':
-        return agente.nome_responsavel ?? '';
+      case 'nome':
+        return agente.nome ?? '';
       case 'municipio':
-        return agente.ass_cadastro_cidade?.nome_municipio ?? '';
+        return agente.ass_agente_cidade?.nome_municipio ?? '';
       case 'regiao':
-        return agente.ass_cadastro_cidade?.ass_municipio_regiao?.nome ?? '';
+        return agente.ass_agente_cidade?.ass_municipio_regiao?.nome ?? '';
       case 'perfil':
-        return agente.ass_cadastro_profile?.perfil ?? '';
+        return agente.ass_agente_profile?.perfil ?? '';
       case 'status':
         return agente.user_active ? 'Ativo' : 'Ínativo';
       default:
@@ -243,13 +243,13 @@ export class ViewAdminComponent implements OnInit {
       next: (agente) => {
         this.agenteSelecionada = agente;
 
-        const cidadeId = agente.ass_cadastro_cidade?.id ?? agente.cidade ?? '';
+        const cidadeId = agente.ass_agente_cidade?.id ?? agente.cidade ?? '';
 
         const profileId =
-          agente.profile_id ?? agente.ass_cadastro_profile?.id ?? '';
+          agente.profile_id ?? agente.ass_agente_profile?.id ?? '';
 
         this.agenteForm.patchValue({
-          nome_responsavel: agente.nome_responsavel ?? '',
+          nome: agente.nome ?? '',
           cpf: agente.cpf ?? '',
           telefone: agente.telefone ?? '',
           email: agente.email ?? '',
@@ -423,7 +423,7 @@ export class ViewAdminComponent implements OnInit {
   // ============================================================
 
   get nomeResponsavelControl() {
-    return this.agenteForm.get('nome_responsavel');
+    return this.agenteForm.get('nome');
   }
 
   get cpfControl() {

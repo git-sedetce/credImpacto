@@ -27,5 +27,6 @@ export class Cadastro {
     public fotos?: string,
     public aceite_termos?: boolean,
     public linha_credito?: string,
+    public user_active?: boolean
   ){}
 }

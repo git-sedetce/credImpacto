@@ -48,9 +48,6 @@ router.get('/imagens/:id', CadastroController.pegarImagensId);
 router.get('/allcompanies', CadastroController.pegarTodasEmpresas);
 router.put('/updatecompanie/:id', CadastroController.atualizarEmpresa);
 
-router.get('/allagents', CadastroController.pegarTodosAgentes);
-router.get("/agentebyid/:id", CadastroController.agenteId);
-
 router.put('/anexos/:id', CadastroController.alterarAnexo);
 router.delete('/anexos/:id', CadastroController.excluirAnexo);
 

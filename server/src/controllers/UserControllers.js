@@ -71,7 +71,7 @@ class UserController {
       8 - CRIAR CADASTRO
     ====================================================*/
 
-      const novoCadastro = await database.Cadastro.create(dados, {
+      const novoCadastro = await database.Agente.create(dados, {
         transaction: t,
       });
 
@@ -214,120 +214,125 @@ class UserController {
   }
 
   static async login(req, res) {
-  const user = req.body;
-  console.log("user", user);
+    const user = req.body;
+    console.log("user", user);
 
-  try {
-    // Verifica se foi informado email ou CPF
-    if (!user.email && !user.cpf) {
-      return res.status(400).json({
-        message: "Informe o e-mail ou CPF.",
-      });
-    }
+    try {
+      // Verifica se foi informado email ou CPF
+      if (!user.email && !user.cpf) {
+        return res.status(400).json({
+          message: "Informe o e-mail ou CPF.",
+        });
+      }
 
-    // Monta as condições de busca
-    const condicoes = [];
+      // Monta as condições de busca
+      const condicoes = [];
 
-    if (user.email) {
-      condicoes.push({
-        email: user.email,
-      });
-    }
+      if (user.email) {
+        condicoes.push({
+          email: user.email,
+        });
+      }
 
-    if (user.cpf) {
-      condicoes.push({
-        cpf: user.cpf,
-      });
-    }
+      if (user.cpf) {
+        condicoes.push({
+          cpf: user.cpf,
+        });
+      }
 
-    // =========================================================
-    // 1. Procura primeiro na tabela Cadastro
-    // =========================================================
-    let verificaUser = await database.Cadastro.findOne({
-      where: {
-        [Op.or]: condicoes,
-      },
-    });
-
-    let tipoUsuario = "cadastro";
-
-    // =========================================================
-    // 2. Se não encontrou no Cadastro, procura em Agente
-    // =========================================================
-    if (!verificaUser) {
-      verificaUser = await database.Agente.findOne({
+      // =====================================================
+      // Procura primeiro na tabela Cadastro
+      // =====================================================
+      let verificaUser = await database.Cadastro.findOne({
         where: {
           [Op.or]: condicoes,
         },
       });
 
-      tipoUsuario = "agente";
-    }
+      let tipoUsuario = "cadastro";
 
-    console.log("USUÁRIO:", verificaUser);
-    console.log("TIPO:", tipoUsuario);
+      // =====================================================
+      // Se não encontrou no Cadastro, procura em Agente
+      // =====================================================
+      if (!verificaUser) {
+        verificaUser = await database.Agente.findOne({
+          where: {
+            [Op.or]: condicoes,
+          },
+        });
 
-    // Usuário não encontrado em nenhuma das tabelas
-    if (!verificaUser) {
-      return res.status(404).json({
-        message: "Usuário não encontrado!",
-      });
-    }
-
-    // =========================================================
-    // Verifica se o usuário está ativo
-    // =========================================================
-    if (!verificaUser.user_active) {
-      return res.status(400).json({
-        message: "Consulte o Administrador do sistema",
-      });
-    }
-
-    // =========================================================
-    // Verifica a senha
-    // =========================================================
-    if (!(await bcrypt.compare(user.password, verificaUser.password))) {
-      return res.status(400).json({
-        message: "Credenciais inválidas!",
-      });
-    }
-
-    // =========================================================
-    // Gera o token
-    // =========================================================
-    const token = jwt.sign(
-      {
-        _id: verificaUser.id,
-        _profile_id: verificaUser.profile_id,
-        _user_name: verificaUser.nome_responsavel,
-
-        // Opcional, mas recomendo:
-        _tipo_usuario: tipoUsuario,
-      },
-      process.env.ACCESS_TOKEN,
-      {
-        expiresIn: "8h",
+        tipoUsuario = "agente";
       }
-    );
 
-    return res.json({
-      auth: true,
-      token: token,
-      message: "Usuário logado com sucesso!",
-    });
+      console.log("USER:", verificaUser);
+      console.log("TIPO USUÁRIO:", tipoUsuario);
 
-  } catch (error) {
-    console.error("Erro ao realizar login:", error);
+      // Usuário não encontrado
+      if (!verificaUser) {
+        return res.status(404).json({
+          message: "Usuário não encontrado!",
+        });
+      }
 
-    return res.status(500).json({
-      message: "Problemas ao realizar login!",
-    });
+      // =====================================================
+      // Verifica se o usuário está ativo
+      // =====================================================
+      if (!verificaUser.user_active) {
+        return res.status(400).json({
+          message: "Consulte o Administrador do sistema",
+        });
+      }
+
+      // =====================================================
+      // Verifica a senha
+      // =====================================================
+      if (!(await bcrypt.compare(user.password, verificaUser.password))) {
+        return res.status(400).json({
+          message: "Credenciais inválidas!",
+        });
+      }
+
+      // =====================================================
+      // Define o nome de acordo com a tabela
+      // =====================================================
+      const nomeUsuario =
+        tipoUsuario === "agente"
+          ? verificaUser.nome
+          : verificaUser.nome_responsavel;
+
+      // =====================================================
+      // Gera o token
+      // =====================================================
+      const token = jwt.sign(
+        {
+          _id: verificaUser.id,
+          _profile_id: verificaUser.profile_id,
+          _user_name: nomeUsuario,
+          _tipo_usuario: tipoUsuario,
+        },
+        process.env.ACCESS_TOKEN,
+        {
+          expiresIn: "8h",
+        },
+      );
+
+      return res.json({
+        auth: true,
+        token: token,
+        message: "Usuário logado com sucesso!",
+      });
+    } catch (error) {
+      console.error("Erro ao realizar login:", error);
+
+      return res.status(500).json({
+        message: "Problemas ao realizar login!",
+      });
+    }
   }
-}
 
   static async pegaUsers(req, res) {
     try {
-      const getUser = await database.Cadastro.findAll({
+      const getUser = await database.Agente.findAll({
         order: [["nome", "ASC"]],
         attributes: [
           "id",
@@ -357,11 +362,11 @@ class UserController {
         ],
         include: [
           {
-            association: "ass_cadastro_profile",
+            association: "ass_agente_profile",
             attributes: ["id", "perfil"],
           },
           {
-            association: "ass_cadastro_cidade",
+            association: "ass_agente_cidade",
             attributes: ["id", "nome_municipio"],
             include: [
               {
@@ -377,6 +382,80 @@ class UserController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Erro ao buscar usuários" });
+    }
+  }
+
+  static async pegarTodosAgentes(req, res) {
+    try {
+      const getAgentes = await database.Agente.findAll({
+        attributes: ["id", "nome", "cpf", "email", "user_active", "profile_id"],
+        include: [
+          {
+            association: "ass_agente_cidade",
+            attributes: ["id", "nome_municipio"],
+            include: [
+              {
+                association: "ass_municipio_regiao",
+                attributes: ["id", "nome"],
+              },
+            ],
+          },
+          {
+            association: "ass_agente_profile",
+            attributes: ["id", "perfil"],
+          },
+        ],
+      });
+
+      return res.status(200).json(getAgentes);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar agentes" });
+    }
+  }
+
+  static async agenteId(req, res) {
+    const { id } = req.params;
+    try {
+      const getAgentes = await database.Agente.findOne({
+        where: { id: Number(id) },
+        attributes: [
+          "id",
+          "nome",
+          "cpf",
+          "email",
+          "telefone",
+          "user_active",
+          "profile_id",
+          "cep",
+          "cidade",
+          "bairro",
+          "rua",
+          "numero",
+          "complemento",
+        ],
+        include: [
+          {
+            association: "ass_agente_cidade",
+            attributes: ["id", "nome_municipio"],
+            include: [
+              {
+                association: "ass_municipio_regiao",
+                attributes: ["id", "nome"],
+              },
+            ],
+          },
+          {
+            association: "ass_agente_profile",
+            attributes: ["id", "perfil"],
+          },
+        ],
+      });
+
+      return res.status(200).json(getAgentes);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erro ao buscar agentes" });
     }
   }
 
@@ -399,7 +478,7 @@ class UserController {
     const user = req.body;
     // console.log('user', user)
     try {
-      await database.Cadastro.update(user, { where: { id: Number(id) } });
+      await database.Agente.update(user, { where: { id: Number(id) } });
       const updateUser = await database.Cadastro.findOne({
         where: { id: Number(id) },
       });
@@ -418,7 +497,7 @@ class UserController {
     const user = req.body;
     //console.log('user', user)
     try {
-      const verificaUser = await database.Cadastro.findOne({
+      const verificaUser = await database.Agente.findOne({
         where: { email: user.email },
       });
       if (!verificaUser) {
@@ -431,12 +510,12 @@ class UserController {
       //console.log('newPassword', newPassword)
 
       if (verificaUser.user_active === false) {
-        const novaSenha = await database.Cadastro.update(
+        const novaSenha = await database.Agente.update(
           { password: newPassword },
           { where: { email: user.email } },
         );
       } else {
-        const novaSenha = await database.Cadastro.update(
+        const novaSenha = await database.Agente.update(
           { password: newPassword },
           { where: { email: user.email } },
         );
@@ -454,13 +533,13 @@ class UserController {
   static async deletaUsers(req, res) {
     const { id } = req.params;
 
-    const apaga = await database.Cadastro.findOne({
+    const apaga = await database.Agente.findOne({
       where: { id: Number(id) },
       attributes: ["nome_responsavel"],
     });
 
     try {
-      await database.Cadastro.destroy({ where: { id: Number(id) } });
+      await database.Agente.destroy({ where: { id: Number(id) } });
       return res.status(200).json({
         mensagem: `O Usuario ${apaga.nome_responsavel} foi excluido com sucesso!!`,
       });
