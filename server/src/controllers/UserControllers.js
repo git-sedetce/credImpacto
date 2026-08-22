@@ -214,87 +214,116 @@ class UserController {
   }
 
   static async login(req, res) {
-    const user = req.body;
-    console.log("user", user);
+  const user = req.body;
+  console.log("user", user);
 
-    try {
-      // Verifica se foi informado email ou CPF
-      if (!user.email && !user.cpf) {
-        return res.status(400).json({
-          message: "Informe o e-mail ou CPF.",
-        });
-      }
+  try {
+    // Verifica se foi informado email ou CPF
+    if (!user.email && !user.cpf) {
+      return res.status(400).json({
+        message: "Informe o e-mail ou CPF.",
+      });
+    }
 
-      // Monta as condições de busca
-      const condicoes = [];
+    // Monta as condições de busca
+    const condicoes = [];
 
-      if (user.email) {
-        condicoes.push({
-          email: user.email,
-        });
-      }
+    if (user.email) {
+      condicoes.push({
+        email: user.email,
+      });
+    }
 
-      if (user.cpf) {
-        condicoes.push({
-          cpf: user.cpf,
-        });
-      }
+    if (user.cpf) {
+      condicoes.push({
+        cpf: user.cpf,
+      });
+    }
 
-      // Procura o usuário por email OU CPF
-      const verificaUser = await database.Cadastro.findOne({
+    // =========================================================
+    // 1. Procura primeiro na tabela Cadastro
+    // =========================================================
+    let verificaUser = await database.Cadastro.findOne({
+      where: {
+        [Op.or]: condicoes,
+      },
+    });
+
+    let tipoUsuario = "cadastro";
+
+    // =========================================================
+    // 2. Se não encontrou no Cadastro, procura em Agente
+    // =========================================================
+    if (!verificaUser) {
+      verificaUser = await database.Agente.findOne({
         where: {
           [Op.or]: condicoes,
         },
       });
 
-      console.log('USER', verificaUser)
+      tipoUsuario = "agente";
+    }
 
-      // Usuário não encontrado
-      if (!verificaUser) {
-        return res.status(404).send({
-          message: "Usuário não encontrado!",
-        });
-      }
+    console.log("USUÁRIO:", verificaUser);
+    console.log("TIPO:", tipoUsuario);
 
-      // Verifica se o usuário está ativo
-      if (!verificaUser.user_active) {
-        return res.status(400).send({
-          message: "Consulte o Administrador do sistema",
-        });
-      }
-
-      // Verifica a senha
-      if (!(await bcrypt.compare(user.password, verificaUser.password))) {
-        return res.status(400).send({
-          message: "Credenciais inválidas!",
-        });
-      }
-
-      // Gera o token
-      const token = jwt.sign(
-        {
-          _id: verificaUser.id,
-          _profile_id: verificaUser.profile_id,
-          _user_name: verificaUser.nome_responsavel,
-        },
-        process.env.ACCESS_TOKEN,
-        {
-          expiresIn: "8h",
-        },
-      );      
-      return res.json({
-        auth: true,
-        token: token,
-        message: "Usuário logado com sucesso!",
-      });
-    } catch (error) {
-      console.error("Erro ao realizar login:", error);
-
-      return res.status(500).json({
-        message: "Problemas ao realizar login!",
+    // Usuário não encontrado em nenhuma das tabelas
+    if (!verificaUser) {
+      return res.status(404).json({
+        message: "Usuário não encontrado!",
       });
     }
+
+    // =========================================================
+    // Verifica se o usuário está ativo
+    // =========================================================
+    if (!verificaUser.user_active) {
+      return res.status(400).json({
+        message: "Consulte o Administrador do sistema",
+      });
+    }
+
+    // =========================================================
+    // Verifica a senha
+    // =========================================================
+    if (!(await bcrypt.compare(user.password, verificaUser.password))) {
+      return res.status(400).json({
+        message: "Credenciais inválidas!",
+      });
+    }
+
+    // =========================================================
+    // Gera o token
+    // =========================================================
+    const token = jwt.sign(
+      {
+        _id: verificaUser.id,
+        _profile_id: verificaUser.profile_id,
+        _user_name: verificaUser.nome_responsavel,
+
+        // Opcional, mas recomendo:
+        _tipo_usuario: tipoUsuario,
+      },
+      process.env.ACCESS_TOKEN,
+      {
+        expiresIn: "8h",
+      }
+    );
+
+    return res.json({
+      auth: true,
+      token: token,
+      message: "Usuário logado com sucesso!",
+    });
+
+  } catch (error) {
+    console.error("Erro ao realizar login:", error);
+
+    return res.status(500).json({
+      message: "Problemas ao realizar login!",
+    });
   }
+}
 
   static async pegaUsers(req, res) {
     try {
