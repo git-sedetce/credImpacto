@@ -28,16 +28,21 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       user_pin: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(6),
+        allowNull: false,
       },
       profile_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: { model: 'Profiles', key: 'id' }
       },
       cep: {
         type: Sequelize.STRING
       },
       cidade: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: { model: 'Cidades', key: 'id' }
       },
       bairro: {
         type: Sequelize.STRING

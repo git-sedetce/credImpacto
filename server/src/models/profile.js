@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Profile.hasMany(models.Cadastro, { foreignKey: 'profile_id', as: 'ass_profile_cadastro' });
+      Profile.hasMany(models.Agente, { foreignKey: 'profile_id', as: 'ass_profile_Agente' });
     }
   }
   Profile.init({
