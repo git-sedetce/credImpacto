@@ -1,0 +1,393 @@
+<section class="admin-page">
+
+  <div class="container admin-shell">
+
+    <!-- CABEÇALHO -->
+    <div class="page-header">
+
+      <div>
+
+        <small class="breadcrumb-custom">
+          credimpacto >
+          <strong>Administração</strong>
+        </small>
+
+        <h1 class="titulo">
+          Cadastro de Polo
+        </h1>
+
+        <p class="subtitulo">
+          Cadastre um novo polo e defina os municípios e bairros atendidos.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- MENSAGEM -->
+    @if (mensagem) {
+
+    <div class="alert-box">
+
+      <i class="fa-solid fa-circle-info"></i>
+
+      <span>
+        {{ mensagem }}
+      </span>
+
+    </div>
+
+    }
+
+
+    <!-- CARD DO FORMULÁRIO -->
+    <div class="form-card">
+
+      <div class="form-header">
+
+        <div class="form-icon">
+
+          <i class="fa-solid fa-location-dot"></i>
+
+        </div>
+
+        <div>
+
+          <h2>
+            Informações do Polo
+          </h2>
+
+          <p>
+            Preencha as informações abaixo para cadastrar o polo.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <form [formGroup]="poloForm" (ngSubmit)="salvarPolo()">
+
+        <div class="row g-4">
+
+
+          <!-- ============================================== -->
+          <!-- NOME DO POLO -->
+          <!-- ============================================== -->
+
+          <div class="col-12">
+
+            <label for="nome_polo">
+              Nome do Polo
+            </label>
+
+            <input
+              id="nome_polo"
+              type="text"
+              class="form-control"
+              formControlName="nome_polo"
+              placeholder="Digite o nome do polo"
+              autocomplete="off"
+            />
+
+            @if (
+              nomePoloControl?.touched &&
+              nomePoloControl?.invalid
+            ) {
+
+              <small class="text-error">
+                Informe o nome do polo.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ============================================== -->
+          <!-- CIDADES -->
+          <!-- ============================================== -->
+
+          <div class="col-12">
+
+            <div class="section-title">
+
+              <div>
+
+                <h3>
+                  Municípios
+                </h3>
+
+                <p>
+                  Selecione um ou mais municípios que farão parte deste polo.
+                </p>
+
+              </div>
+
+              <span class="selection-count">
+                {{ cidadesSelecionadas.length }} selecionada(s)
+              </span>
+
+            </div>
+
+
+            <div class="cities-box">
+
+              @if (carregandoCidades) {
+
+                <div class="loading-state">
+
+                  <i class="fa-solid fa-spinner fa-spin"></i>
+
+                  <span>
+                    Carregando municípios...
+                  </span>
+
+                </div>
+
+              } @else {
+
+                <div class="row g-2">
+
+                  @for (cidade of city_list; track cidade.id) {
+
+                    <div class="col-md-4 col-lg-3">
+
+                      <label class="city-option">
+
+                        <input
+                          type="checkbox"
+                          [checked]="cidadeSelecionada(cidade.id)"
+                          (change)="toggleCidade(cidade)"
+                        />
+
+                        <span class="custom-check">
+
+                          @if (cidadeSelecionada(cidade.id)) {
+
+                            <i class="fa-solid fa-check"></i>
+
+                          }
+
+                        </span>
+
+                        <span class="city-name">
+                          {{ cidade.nome_municipio }}
+                        </span>
+
+                      </label>
+
+                    </div>
+
+                  }
+
+                </div>
+
+              }
+
+            </div>
+
+
+            @if (erroCidades) {
+
+              <small class="text-error">
+                Selecione pelo menos um município.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ============================================== -->
+          <!-- BAIRROS - SOMENTE FORTALEZA -->
+          <!-- ============================================== -->
+
+          @if (fortalezaSelecionada) {
+
+            <div class="col-12">
+
+              <div class="section-title">
+
+                <div>
+
+                  <h3>
+
+                    <i class="fa-solid fa-map-location-dot"></i>
+
+                    Bairros de Fortaleza
+
+                  </h3>
+
+                  <p>
+                    Selecione os bairros que pertencerão a este polo.
+                  </p>
+
+                </div>
+
+                <span class="selection-count">
+                  {{ bairrosSelecionados.length }} selecionado(s)
+                </span>
+
+              </div>
+
+
+              <div class="bairros-box">
+
+                @if (carregandoBairros) {
+
+                  <div class="loading-state">
+
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                    <span>
+                      Carregando bairros...
+                    </span>
+
+                  </div>
+
+                } @else {
+
+                  <div class="row g-2">
+
+                    @for (bairro of bairrosFortaleza; track bairro.id) {
+
+                      <div class="col-md-4 col-lg-3">
+
+                        <label class="bairro-option">
+
+                          <input
+                            type="checkbox"
+                            [checked]="bairroSelecionado(bairro.id)"
+                            (change)="toggleBairro(bairro)"
+                          />
+
+                          <span class="custom-check">
+
+                            @if (bairroSelecionado(bairro.id)) {
+
+                              <i class="fa-solid fa-check"></i>
+
+                            }
+
+                          </span>
+
+                          <span class="bairro-name">
+                            {{ bairro.nome_bairro }}
+                          </span>
+
+                        </label>
+
+                      </div>
+
+                    }
+
+                  </div>
+
+                }
+
+              </div>
+
+
+              @if (erroBairros) {
+
+                <small class="text-error">
+                  Selecione pelo menos um bairro para Fortaleza.
+                </small>
+
+              }
+
+            </div>
+
+          }
+
+
+          <!-- ============================================== -->
+          <!-- RESUMO -->
+          <!-- ============================================== -->
+
+          <div class="col-12">
+
+            <div class="summary-box">
+
+              <div class="summary-icon">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+              </div>
+
+              <div>
+
+                <strong>
+                  Como funciona?
+                </strong>
+
+                <p>
+
+                  Um município não pode pertencer a mais de um polo.
+                  Fortaleza é uma exceção e pode ser dividida por bairros.
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- FOOTER -->
+        <!-- ============================================== -->
+
+        <div class="form-footer">
+
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            (click)="limparFormulario()"
+            [disabled]="salvando"
+          >
+
+            <i class="fa-solid fa-eraser"></i>
+
+            Limpar
+
+          </button>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary-custom"
+            [disabled]="salvando"
+          >
+
+            @if (salvando) {
+
+              <i class="fa-solid fa-spinner fa-spin"></i>
+
+              Salvando...
+
+            } @else {
+
+              <i class="fa-solid fa-floppy-disk"></i>
+
+              Cadastrar Polo
+
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>

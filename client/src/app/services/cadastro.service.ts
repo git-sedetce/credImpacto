@@ -18,6 +18,10 @@ export class CadastroService {
     return this.http.get(environment.apiUrl + metodo);
   }
 
+   getBairros(metodo: string): Observable<any> {
+    return this.http.get(environment.apiUrl + metodo);
+  }
+
   salvar(formData: FormData) {
     return this.http.post(environment.apiUrl + 'registerCompleto', formData, {
       reportProgress: true,
@@ -93,4 +97,8 @@ export class CadastroService {
       dados,
     );
   }
+
+  cadastrarPolo(dados: any): Observable<any> {
+  return this.http.post(environment.apiUrl + 'cadastrarPolo', dados );
+}
 }

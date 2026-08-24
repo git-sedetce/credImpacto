@@ -29,6 +29,7 @@ export class SidebarComponent implements OnInit {
       roles: [1,2,3],
       children: [
         { label: 'Admin', route: '/admin/cadastro', icon: 'fa-paw' },
+        { label: 'Cadastro Polo', route: '/admin/cadastropolo', icon: 'fa-paw' },
       ],
     },
     // {

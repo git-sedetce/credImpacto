@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Bairro.belongsTo(models.Cidades, { foreignKey: 'cidade', as: 'ass_bairro_cidade' });
-      Bairro.hasOne(models.Polo, { foreignKey: 'bairro_id', as: 'ass_bairro_polo' });
+      Bairro.belongsTo(models.Polo, { foreignKey: 'polo_id', as: 'ass_bairro_polo' });
     }
   }
   Bairro.init({

@@ -18,4 +18,7 @@ router.post('/reset', UserController.resetPassword)
 router.delete('/user/:id', auth.authenticatedUser, checkRole.checkRole([1]), UserController.deletaUsers)
 router.post('/newPin', UserController.gerarPin)
 
+router.get("/pegarbairros", UserController.pegaBairros);
+router.post("/cadastrarpolo", UserController.criarPolo);
+
 module.exports = router

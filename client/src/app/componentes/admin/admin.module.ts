@@ -7,13 +7,15 @@ import { CadastroAdminComponent } from './cadastro-admin/cadastro-admin.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewAdminComponent } from './view-admin/view-admin.component';
 import { DiretivasModule } from '../../directives/diretivas.module';
+import { CadastroPoloComponent } from './cadastro-polo/cadastro-polo.component';
 
 
 @NgModule({
   declarations: [
     HomeAdminComponent,
     CadastroAdminComponent,
-    ViewAdminComponent
+    ViewAdminComponent,
+    CadastroPoloComponent
   ],
   imports: [
     CommonModule,

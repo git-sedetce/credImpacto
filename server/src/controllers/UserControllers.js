@@ -547,6 +547,260 @@ class UserController {
       return res.status(500).json(erro.message);
     }
   }
+
+  static async pegaBairros(req, res) {
+    try {
+      const bairros = await database.Bairros.findAll({
+        where: { cidade: req.query.cidadeId },
+        order: [["nome_bairro", "ASC"]],
+        attributes: ["id", "nome_bairro"],
+      });
+
+      return res.status(200).json(bairros);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async criarPolo(req, res) {
+    const transaction = await database.sequelize.transaction();
+    try {
+      const { nome_polo, cidades = [], bairros = [] } = req.body;
+
+      // =====================================================
+      // 1. VALIDAÇÕES INICIAIS
+      // =====================================================
+
+      if (!nome_polo || !nome_polo.trim()) {
+        await transaction.rollback();
+
+        return res.status(400).json({
+          erro: true,
+          mensagem: "O nome do Polo é obrigatório.",
+        });
+      }
+
+      if (!Array.isArray(cidades) || cidades.length === 0) {
+        await transaction.rollback();
+
+        return res.status(400).json({
+          erro: true,
+          mensagem: "Informe pelo menos uma cidade para o Polo.",
+        });
+      }
+
+      // Remove IDs duplicados
+      const cidadesIds = [...new Set(cidades.map(Number))];
+      const bairrosIds = [...new Set(bairros.map(Number))];
+
+      // =====================================================
+      // 2. BUSCA AS CIDADES
+      // =====================================================
+
+      const cidadesEncontradas = await database.Cidades.findAll({
+        where: {
+          id: cidadesIds,
+        },
+        transaction,
+      });
+
+      if (cidadesEncontradas.length !== cidadesIds.length) {
+        await transaction.rollback();
+
+        return res.status(400).json({
+          erro: true,
+          mensagem: "Uma ou mais cidades informadas não existem.",
+        });
+      }
+
+      // =====================================================
+      // 3. VERIFICA SE ALGUMA CIDADE JÁ ESTÁ EM UM POLO
+      // =====================================================
+
+      const cidadeEmOutroPolo = cidadesEncontradas.find(
+        (cidade) => cidade.polo_id !== null,
+      );
+
+      if (cidadeEmOutroPolo) {
+        await transaction.rollback();
+
+        return res.status(400).json({
+          erro: true,
+          mensagem: `A cidade ${cidadeEmOutroPolo.nome_municipio} já pertence a um Polo.`,
+        });
+      }
+
+      // =====================================================
+      // 4. IDENTIFICA FORTALEZA
+      // =====================================================
+
+      const fortaleza = cidadesEncontradas.find(
+        (cidade) => cidade.nome_municipio.trim().toLowerCase() === "fortaleza",
+      );
+
+      // =====================================================
+      // 5. SE FOR FORTALEZA, OS BAIRROS SÃO OBRIGATÓRIOS
+      // =====================================================
+
+      if (fortaleza && bairrosIds.length === 0) {
+        await transaction.rollback();
+
+        return res.status(400).json({
+          erro: true,
+          mensagem:
+            "Ao adicionar Fortaleza, é obrigatório informar os bairros.",
+        });
+      }
+
+      // =====================================================
+      // 6. SE NÃO TEM FORTALEZA, NÃO PODE INFORMAR BAIRROS
+      // =====================================================
+
+      if (!fortaleza && bairrosIds.length > 0) {
+        await transaction.rollback();
+
+        return res.status(400).json({
+          erro: true,
+          mensagem:
+            "Bairros só podem ser associados quando Fortaleza fizer parte do Polo.",
+        });
+      }
+
+      // =====================================================
+      // 7. VALIDA OS BAIRROS
+      // =====================================================
+
+      let bairrosEncontrados = [];
+
+      if (fortaleza) {
+        bairrosEncontrados = await database.Bairro.findAll({
+          where: {
+            id: bairrosIds,
+          },
+          transaction,
+        });
+
+        if (bairrosEncontrados.length !== bairrosIds.length) {
+          await transaction.rollback();
+
+          return res.status(400).json({
+            erro: true,
+            mensagem: "Um ou mais bairros informados não existem.",
+          });
+        }
+
+        // =====================================================
+        // 8. VERIFICA SE OS BAIRROS SÃO DE FORTALEZA
+        // =====================================================
+
+        const bairroForaDeFortaleza = bairrosEncontrados.find(
+          (bairro) => Number(bairro.cidade) !== Number(fortaleza.id),
+        );
+
+        if (bairroForaDeFortaleza) {
+          await transaction.rollback();
+          return res.status(400).json({
+            erro: true,
+            mensagem: `O bairro ${bairroForaDeFortaleza.nome_bairro} não pertence a Fortaleza.`,
+          });
+        }
+
+        // =====================================================
+        // 9. VERIFICA SE ALGUM BAIRRO JÁ ESTÁ EM OUTRO POLO
+        // =====================================================
+
+        const bairroEmOutroPolo = bairrosEncontrados.find(
+          (bairro) => bairro.polo_id !== null,
+        );
+
+        if (bairroEmOutroPolo) {
+          await transaction.rollback();
+          return res.status(400).json({
+            erro: true,
+            mensagem: `O bairro ${bairroEmOutroPolo.nome_bairro} já pertence a um Polo.`,
+          });
+        }
+      }
+
+      // =====================================================
+      // 10. CRIA O POLO
+      // =====================================================
+
+      const novoPolo = await database.Polo.create(
+        {
+          nome_polo: nome_polo.trim(),
+        },
+        {
+          transaction,
+        },
+      );
+
+      // =====================================================
+      // 11. ATUALIZA AS CIDADES
+      // =====================================================
+
+      await database.Cidades.update(
+        {
+          polo_id: novoPolo.id,
+        },
+        {
+          where: {
+            id: cidadesIds,
+          },
+          transaction,
+        },
+      );
+
+      // =====================================================
+      // 12. ATUALIZA OS BAIRROS DE FORTALEZA
+      // =====================================================
+
+      if (fortaleza && bairrosIds.length > 0) {
+        await database.Bairro.update(
+          {
+            polo_id: novoPolo.id,
+          },
+          {
+            where: {
+              id: bairrosIds,
+            },
+            transaction,
+          },
+        );
+      }
+
+      // =====================================================
+      // 13. CONFIRMA A TRANSACTION
+      // =====================================================
+
+      await transaction.commit();
+
+      // =====================================================
+      // 14. RETORNA O POLO CRIADO
+      // =====================================================
+
+      return res.status(201).json({
+        erro: false,
+        mensagem: "Polo criado com sucesso.",
+        polo: {
+          id: novoPolo.id,
+          nome_polo: novoPolo.nome_polo,
+          cidades: cidadesIds,
+          bairros: bairrosIds,
+        },
+      });
+    } catch (error) {
+      await transaction.rollback();
+
+      console.error("Erro ao criar Polo:", error);
+
+      return res.status(500).json({
+        erro: true,
+        mensagem: "Erro ao criar Polo.",
+        detalhes: error.message,
+      });
+    }
+  }
 }
 
 module.exports = UserController;
