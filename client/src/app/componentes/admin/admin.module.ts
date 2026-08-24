@@ -6,6 +6,7 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CadastroAdminComponent } from './cadastro-admin/cadastro-admin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewAdminComponent } from './view-admin/view-admin.component';
+import { DiretivasModule } from '../../directives/diretivas.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ViewAdminComponent } from './view-admin/view-admin.component';
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    DiretivasModule
   ]
 })
 export class AdminModule { }

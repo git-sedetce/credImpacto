@@ -10,15 +10,9 @@ import { FaqComponent } from './faq/faq.component';
 import { FaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroComponent } from './cadastro/cadastro.component';
-import { CpfcnpjMaskDirective } from './directives/cpfcnpj-mask.directive';
-import { TelefoneMascaraDirective } from './directives/telefone-mascara.directive';
-import { TelefoneValidacaoDirective } from './directives/telefone-validacao.directive';
-import { CepMascaraDirective } from './directives/cep-mascara.directive';
 import { ToastrModule } from 'ngx-toastr';
-import { CpfMaskDirective } from './directives/cpf-mask.directive';
-import { CnpjMaskDirective } from './directives/cnpj-mask.directive';
-import { CnpjValidacaoDirective } from './directives/cnpj-validacao.directive';
 import { EditarDadosComponent } from './editar-dados/editar-dados.component';
+import { DiretivasModule } from '../../directives/diretivas.module';
 
 @NgModule({
   declarations: [
@@ -29,13 +23,6 @@ import { EditarDadosComponent } from './editar-dados/editar-dados.component';
     FaqComponent,
     FaleConoscoComponent,
     CadastroComponent,
-    CpfcnpjMaskDirective,
-    TelefoneMascaraDirective,
-    TelefoneValidacaoDirective,
-    CepMascaraDirective,
-    CpfMaskDirective,
-    CnpjMaskDirective,
-    CnpjValidacaoDirective,
     EditarDadosComponent
   ],
   imports: [
@@ -44,6 +31,7 @@ import { EditarDadosComponent } from './editar-dados/editar-dados.component';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot(),
+    DiretivasModule
   ]
 })
 export class CredImpactoModule { }
