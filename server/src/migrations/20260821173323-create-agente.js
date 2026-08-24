@@ -56,6 +56,11 @@ module.exports = {
       complemento: {
         type: Sequelize.STRING
       },
+      polo_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: { model: 'Polos', key: 'id' }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

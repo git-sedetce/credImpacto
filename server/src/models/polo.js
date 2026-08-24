@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Polo.belongsTo(models.Cidades, { foreignKey: 'cidade', as: 'ass_polo_cidade' })
       Polo.belongsTo(models.Bairro, { foreignKey: 'bairro_id', as: 'ass_polo_bairro' })
+      Polo.hasOne(models.Agente, { foreignKey: 'polo_id', as: 'ass_polo_agente' })
     }
   }
   Polo.init({
