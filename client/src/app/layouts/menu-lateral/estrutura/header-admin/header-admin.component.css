@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #003c71;
+  background: #00aabd;
   color: #fff;
   border-bottom: 3px solid #00abbd;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -75,7 +75,7 @@
 
 .btn-register:hover {
   background: #c4d332;
-  color: #003c71;
+  color: #007a8a;
   border-color: #c4d332;
   transform: translateY(-1px);
 }
@@ -92,7 +92,7 @@
 
 .btn-logout:hover {
   background: #c4d332;
-  color: #003c71;
+  color: #007a8a;
   border-color: #c4d332;
   transform: translateY(-1px);
 }

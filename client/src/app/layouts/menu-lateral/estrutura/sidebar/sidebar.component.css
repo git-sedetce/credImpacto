@@ -2,7 +2,7 @@
   width: 250px;
   min-height: 100vh;
   height: 100%;
-  background: #003c71;
+  background: #00aabd;
   color: #fff;
   transition: width 0.3s ease;
   overflow-y: auto;
@@ -27,7 +27,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #003c71;
+  background-color: #00aabd;
   color: #fff;
   border-bottom: 1px solid rgba(255,255,255,0.15)
 }
@@ -48,7 +48,7 @@
 }
 
 .sidebar-header button:hover {
-  color: #c4d332;
+  color: #c1d12e;
 }
 
 /* ================================
@@ -176,7 +176,7 @@
 }
 
 .sidebar::-webkit-scrollbar-track {
-  background: #003c71;
+  background: #00aabd;
 }
 
 .sidebar::-webkit-scrollbar-thumb {

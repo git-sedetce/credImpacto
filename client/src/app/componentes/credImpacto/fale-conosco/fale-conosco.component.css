@@ -3,8 +3,9 @@ VARIÁVEIS
 ========================================================== */
 
 :host {
-  --primary: #003c71;
-  --secondary: #b8c92c;
+  --primary: #00aabd;
+  --secondary: #007a8a;
+  --accent: #c1d12e;
   --info: #2a9fd6;
   --success: #28a745;
   --background: #f5f7fa;
