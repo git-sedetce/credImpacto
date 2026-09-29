@@ -1,0 +1,160 @@
+<main class="dashboard-page">
+  <div class="dashboard-shell">
+    <header class="dashboard-header">
+      <div>
+        <p class="eyebrow">CREDIMPACTO <span>/</span> ADMINISTRAÇÃO</p>
+        <h1>Painel de gestão</h1>
+        <p class="subtitle">Acompanhe os empreendimentos e a atuação no território.</p>
+      </div>
+      <button class="refresh-button" type="button" (click)="carregarDados()" [disabled]="carregando">
+        <i class="fa-solid fa-arrows-rotate" [class.fa-spin]="carregando"></i>
+        <span>Atualizar dados</span>
+      </button>
+    </header>
+
+    @if (erroDados) {
+      <div class="error-banner" role="alert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Não foi possível carregar os dados do painel. Tente atualizar novamente.
+      </div>
+    }
+
+    <section class="metrics-grid" aria-label="Indicadores gerais">
+      <article class="metric-card metric-primary">
+        <div class="metric-icon"><i class="fa-solid fa-store"></i></div>
+        <span class="metric-label">Empreendimentos</span>
+        <strong>{{ carregando ? '—' : empreendimentos.length }}</strong>
+        <small>Cadastros na plataforma</small>
+      </article>
+      <article class="metric-card">
+        <div class="metric-icon icon-blue"><i class="fa-solid fa-user-check"></i></div>
+        <span class="metric-label">Agentes ativos</span>
+        <strong>{{ carregando ? '—' : agentesAtivos }}</strong>
+        <small>Com acesso habilitado</small>
+      </article>
+      <article class="metric-card">
+        <div class="metric-icon icon-lime"><i class="fa-solid fa-location-dot"></i></div>
+        <span class="metric-label">Municípios</span>
+        <strong>{{ carregando ? '—' : municipios.length }}</strong>
+        <small>Com empreendimentos cadastrados</small>
+      </article>
+      <article class="metric-card">
+        <div class="metric-icon icon-orange"><i class="fa-solid fa-map"></i></div>
+        <span class="metric-label">Regiões de planejamento</span>
+        <strong>{{ carregando ? '—' : totalRegioes }}</strong>
+        <small>Representadas nos cadastros</small>
+      </article>
+    </section>
+
+    <section class="overview-grid">
+      <article class="panel map-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="section-kicker">DISTRIBUIÇÃO TERRITORIAL</span>
+            <h2>{{ visao === 'empreendimentos' ? 'Empreendimentos no Ceará' : 'Agentes no Ceará' }}</h2>
+          </div>
+          <div class="map-heading-actions">
+            <div class="view-tabs" role="group" aria-label="Visualizar dados de">
+              <button type="button" [class.selected]="visao === 'empreendimentos'" [attr.aria-pressed]="visao === 'empreendimentos'" (click)="selecionarVisao('empreendimentos')">Empreendimentos</button>
+              <button type="button" [class.selected]="visao === 'agentes'" [attr.aria-pressed]="visao === 'agentes'" (click)="selecionarVisao('agentes')">Agentes</button>
+            </div>
+            <span class="map-key"><i></i> {{ visao === 'empreendimentos' ? 'Cadastros' : 'Agentes' }} por município</span>
+          </div>
+        </div>
+        <div class="map-wrap">
+          <div id="mapa-empreendimentos" role="img" [attr.aria-label]="visao === 'empreendimentos' ? 'Mapa do Ceará com a distribuição de empreendimentos por município' : 'Mapa do Ceará com a distribuição de agentes por município'"></div>
+          @if (carregandoMapa) {
+            <div class="map-message"><i class="fa-solid fa-spinner fa-spin"></i> Carregando mapa…</div>
+          } @else if (erroMapa) {
+            <div class="map-message map-error">O mapa não está disponível no momento.</div>
+          }
+        </div>
+        <div class="map-footer">
+          <span><i class="fa-solid fa-circle-info"></i> A intensidade da cor indica o volume na visualização selecionada.</span>
+          <span>Limites municipais: GeoJSON do projeto</span>
+        </div>
+      </article>
+
+      <article class="panel type-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="section-kicker">PERFIL DOS CADASTROS</span>
+            <h2>{{ visao === 'empreendimentos' ? 'Tipo de proponente' : 'Perfil dos agentes' }}</h2>
+          </div>
+        </div>
+        @if (carregando) {
+          <div class="chart-empty"><i class="fa-solid fa-spinner fa-spin"></i> Calculando distribuição</div>
+        } @else if (tiposVisiveis.length) {
+          <div class="donut-area">
+            <div class="donut-chart" [style.background]="gradienteTipos" role="img" aria-label="Gráfico de distribuição por tipo de proponente">
+              <div class="donut-center"><strong>{{ totalVisivel }}</strong><span>total</span></div>
+            </div>
+          </div>
+          <ul class="legend-list">
+            @for (tipo of tiposVisiveis; track tipo.nome; let i = $index) {
+              <li>
+                <span class="legend-name"><i [style.backgroundColor]="cores[i % cores.length]"></i>{{ tipo.nome }}</span>
+                <strong>{{ tipo.total }} <small>{{ tipo.percentual | number:'1.0-0' }}%</small></strong>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="chart-empty">Nenhum {{ visao === 'empreendimentos' ? 'empreendimento' : 'agente' }} para exibir.</div>
+        }
+      </article>
+    </section>
+
+    <section class="lower-grid">
+      <article class="panel ranking-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="section-kicker">PRESENÇA NO TERRITÓRIO</span>
+            <h2>Municípios com maior concentração</h2>
+          </div>
+          <span class="subtle-count">{{ municipiosVisiveis.length }} municípios</span>
+        </div>
+        @if (carregando) {
+          <div class="chart-empty"><i class="fa-solid fa-spinner fa-spin"></i> Carregando municípios</div>
+        } @else if (municipiosVisiveis.length) {
+          <div class="ranking-list">
+            @for (municipio of municipiosVisiveis.slice(0, 6); track municipio.nome; let i = $index) {
+              <div class="ranking-row">
+                <span class="rank-number">0{{ i + 1 }}</span>
+                <span class="rank-name">{{ municipio.nome }}</span>
+                <div class="rank-track"><span [style.width.%]="municipio.percentual" [style.backgroundColor]="cores[i % cores.length]"></span></div>
+                <strong>{{ municipio.total }}</strong>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="chart-empty">Ainda não há cadastros por município.</div>
+        }
+      </article>
+
+      <article class="panel region-panel">
+        <div class="panel-heading">
+          <div>
+            <span class="section-kicker">RECORTE REGIONAL</span>
+            <h2>Regiões de planejamento</h2>
+          </div>
+          <i class="fa-solid fa-arrow-trend-up region-heading-icon"></i>
+        </div>
+        @if (carregando) {
+          <div class="chart-empty"><i class="fa-solid fa-spinner fa-spin"></i> Carregando regiões</div>
+        } @else if (regioes.length) {
+          <div class="region-list">
+            @for (regiao of regioesVisiveis; track regiao.nome; let i = $index) {
+              <div class="region-row">
+                <span class="region-dot" [style.backgroundColor]="cores[(i + 2) % cores.length]"></span>
+                <span>{{ regiao.nome }}</span>
+                <strong>{{ regiao.total }}</strong>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="chart-empty">Regiões ainda não informadas.</div>
+        }
+      </article>
+    </section>
+  </div>
+</main>

@@ -4,12 +4,14 @@ import { HomeAdminComponent } from './home-admin/home-admin.component';
 import { CadastroAdminComponent } from './cadastro-admin/cadastro-admin.component';
 import { ViewAdminComponent } from './view-admin/view-admin.component';
 import { CadastroPoloComponent } from './cadastro-polo/cadastro-polo.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 
 const routes: Routes = [
   { path: 'admin', component: HomeAdminComponent },
   { path: 'cadastro', component: CadastroAdminComponent },
   { path: 'viewadmin', component: ViewAdminComponent },
   { path: 'cadastropolo', component: CadastroPoloComponent },
+  { path: 'dashboard', component: DashboardAdminComponent },
 ];
 
 @NgModule({

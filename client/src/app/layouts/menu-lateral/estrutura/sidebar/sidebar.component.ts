@@ -49,7 +49,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-chart-simple',
       roles: [1, 2, 3],
       children: [
-        { label: 'Gráficos', route: '/dashboard' },
+        { label: 'Gráficos', route: '/admin/dashboard' },
         { label: 'Tabela', route: '/controle' },
       ],
     },

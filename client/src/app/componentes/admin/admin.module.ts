@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewAdminComponent } from './view-admin/view-admin.component';
 import { DiretivasModule } from '../../directives/diretivas.module';
 import { CadastroPoloComponent } from './cadastro-polo/cadastro-polo.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { CadastroPoloComponent } from './cadastro-polo/cadastro-polo.component';
     HomeAdminComponent,
     CadastroAdminComponent,
     ViewAdminComponent,
-    CadastroPoloComponent
+    CadastroPoloComponent,
+    DashboardAdminComponent
   ],
   imports: [
     CommonModule,
