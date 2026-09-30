@@ -21,8 +21,7 @@
 <!-- Card -->
 
 <div class="login-card">
-  <form>
-    ```
+  <form control="" class="form-group" #formResetPassword="ngForm">
     <!-- Email -->
     <div class="mb-4">
       <label>
@@ -33,7 +32,7 @@
         <span class="input-group-text">
           <i class="fa-solid fa-envelope"></i>
         </span>
-        <input type="email" class="form-control" placeholder="Digite seu e-mail">
+        <input type="email" name="email" class="form-control" placeholder="Digite seu e-mail" #email="ngModel" [(ngModel)]="resetSenha.email">
       </div>
     </div>
 
@@ -48,8 +47,8 @@
           <i class="fa-solid fa-key"></i>
         </span>
 
-        <input type="text" class="form-control" placeholder="Digite o PIN recebido" inputmode="numeric" maxlength="6"
-          autocomplete="one-time-code">
+        <input type="text" name="user_pin" class="form-control" placeholder="Digite o PIN recebido" inputmode="numeric" maxlength="6"
+          autocomplete="one-time-code" #user_pin="ngModel" [(ngModel)]="resetSenha.user_pin">
       </div>
       <small class="text-muted pin-ajuda">
         Informe o PIN de 6 dígitos enviado para seu e-mail.
@@ -65,7 +64,7 @@
         <span class="input-group-text">
           <i class="fa-solid fa-lock"></i>
         </span>
-        <input type="password" class="form-control" placeholder="Digite sua nova senha" autocomplete="new-password">
+        <input type="password" name="password" class="form-control" placeholder="Digite sua nova senha" autocomplete="new-password" #password="ngModel" [(ngModel)]="resetSenha.password">
       </div>
     </div>
 
@@ -78,23 +77,20 @@
         <span class="input-group-text">
           <i class="fa-solid fa-lock"></i>
         </span>
-        <input type="password" class="form-control" placeholder="Confirme sua nova senha" autocomplete="new-password">
+        <input type="password" name="confirm_password" class="form-control" placeholder="Confirme sua nova senha" autocomplete="new-password" #confirm_password="ngModel" [(ngModel)]="resetSenha.confirm_password">
       </div>
     </div>
 
     <!-- Botão -->
-    <button type="submit" class="btn btn-login w-100">
+    <button type="submit" class="btn btn-login w-100" (click)="reset()">
       Nova Senha
     </button>
-    ```
 
   </form>
   <div class="text-center mt-4 criarConta">
-    ```
     Ainda não possui cadastro?
     <a routerLink="/credimpacto/cadastro">
       Criar conta
     </a>
-    ```
   </div>
 </div>

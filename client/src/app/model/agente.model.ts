@@ -14,6 +14,7 @@ export class Agente {
     public rua?: string,
     public numero?: string,
     public complemento?: string,
-    public user_active?: boolean
+    public user_active?: boolean,
+    public polo_id?: number,
   ){}
 }

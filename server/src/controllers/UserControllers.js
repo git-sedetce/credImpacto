@@ -494,39 +494,103 @@ class UserController {
   }
 
   static async resetPassword(req, res) {
-    const user = req.body;
-    //console.log('user', user)
+    const { email, password, confirm_password, user_pin } = req.body;
+
     try {
-      const verificaUser = await database.Agente.findOne({
-        where: { email: user.email },
-      });
-      if (!verificaUser) {
-        return res.status(404).send({ message: "Usuário não encontrado!" });
+      // =====================================================
+      // 1. VALIDAÇÕES
+      // =====================================================
+      if (!email || !password || !confirm_password || !user_pin) {
+        return res.status(400).json({
+          message: "Informe e-mail, senha, confirmação da senha e PIN.",
+        });
       }
-      let newPassword = user.password;
+
+      if (password !== confirm_password) {
+        return res.status(400).json({
+          message: "As senhas não coincidem.",
+        });
+      }
+
+      // =====================================================
+      // 2. PROCURA O USUÁRIO NAS DUAS TABELAS
+      // =====================================================
+      const [agente, cadastro] = await Promise.all([
+        database.Agente.findOne({
+          where: { email },
+        }),
+
+        database.Cadastro.findOne({
+          where: { email },
+        }),
+      ]);
+
+      // Não encontrou em nenhuma tabela
+      if (!agente && !cadastro) {
+        return res.status(404).json({
+          message: "Usuário não encontrado!",
+        });
+      }
+
+      // Segurança: usuário não deveria existir nas duas tabelas
+      if (agente && cadastro) {
+        console.error(
+          `Inconsistência: o e-mail ${email} existe em Agente e Cadastro.`,
+        );
+
+        return res.status(409).json({
+          message:
+            "Inconsistência cadastral. O usuário está registrado em mais de uma base.",
+        });
+      }
+
+      // =====================================================
+      // 3. DEFINE QUAL USUÁRIO/MODEL SERÁ UTILIZADO
+      // =====================================================
+      const usuario = agente || cadastro;
+      const Model = agente ? database.Agente : database.Cadastro;
+
+      // =====================================================
+      // 4. VALIDA O PIN
+      // =====================================================
+      if (String(usuario.user_pin) !== String(user_pin)) {
+        return res.status(400).json({
+          message: "PIN inválido.",
+        });
+      }
+
+      // =====================================================
+      // 5. CRIPTOGRAFA A NOVA SENHA
+      // =====================================================
       const salt = await bcrypt.genSalt(10);
-      const hashedNewPassword = await bcrypt.hash(newPassword, salt);
-      newPassword = hashedNewPassword;
-      //console.log('newPassword', newPassword)
+      const hashedPassword = await bcrypt.hash(password, salt);
 
-      if (verificaUser.user_active === false) {
-        const novaSenha = await database.Agente.update(
-          { password: newPassword },
-          { where: { email: user.email } },
-        );
-      } else {
-        const novaSenha = await database.Agente.update(
-          { password: newPassword },
-          { where: { email: user.email } },
-        );
-      }
+      // =====================================================
+      // 6. ATUALIZA A SENHA NA TABELA CORRETA
+      // =====================================================
+      await Model.update(
+        {
+          password: hashedPassword,
+        },
+        {
+          where: {
+            id: usuario.id,
+          },
+        },
+      );
 
-      //const  result = await novaSenha.save()
-      //const { password, ...data } = await result.toJSON()
-      res.send({ message: "Senha alterada com sucesso!" });
+      // =====================================================
+      // 7. RETORNO
+      // =====================================================
+      return res.status(200).json({
+        message: "Senha alterada com sucesso!",
+      });
     } catch (error) {
-      //res.send(verificaUserEmail)
-      return res.status(500).json(error.message);
+      console.error("Erro ao redefinir senha:", error);
+
+      return res.status(500).json({
+        message: "Erro interno ao redefinir a senha.",
+      });
     }
   }
 

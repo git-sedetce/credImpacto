@@ -185,4 +185,8 @@ export class UserService {
     const loginData = this.transformLoginData(data);
     return this.http.post(environment.apiUrl + 'newPin', loginData);
   }
+
+  reset_password(data:any) : Observable<any> {
+      return this.http.post(environment.apiUrl + 'reset', data)
+    }
 }

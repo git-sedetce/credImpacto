@@ -19,6 +19,7 @@ import { SidebarComponent } from './layouts/menu-lateral/estrutura/sidebar/sideb
 import { MenuLateralComponent } from './layouts/menu-lateral/menu-lateral.component';
 import { authInterceptor } from './services/interceptors/auth.interceptor';
 import { DiretivasModule } from './directives/diretivas.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DiretivasModule } from './directives/diretivas.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
