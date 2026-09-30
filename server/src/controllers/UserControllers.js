@@ -106,77 +106,136 @@ class UserController {
   }
 
   static async gerarPin(req, res) {
-    const user = req.body;
+    const { email, cpf } = req.body;
 
     try {
-      // Verifica se foi informado email ou CPF
-      if (!user.email && !user.cpf) {
+      // =====================================================
+      // 1. VALIDA OS DADOS RECEBIDOS
+      // =====================================================
+      if (!email && !cpf) {
         return res.status(400).json({
           message: "Informe o e-mail ou CPF.",
         });
       }
 
-      // Monta as condições da consulta
+      // =====================================================
+      // 2. MONTA AS CONDIÇÕES DA CONSULTA
+      // =====================================================
       const condicoes = [];
 
-      if (user.email) {
+      if (email) {
         condicoes.push({
-          email: user.email,
+          email: email,
         });
       }
 
-      if (user.cpf) {
+      if (cpf) {
         condicoes.push({
-          cpf: user.cpf,
+          cpf: cpf,
         });
       }
 
-      // Procura o usuário por email OU CPF
-      const verificaUser = await database.Cadastro.findOne({
-        where: {
-          [Op.or]: condicoes,
-        },
-      });
+      // =====================================================
+      // 3. PROCURA NAS TABELAS CADASTRO E AGENTE
+      // =====================================================
+      const [cadastro, agente] = await Promise.all([
+        database.Cadastro.findOne({
+          where: {
+            [Op.or]: condicoes,
+          },
+        }),
 
-      if (!verificaUser) {
+        database.Agente.findOne({
+          where: {
+            [Op.or]: condicoes,
+          },
+        }),
+      ]);
+
+      // =====================================================
+      // 4. NÃO ENCONTROU EM NENHUMA TABELA
+      // =====================================================
+      if (!cadastro && !agente) {
         return res.status(404).json({
           message: "Usuário não encontrado!",
         });
       }
 
-      // Gera PIN de 6 dígitos
+      // =====================================================
+      // 5. SEGURANÇA:
+      // NÃO DEVE EXISTIR NAS DUAS TABELAS
+      // =====================================================
+      if (cadastro && agente) {
+        console.error(
+          `Inconsistência: usuário encontrado nas tabelas Cadastro e Agente.`,
+        );
+
+        return res.status(409).json({
+          message:
+            "Inconsistência cadastral. O usuário está registrado em mais de uma base.",
+        });
+      }
+
+      // =====================================================
+      // 6. IDENTIFICA O USUÁRIO ENCONTRADO
+      // =====================================================
+      const usuario = cadastro || agente;
+
+      // Apenas para log/debug
+      const tipoUsuario = cadastro ? "Cadastro" : "Agente";
+
+      console.log(`Usuário encontrado em: ${tipoUsuario}`);
+      console.log(`Usuário: ${usuario.email}`);
+
+      // =====================================================
+      // 7. VERIFICA SE O USUÁRIO POSSUI EMAIL
+      // Necessário principalmente quando a busca foi por CPF
+      // =====================================================
+      if (!usuario.email) {
+        return res.status(400).json({
+          message: "Usuário encontrado, mas não possui e-mail cadastrado.",
+        });
+      }
+
+      // =====================================================
+      // 8. GERA PIN DE 6 DÍGITOS
+      // =====================================================
       const newPin = crypto.randomInt(100000, 1000000).toString();
 
-      // Atualiza o PIN do usuário encontrado
-      await database.Cadastro.update(
-        {
-          user_pin: newPin,
-        },
-        {
-          where: {
-            id: verificaUser.id,
-          },
-        },
-      );
+      // =====================================================
+      // 9. ATUALIZA O PIN NA TABELA CORRETA
+      // =====================================================
+      await usuario.update({
+        user_pin: newPin,
+      });
 
-      // Envia o email para o email cadastrado
+      // =====================================================
+      // 10. CONFIGURA O SERVIDOR DE EMAIL
+      // =====================================================
       const transporter = nodemailer.createTransport({
         host: "172.26.2.26",
         port: 25,
         secure: false,
+
         tls: {
           rejectUnauthorized: false,
         },
       });
 
+      // =====================================================
+      // 11. CONFIGURA O EMAIL
+      // =====================================================
       const mailOptions = {
         from: "cotec@sde.ce.gov.br",
-        to: verificaUser.email,
-        subject: "Novo PIN para nova senha",
+        to: usuario.email,
+        subject: "Novo PIN para redefinição de senha",
+
         html: `
         <h3>Solicitação de nova senha</h3>
 
-        <p>Seu novo PIN para redefinição de senha é:</p>
+        <p>
+          Seu novo PIN para redefinição de senha é:
+        </p>
 
         <h2>${newPin}</h2>
 
@@ -192,15 +251,16 @@ class UserController {
       `,
       };
 
-      // Envia o email
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.error("Erro ao enviar email:", error);
-        } else {
-          console.log("Email enviado:", info.response);
-        }
-      });
+      // =====================================================
+      // 12. ENVIA O EMAIL
+      // =====================================================
+      await transporter.sendMail(mailOptions);
 
+      console.log(`PIN enviado para ${usuario.email} - origem: ${tipoUsuario}`);
+
+      // =====================================================
+      // 13. RETORNO
+      // =====================================================
       return res.status(200).json({
         message: "PIN gerado e enviado com sucesso!",
       });
@@ -208,7 +268,7 @@ class UserController {
       console.error("Erro ao gerar PIN:", error);
 
       return res.status(500).json({
-        message: error.message,
+        message: "Erro interno ao gerar o PIN.",
       });
     }
   }
