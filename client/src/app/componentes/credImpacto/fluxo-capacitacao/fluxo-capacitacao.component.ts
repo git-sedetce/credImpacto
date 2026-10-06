@@ -27,38 +27,44 @@ export class FluxoCapacitacaoComponent {
     {
       numero: 1,
       // titulo: 'Cadastro e',
-      descricao: 'Cadastro e pré análise',
+      descricao: 'Cadastro',
       ativo: true,
     },
 
     {
       numero: 2,
       // titulo: 'Capacitação',
-      descricao: 'Capacitação e orientação',
+      descricao: 'Análise de elegibilidade',
       azul: true,
     },
 
     {
       numero: 3,
       // titulo: 'Visita Técnica',
-      descricao: 'Visita técnica e comitê',
+      descricao: 'Capacitação',
     },
 
     {
       numero: 4,
       // titulo: 'Aprovação',
-      descricao: 'Aprovação e Contratação',
+      descricao: 'Visita técnica e Análise de crédito',
       azul: true,
     },
     {
       numero: 5,
       // titulo: 'Acompanhamento',
+      descricao: 'Aprovação e Contratação',
+    },
+    {
+      numero: 6,
+      // titulo: 'Acompanhamento',
       descricao: 'Acompanhamento',
+      azul: true,
     },
   ];
   trilhas: Trilha[] = [
     {
-      titulo: 'TRILHA DE IRECONHECIMENTO DE IMPACTO',
+      titulo: 'MÓDULO DE RECONHECIMENTO DE IMPACTO',
       subtitulo: 'Soluções criativas para desafios sociais',
       descricao:
         'Desenvolvimento de modelos inovadores com foco em impacto territorial, sustentabilidade e transformação comunitária.',
@@ -67,7 +73,7 @@ export class FluxoCapacitacaoComponent {
       invertido: false,
     },
     {
-      titulo: 'TRILHA DE GESTÃO',
+      titulo: 'MÓDULO DE GESTÃO',
       subtitulo: 'Capacitação em modelos de negócios',
       descricao:
         'Orientação técnica para gestão de clientes, mercados, produtos, receitas e custos.',
@@ -77,10 +83,10 @@ export class FluxoCapacitacaoComponent {
     },
 
     {
-      titulo: 'TRILHA DE MONITORAMENTO',
+      titulo: 'MÓDULO DE MONITORAMENTO',
       subtitulo: 'Avaliação e mensuração de impacto',
       descricao:
-        'Trilha formativa para mensuração e acompanhamento dos negócios de impacto.',
+        'Módulo formativo para mensuração e acompanhamento dos negócios de impacto.',
       imagem: 'assets/imgs/imagens/trilha_monitoramento.jpg',
       cor: 'azul',
       invertido: false,

@@ -106,18 +106,18 @@ TIMELINE
 
 .timeline {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(150px, 1fr));
+  gap: 16px;
+  overflow-x: auto;
+  padding: 0 2px 12px;
 }
 
 .linha {
   position: absolute;
   top: 18px;
-  left: 12%;
-  right: 12%;
+  left: calc((100% - 80px) / 12);
+  right: calc((100% - 80px) / 12);
   border-top: 3px dashed #333;
   z-index: 0;
 }
@@ -128,6 +128,7 @@ TIMELINE
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 0;
 }
 
 .numero {
@@ -151,8 +152,9 @@ TIMELINE
 
 .card-step {
   font-family: "Work Sans", Arial, sans-serif;
-  width: 200px;
-  min-height: 92px;
+  width: 100%;
+  height: 124px;
+  box-sizing: border-box;
   background: var(--branco);
   border-radius: 6px;
   display: flex;
@@ -196,28 +198,13 @@ CAPACITAÇÃO
 RESPONSIVO
 ===================================================== */
 
-@media (max-width: 991px) {
-  .timeline {
-    gap: 20px;
-  }
-
-  .linha {
-    display: none;
-  }
-}
-
 @media (max-width: 767px) {
   .titulo {
     font-size: 1.6rem;
   }
 
-  .timeline {
-    flex-direction: column;
-    align-items: center;
-  }
-
   .card-step {
-    width: 220px;
+    font-size: 1.05rem;
   }
 }
 
@@ -537,12 +524,6 @@ CELULAR
     font-size: 0.95rem;
 
     padding: 0 15px;
-  }
-
-  .card-step {
-    width: 100%;
-
-    max-width: 260px;
   }
 
   .cta-texto {

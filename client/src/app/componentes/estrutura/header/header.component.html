@@ -18,10 +18,12 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-            Processo de Crédito
+            Conheça o CredImpacto
           </a>
 
           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="credimpacto/what-is">O que é o CredImpacto </a></li>
+            <li><a class="dropdown-item" routerLink="">Base e Condições</a></li>
             <li><a class="dropdown-item" routerLink="credimpacto/fluxo">Fluxo de acesso e capacitação</a></li>
             <li><a class="dropdown-item" routerLink="credimpacto/monitoramento">Monitoramento</a></li>
           </ul>
@@ -29,7 +31,7 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-            Funil de diagnóstico
+            Autoavaliação de Impacto
           </a>
 
           <ul class="dropdown-menu">
@@ -57,9 +59,14 @@
       <!-- Área direita -->
       <div class="header-actions">
 
-        <!-- Outros programas -->
-        <a class="btn btn-outline-success" routerLink="home" *ngIf="!authenticated">
-          OUTROS PROGRAMAS
+        <!-- Página inicial -->
+        <a class="btn btn-outline-success btn-home" routerLink="home" *ngIf="!authenticated"
+          aria-label="Página inicial" title="Página inicial">
+          <i class="fa-solid fa-house" aria-hidden="true"></i>
+        </a>
+
+        <a class="btn btn-outline-success" routerLink="credimpacto/cadastro" *ngIf="!authenticated">
+          QUERO ME CADASTRAR
         </a>
 
         <!-- Usuário logado -->

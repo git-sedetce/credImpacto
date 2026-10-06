@@ -90,6 +90,25 @@
   white-space: nowrap;
 }
 
+.btn-home {
+  width: 46px;
+  height: 42px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-home .fa-house {
+  color: #0d6efd;
+}
+
+.btn-home:hover,
+.btn-home:focus-visible {
+  background-color: #fff3cd;
+  border-color: #ffe69c;
+}
+
 /* =====================================
    USUÁRIO
 ===================================== */
@@ -139,6 +158,11 @@
 
   .btn-outline-success {
     width: 100%;
+  }
+
+  .btn-home {
+    width: 46px;
+    align-self: center;
   }
 
   .user-info {
