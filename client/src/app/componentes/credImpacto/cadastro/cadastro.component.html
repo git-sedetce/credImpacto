@@ -110,6 +110,11 @@
                     Informe seu nome completo.
                   </div>
                   }
+                  @if(empresaConsultada && !responsavelEhSocio){
+                  <div class="invalid-feedback-custom">
+                    O nome do responsável deve ser igual ao nome de um dos sócios do CNPJ.
+                  </div>
+                  }
                 </div>
                 <div class="col-md-6 mb-3">
                   <label>
@@ -154,7 +159,7 @@
                     CNPJ
                   </label>
                   <input appCnpjMask appCnpjValidacao type="text" class="form-control" formControlName="cnpj"
-                    (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)" (blur)="pegarDadosEmpresa(cadastroForm.get('cnpj')?.value, cadastroForm)">
+                    (blur)="consultarEmpresa(cadastroForm.get('cnpj')?.value)">
                   <div class="text-danger mt-1" *ngIf="f['cnpj'].touched && f['cnpj'].errors?.['required']">
                     CNPJ obrigatório.
                   </div>
@@ -276,50 +281,53 @@
               @if(step == 2){
               <h3 class="mb-4">
                 <strong>Cadastro Inicial</strong>
-                - Eixo de impacto
+                - Dados do CNPJ
               </h3>
-              <div class="mb-4">
-                <label class="mb-2">
-                  Em qual eixo sua iniciativa gera impacto?
-                </label>
-
-                <div class="impacto-tags">
-                  <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Inclusão Produtiva', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Inclusão Produtiva' }"
-                    (click)="selecionarImpacto('Inclusão Produtiva')">Inclusão Produtiva
-                  </button>
-
-                  <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Geração de renda', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Geração de renda' }"
-                    (click)="selecionarImpacto('Geração de renda')">
-                    Geração de renda
-                  </button>
-
-                  <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Meio ambiente', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Meio ambiente' }"
-                    (click)="selecionarImpacto('Meio ambiente')">
-                    Meio ambiente
-                  </button>
-
-                  <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Reciclagem', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Reciclagem' }"
-                    (click)="selecionarImpacto('Reciclagem')">
-                    Reciclagem
-                  </button>
-
-                  <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Educação', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Educação' }"
-                    (click)="selecionarImpacto('Educação')">
-                    Educação
-                  </button>
-
-                  <button type="button" class="btn"
-                    [ngClass]="{ 'btn-primary-custom': f['iniciativa_impacto'].value === 'Tecnologia Social', 'btn-outline-secondary': f['iniciativa_impacto'].value !== 'Tecnologia Social' }"
-                    (click)="selecionarImpacto('Tecnologia Social')">
-                    Tecnologia Social
-                  </button>
+              <section class="dados-empresa mb-4" aria-live="polite">
+                <h5 class="mb-3">Dados da empresa e dos sócios</h5>
+                @if(empresaCarregando){
+                <p>Consultando dados do CNPJ...</p>
+                } @else if(erroConsultaEmpresa){
+                <p class="text-danger">{{ erroConsultaEmpresa }}</p>
+                } @else if(dados_empresas.length > 0){
+                <div class="row">
+                  <div class="col-md-6 mb-2">
+                    <strong>Data de início da atividade:</strong>
+                    {{ dados_empresas[0].data_inicio_atividade | date:'dd/MM/yyyy' }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>Capital social:</strong>
+                    {{ dados_empresas[0].capital_social | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>CNAE principal:</strong>
+                    {{ dados_empresas[0].cnae_principal_codigo }}
+                  </div>
+                  <div class="col-md-6 mb-2">
+                    <strong>Natureza jurídica:</strong>
+                    {{ dados_empresas[0].natureza_juridica }}
+                  </div>
+                  <div class="col-12 mb-3">
+                    <strong>Descrição do CNAE:</strong>
+                    {{ dados_empresas[0].cnae_principal_descricao }}
+                  </div>
                 </div>
-              </div>
+
+                <h6>Sócios</h6>
+                <ul class="lista-socios">
+                  @for(empresa of dados_empresas; track empresa.nome_socio){
+                  <li>
+                    <strong>{{ empresa.nome_socio }}</strong>
+                    <span> — {{ empresa.qualificacao }}</span>
+                  </li>
+                  }
+                </ul>
+                } @else if(empresaConsultada){
+                <p>Nenhum dado de empresa ou sócio foi encontrado para este CNPJ.</p>
+                } @else {
+                <p>Informe um CNPJ válido para consultar os dados da empresa.</p>
+                }
+              </section>
 
               <div class="mb-4">
                 <label class="mb-3">
@@ -473,15 +481,21 @@
               </div>
               <div class="declaracao">
                 <h5>
-                  Declaração Final
+                  DECLARAÇÃO DE RESPONSABILIDADE E AUTORIZAÇÃO PARA CONSULTA DE CRÉDITO
                 </h5>
                 <p>
-                  Declaro que todas as informações apresentadas são verdadeiras.
+                  Declaro que as informações e os documentos fornecidos neste formulário são verdadeiros e de minha responsabilidade.
+                </p>
+                <p>
+                  Autorizo a ADECE  a consultar informações cadastrais e de crédito referentes ao CNPJ informado, junto aos órgãos de proteção ao crédito e demais bases de dados legalmente autorizadas, para fins de análise e decisão sobre a solicitação de crédito.
+                </p>
+                <p>
+                  Declaro estar ciente de que a prestação de informações falsas poderá resultar na não aprovação da solicitação de crédito, sem prejuízo das medidas cabíveis.
                 </p>
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" formControlName="aceite_termos">
                   <label class="form-check-label">
-                    Estou ciente e concordo com os termos.
+                    Declaro que li e concordo com os termos acima e autorizo a consulta cadastral e de crédito do CNPJ informado.
                   </label>
                   <div class="text-danger mt-2" *ngIf="f['aceite_termos'].touched && f['aceite_termos'].invalid">
                     Você precisa aceitar a declaração.

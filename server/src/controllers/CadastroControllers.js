@@ -7,6 +7,15 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const baseUrl = process.cwd() + "/src"; //__dirname + '.
 
+function normalizarNome(nome) {
+  return String(nome || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLocaleUpperCase("pt-BR");
+}
+
 class CadastroControllers {
   static async registerCompleto(req, res) {
     const t = await database.sequelize.transaction();
@@ -32,6 +41,7 @@ class CadastroControllers {
     ====================================================*/
 
       if (!req.files?.rgFile || !req.files?.cnpjFile) {
+        await t.rollback();
         return res.status(400).json({
           message: "RG e Cartão CNPJ são obrigatórios.",
         });
@@ -42,6 +52,41 @@ class CadastroControllers {
     ====================================================*/
 
       const dados = JSON.parse(req.body.dados);
+      const cnpj = String(dados.cnpj || "").replace(/\D/g, "");
+      const nomeResponsavel = normalizarNome(dados.nome_responsavel);
+
+      if (cnpj.length !== 14) {
+        await t.rollback();
+        return res.status(400).json({
+          message: "Informe um CNPJ válido com 14 dígitos.",
+        });
+      }
+
+      const socios = await database.sequelize.query(
+        `SELECT DISTINCT soc.nome_socio
+        FROM public.estabelecimentos est
+        INNER JOIN public.empresas emp ON emp.id = est.empresa_id
+        INNER JOIN public.socios soc ON soc.empresa_id = emp.id
+        WHERE est.cnpj_completo = :cnpj`,
+        {
+          replacements: { cnpj },
+          type: database.Sequelize.QueryTypes.SELECT,
+          transaction: t,
+        },
+      );
+
+      const responsavelEhSocio = socios.some(
+        (socio) => normalizarNome(socio.nome_socio) === nomeResponsavel,
+      );
+
+      if (!responsavelEhSocio) {
+        await t.rollback();
+        return res.status(400).json({
+          message:
+            "O nome do responsável deve ser igual ao nome de um dos sócios do CNPJ.",
+        });
+      }
+
       const salt = await bcrypt.genSalt(10);
       dados.password = await bcrypt.hash(dados.password, salt);
       dados.user_pin = crypto.randomInt(100000, 1000000).toString();

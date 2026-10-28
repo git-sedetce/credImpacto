@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import localePt from '@angular/common/locales/pt';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +22,8 @@ import { MenuLateralComponent } from './layouts/menu-lateral/menu-lateral.compon
 import { authInterceptor } from './services/interceptors/auth.interceptor';
 import { DiretivasModule } from './directives/diretivas.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+registerLocaleData(localePt, 'pt-BR');
 
 @NgModule({
   declarations: [

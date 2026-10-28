@@ -17,6 +17,17 @@ import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
+interface DadosEmpresa {
+  cnpj: string | null;
+  data_inicio_atividade: string | null;
+  cnae_principal_codigo: string | null;
+  cnae_principal_descricao: string | null;
+  natureza_juridica: string | null;
+  capital_social: string | null;
+  nome_socio: string | null;
+  qualificacao: string | null;
+}
+
 @Component({
   selector: 'app-cadastro',
   standalone: false,
@@ -44,7 +55,10 @@ export class CadastroComponent implements OnInit {
   ===================================*/
 
   city_list: Cidade[] = [];
-  dados_empresas!: any[];
+  dados_empresas: DadosEmpresa[] = [];
+  empresaCarregando = false;
+  empresaConsultada = false;
+  erroConsultaEmpresa = '';
 
   /*===================================
       UPLOAD
@@ -116,7 +130,6 @@ export class CadastroComponent implements OnInit {
       IMPACTO
       ===================================*/
 
-        iniciativa_impacto: ['', Validators.required],
         cadastro_cadimpacto: ['', Validators.required],
         status_atual: ['', Validators.required],
         area_atuacao: ['', Validators.required],
@@ -203,12 +216,52 @@ export class CadastroComponent implements OnInit {
   }
 
   pegarDadosEmpresa(epf: any, form: any) {
-    this.cadastroService.getCNPJ(epf).subscribe(
-      (dados: any[]) => {
+    const cnpj = String(epf ?? '').replace(/\D/g, '');
+    this.dados_empresas = [];
+    this.empresaConsultada = false;
+    this.erroConsultaEmpresa = '';
+
+    if (cnpj.length !== 14) {
+      this.empresaCarregando = false;
+      return;
+    }
+
+    this.empresaCarregando = true;
+    this.cadastroService.getCNPJ(cnpj).subscribe({
+      next: (dados: DadosEmpresa[]) => {
         this.dados_empresas = dados;
-        console.log('dados_empresas', this.dados_empresas);
+        this.empresaConsultada = true;
+        this.empresaCarregando = false;
       },
-      (erro: any) => console.error('erro', erro),
+      error: (erro: any) => {
+        this.empresaCarregando = false;
+        this.erroConsultaEmpresa =
+          erro.error?.message || 'Não foi possível consultar os dados do CNPJ.';
+        this.toastr.error(this.erroConsultaEmpresa);
+      },
+    });
+  }
+
+  consultarEmpresa(cnpj: string): void {
+    this.consultaCNPJ(cnpj, this.cadastroForm);
+    this.pegarDadosEmpresa(cnpj, this.cadastroForm);
+  }
+
+  private normalizarNome(nome: string): string {
+    return nome
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLocaleUpperCase('pt-BR');
+  }
+
+  get responsavelEhSocio(): boolean {
+    const responsavel = this.normalizarNome(
+      this.f['nome_responsavel']?.value ?? '',
+    );
+    return !!responsavel && this.dados_empresas.some(
+      (empresa) => this.normalizarNome(empresa.nome_socio ?? '') === responsavel,
     );
   }
 
@@ -333,12 +386,19 @@ export class CadastroComponent implements OnInit {
       'numero',
     ];
 
-    return this.validarCampos(campos);
+    const camposValidos = this.validarCampos(campos);
+    if (!this.responsavelEhSocio) {
+      this.toastr.error(
+        'O nome do responsável deve ser igual ao nome de um dos sócios do CNPJ.',
+      );
+      return false;
+    }
+
+    return camposValidos;
   }
 
   private validarImpacto(): boolean {
     const campos = [
-      'iniciativa_impacto',
       'cadastro_cadimpacto',
       'status_atual',
       'area_atuacao',
@@ -363,12 +423,6 @@ export class CadastroComponent implements OnInit {
         control.markAsTouched();
         control.updateValueAndValidity();
       });
-  }
-
-  selecionarImpacto(eixo: string): void {
-    this.cadastroForm.patchValue({
-      iniciativa_impacto: eixo,
-    });
   }
 
   /*===================================
@@ -499,6 +553,13 @@ export class CadastroComponent implements OnInit {
   ===================================*/
 
   submit(): void {
+    if (!this.responsavelEhSocio) {
+      this.toastr.error(
+        'O nome do responsável deve ser igual ao nome de um dos sócios do CNPJ.',
+      );
+      return;
+    }
+
     if (this.cadastroForm.invalid) {
       this.markFields();
 
@@ -582,6 +643,10 @@ export class CadastroComponent implements OnInit {
     this.cadastroForm.patchValue({
       aceite_termos: false,
     });
+    this.dados_empresas = [];
+    this.empresaConsultada = false;
+    this.empresaCarregando = false;
+    this.erroConsultaEmpresa = '';
 
     this.rgFile = undefined;
     this.cnpjFile = undefined;

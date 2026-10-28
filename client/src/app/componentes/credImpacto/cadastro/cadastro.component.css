@@ -189,20 +189,20 @@ BOTÕES
   color: white;
 }
 
-/* ==========================================================
-IMPACTO
-========================================================== */
-
-.impacto-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+.dados-empresa {
+  border: 1px solid #d7e9f0;
+  border-radius: 14px;
+  padding: 20px;
+  background: #f8fbfc;
 }
 
-.impacto-tags .btn {
-  border-radius: 30px;
-  padding: 8px 18px;
-  font-size: 0.92rem;
+.lista-socios {
+  margin-bottom: 0;
+  padding-left: 1.25rem;
+}
+
+.lista-socios li + li {
+  margin-top: 0.35rem;
 }
 
 /* ==========================================================
@@ -402,9 +402,6 @@ CELULAR
     flex-direction: column;
   }
 
-  .impacto-tags {
-    justify-content: center;
-  }
 }
 
 /* ==========================================================
