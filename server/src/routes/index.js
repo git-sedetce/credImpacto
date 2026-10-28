@@ -1,6 +1,7 @@
 const express = require("express");
 const questionario = require("./questionarioRoutes");
 const cadastro = require("./cadastroRoutes");
+const empresa = require("./empresaRoutes");
 const user = require("./userRoutes");
 
 module.exports = (app) => {
@@ -9,6 +10,7 @@ module.exports = (app) => {
     express.urlencoded({ extended: false }),
     questionario,
     cadastro,
+    empresa,
     user
   );
 };

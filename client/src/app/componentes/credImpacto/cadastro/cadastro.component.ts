@@ -44,6 +44,7 @@ export class CadastroComponent implements OnInit {
   ===================================*/
 
   city_list: Cidade[] = [];
+  dados_empresas!: any[];
 
   /*===================================
       UPLOAD
@@ -199,6 +200,16 @@ export class CadastroComponent implements OnInit {
         this.toastr.success(res.mensagem);
       }
     });
+  }
+
+  pegarDadosEmpresa(epf: any, form: any) {
+    this.cadastroService.getCNPJ(epf).subscribe(
+      (dados: any[]) => {
+        this.dados_empresas = dados;
+        console.log('dados_empresas', this.dados_empresas);
+      },
+      (erro: any) => console.error('erro', erro),
+    );
   }
 
   consultaEmail(email: any, form: any) {

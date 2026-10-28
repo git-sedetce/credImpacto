@@ -16,7 +16,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
 
     ports:
-      - "${DB_PORT:-8111}:5432"
+      - "${DB_PORT:-8112}:5432"
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -70,7 +70,7 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
 
     ports:
-      - "${API_PORT:-8110}:3000"
+      - "2526:3000"
 
     depends_on:
       postgres:

@@ -40,6 +40,9 @@ export class CadastroService {
   consultarCNPJ(cnpj: string): Observable<any> {
     return this.http.get(environment.apiUrl + 'consultacnpj/' + cnpj);
   }
+  getCNPJ(cnpj: string): Observable<any> {
+    return this.http.get(environment.apiUrl + 'companie/' + cnpj);
+  }
 
   consultarEmail(email: string): Observable<any> {
     return this.http.get(environment.apiUrl + 'consultaemail/' + email);

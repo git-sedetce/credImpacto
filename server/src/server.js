@@ -13,7 +13,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 var corsOptions = {
   origin: [
-    'http://localhost:3000', 
+    'http://localhost:5262', 
+    'http://localhost:2710', 
     'http://credimpacto.adece.ce.gov.br', 
     'https://credimpacto.adece.ce.gov.br'
   ],
@@ -26,8 +27,8 @@ app.use(cors(corsOptions));
 
 routes(app)
 
-const port = process.env.PORT
+const port = Number(process.env.API_PORT || 2526)
 
-app.listen(port, () => console.log(`O servidor está On`))
+app.listen(port, () => console.log(`O servidor está On ${port}`));
 
 module.exports = app

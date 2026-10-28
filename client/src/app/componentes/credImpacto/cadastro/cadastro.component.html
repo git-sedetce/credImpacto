@@ -154,7 +154,7 @@
                     CNPJ
                   </label>
                   <input appCnpjMask appCnpjValidacao type="text" class="form-control" formControlName="cnpj"
-                    (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)">
+                    (blur)="consultaCNPJ(cadastroForm.get('cnpj')?.value, cadastroForm)" (blur)="pegarDadosEmpresa(cadastroForm.get('cnpj')?.value, cadastroForm)">
                   <div class="text-danger mt-1" *ngIf="f['cnpj'].touched && f['cnpj'].errors?.['required']">
                     CNPJ obrigatório.
                   </div>

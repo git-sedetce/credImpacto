@@ -3,7 +3,7 @@ import csv
 import time
 from datetime import datetime, timedelta
 
-from config import RAW_DIR, COMPETENCIA_JUNTA
+from config import RAW_DIR, COMPETENCIA
 from database import get_connection
 from services.carga_service import (
     iniciar_carga,
@@ -902,7 +902,7 @@ def analisar_qualidade_datas(conn):
     """
 
     # Último dia da competência.
-    ano, mes = map(int, COMPETENCIA_JUNTA.split("-"))
+    ano, mes = map(int, COMPETENCIA.split("-"))
 
     if mes == 12:
         proximo_ano = ano + 1
@@ -1081,7 +1081,7 @@ def promover_empresas(
             FROM tmp_junta_empresas_validas origem
             """,
             (
-                COMPETENCIA_JUNTA,
+                COMPETENCIA,
                 carga_id,
             ),
         )
@@ -1245,7 +1245,7 @@ def promover_cnaes(
             """,
             (
                 carga_id,
-                COMPETENCIA_JUNTA,
+                COMPETENCIA,
             ),
         )
 
@@ -1528,7 +1528,7 @@ def verificar_competencia_existente(conn):
             WHERE competencia = %s
             """,
             (
-                COMPETENCIA_JUNTA,
+                COMPETENCIA,
             ),
         )
 
@@ -1558,7 +1558,7 @@ def limpar_competencia(conn):
             WHERE competencia = %s
             """,
             (
-                COMPETENCIA_JUNTA,
+                COMPETENCIA,
             ),
         )
 
@@ -1575,7 +1575,7 @@ def limpar_competencia(conn):
             WHERE je.competencia = %s
             """,
             (
-                COMPETENCIA_JUNTA,
+                COMPETENCIA,
             ),
         )
 
@@ -1591,7 +1591,7 @@ def limpar_competencia(conn):
             WHERE competencia = %s
             """,
             (
-                COMPETENCIA_JUNTA,
+                COMPETENCIA,
             ),
         )
 
@@ -1667,7 +1667,7 @@ def main():
                 print("*" * 70)
 
                 print(
-                    f"A competência {COMPETENCIA_JUNTA}"
+                    f"A competência {COMPETENCIA}"
                     "da Junta Comercial já foi carregado."
                     )
                 print(
@@ -1692,7 +1692,7 @@ def main():
 
             print(
                 f"Competência: "
-                f"{COMPETENCIA_JUNTA}"
+                f"{COMPETENCIA}"
             )
 
             print(
@@ -1714,7 +1714,7 @@ def main():
         carga_id = iniciar_carga(
             conn,
             TIPO_CARGA,
-            COMPETENCIA_JUNTA,
+            COMPETENCIA,
         )
 
         print()
@@ -1724,7 +1724,7 @@ def main():
 
         print(
             f"Competência: "
-            f"{COMPETENCIA_JUNTA}"
+            f"{COMPETENCIA}"
         )
 
         print(
