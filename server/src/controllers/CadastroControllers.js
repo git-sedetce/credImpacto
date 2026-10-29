@@ -338,8 +338,6 @@ class CadastroControllers {
           "complemento",
           "iniciativa_impacto",
           "cadastro_cadimpacto",
-          "status_atual",
-          "area_atuacao",
           "resumo_negocio",
           "aceite_termos",
         ],
@@ -404,7 +402,6 @@ class CadastroControllers {
           "nome_responsavel",
           "nome_empreendimento",
           "iniciativa_impacto",
-          "area_atuacao",
         ],
         include: [
           {

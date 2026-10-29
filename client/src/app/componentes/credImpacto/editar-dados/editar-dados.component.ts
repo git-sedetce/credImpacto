@@ -83,7 +83,7 @@ export class EditarDadosComponent implements OnInit {
 
       iniciativa_impacto: [''],
       cadastro_cadimpacto: [''],
-      status_atual: [''],
+      // status_atual: [''],
       area_atuacao: [''],
       resumo_negocio: ['', [Validators.maxLength(1500)]],
     });
@@ -174,8 +174,8 @@ export class EditarDadosComponent implements OnInit {
       complemento: this.empresa.complemento,
       iniciativa_impacto: this.empresa.iniciativa_impacto,
       cadastro_cadimpacto: this.empresa.cadastro_cadimpacto,
-      status_atual: this.empresa.status_atual,
-      area_atuacao: this.empresa.area_atuacao,
+      // status_atual: this.empresa.status_atual,
+      // area_atuacao: this.empresa.area_atuacao,
       resumo_negocio: this.empresa.resumo_negocio,
     });
   }

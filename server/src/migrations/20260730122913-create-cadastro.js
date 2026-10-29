@@ -78,12 +78,12 @@ module.exports = {
       cadastro_cadimpacto: {
         type: Sequelize.STRING
       },
-      status_atual: {
-        type: Sequelize.STRING
-      },
-      area_atuacao: {
-        type: Sequelize.STRING
-      },
+      // status_atual: {
+      //   type: Sequelize.STRING
+      // },
+      // area_atuacao: {
+      //   type: Sequelize.STRING
+      // },
       resumo_negocio: {
         type: Sequelize.STRING(1500)
       },

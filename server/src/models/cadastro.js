@@ -35,8 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     linha_credito: DataTypes.STRING,
     iniciativa_impacto: DataTypes.STRING,
     cadastro_cadimpacto: DataTypes.STRING,
-    status_atual: DataTypes.STRING,
-    area_atuacao: DataTypes.STRING,
+    // status_atual: DataTypes.STRING,
+    // area_atuacao: DataTypes.STRING,
     resumo_negocio: DataTypes.STRING(1500),
     aceite_termos: DataTypes.BOOLEAN,
   }, {
