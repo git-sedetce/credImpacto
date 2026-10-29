@@ -131,8 +131,6 @@ export class CadastroComponent implements OnInit {
       ===================================*/
 
         cadastro_cadimpacto: ['', Validators.required],
-        status_atual: ['', Validators.required],
-        area_atuacao: ['', Validators.required],
         resumo_negocio: ['', [Validators.required, Validators.maxLength(1500)]],
 
       /*===================================
@@ -400,8 +398,6 @@ export class CadastroComponent implements OnInit {
   private validarImpacto(): boolean {
     const campos = [
       'cadastro_cadimpacto',
-      'status_atual',
-      'area_atuacao',
       'resumo_negocio',
     ];
 

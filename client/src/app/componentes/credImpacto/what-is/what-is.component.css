@@ -167,7 +167,7 @@ img:hover {
 ========================================================== */
 
 .credito {
-  background: #fff;
+  background: linear-gradient(135deg, #f8fae8 0%, #f0f4d2 100%);
 }
 
 .credito::before {
@@ -388,7 +388,7 @@ img:hover {
 ========================================================== */
 
 .teste-impacto {
-  background: #ffffff;
+  background: linear-gradient(135deg, #e8f7f9 0%, #d5f0f3 100%);
 }
 
 .teste-impacto::after {
